@@ -1,6 +1,6 @@
 # Resultado da Avaliação Automatizada
 
-> Gerado por `eval/avaliar.py` em 05/09/2026 21:42 · modo `demo` · 62 casos
+> Gerado por `eval/avaliar.py` em 05/09/2026 21:45 · modo `demo` · 62 casos
 
 ## Resumo por Métrica
 
@@ -16,7 +16,7 @@
 | Indicador | Valor |
 |---|---|
 | Latência média | 0 ms |
-| Latência máxima | 4 ms |
+| Latência máxima | 3 ms |
 | Casos com guardrail acionado | 18 |
 | Casos com citação de fonte | 46 |
 

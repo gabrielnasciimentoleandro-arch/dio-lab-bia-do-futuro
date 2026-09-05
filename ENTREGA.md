@@ -43,35 +43,39 @@ rastreabilidade e corre o risco de o projeto não ser encontrado.
 ### Passo a passo
 
 **1. Faça o fork** de `digitalinnovationone/dio-lab-bia-do-futuro` pelo botão
-*Fork* no GitHub.
+*Fork*, no canto superior direito do GitHub. Anote o nome do repositório criado
+(normalmente `dio-lab-bia-do-futuro`) e o seu usuário.
 
-**2. Conecte o seu repositório local ao fork.** Na pasta do projeto:
+**2. Rode o script de publicação**, passando usuário e repositório:
+
+```bash
+./publicar.sh SEU-USUARIO dio-lab-bia-do-futuro
+```
+
+Ele faz tudo o que é chato e fácil de esquecer:
+
+- troca o `SEU-USUARIO/SEU-REPO` do badge de CI pelo caminho real;
+- apaga o diário de incidentes e os `__pycache__`;
+- roda as duas suítes e regenera os exemplos (o CI roda as mesmas — se falhar
+  aqui, falharia lá);
+- confere se alguma chave de API vazou no histórico e **aborta** se achar;
+- cria o commit do ajuste.
+
+Ao final, ele imprime os dois comandos do passo seguinte, já preenchidos.
+
+**3. Conecte e envie:**
 
 ```bash
 git remote add origin https://github.com/SEU-USUARIO/dio-lab-bia-do-futuro.git
-```
-
-**3. Troque o badge de CI** no `README.md`, linha 11: substitua
-`SEU-USUARIO/SEU-REPO` pelo caminho real. Sem isso o badge aparece quebrado.
-
-```bash
-git add README.md
-git commit -m "Ajusta badge de CI para o repositorio publicado"
-```
-
-**4. Envie.** O seu projeto substitui o conteúdo do template — é isso mesmo que
-se espera, já que os arquivos oficiais são modelos a preencher:
-
-```bash
 git push --force origin main
 ```
 
 O `--force` é necessário porque o seu histórico e o do template são
-independentes. Como o fork é seu e acabou de ser criado, não há o que perder.
+independentes. Como o fork acabou de ser criado, não há nada a perder.
 
-> Se preferir preservar os commits originais do template, use
-> `git pull origin main --allow-unrelated-histories` antes do push e resolva os
-> conflitos. Dá mais trabalho e não agrega à avaliação.
+**4. Se preferir fazer à mão**, o único passo obrigatório é editar a linha 11
+do `README.md`, trocando `SEU-USUARIO/SEU-REPO`. O resto do script é
+conferência.
 
 **5. Confira a aba Actions.** A suíte roda sozinha e deve ficar verde. Se o
 GitHub pedir para habilitar Actions no fork, autorize.
@@ -93,25 +97,67 @@ cobre `.env`, `__pycache__` e o diário de incidentes.
 
 ## 3. Gravar o pitch (3 minutos)
 
-O roteiro cronometrado está em [`docs/05-pitch.md`](docs/05-pitch.md) — 407
-palavras, medidas em 2min54s — e o passo a passo de tela em
-[`docs/05b-roteiro-gravacao.md`](docs/05b-roteiro-gravacao.md). Dividido
-em problema -> como funciona -> por que é inovador, com as frases-âncora
-destacadas e uma tabela de perguntas prováveis da banca.
+### Com o que gravar
 
-Para ensaiar, há narração sintetizada de todo o roteiro em `audio/`
-(`00-pitch-completo.mp3`, 2min25s). É material de ensaio: o pitch enviado
-deve ser gravado com a sua voz.
+Você precisa de algo que capture **tela + microfone ao mesmo tempo**. Em ordem
+de facilidade:
 
-Sugestão de gravação:
+| Ferramenta | Como |
+|---|---|
+| **Gravador do Windows** | `Win + Alt + R`. Já vem instalado, grava a janela ativa. |
+| **OBS Studio** | Gratuito, todos os sistemas. Mais controle, um pouco mais de configuração. |
+| **Google Meet** | Abra uma reunião sozinho, compartilhe a tela e grave. Salva direto no Drive. |
+| **Celular apontado para a tela** | Último recurso. Funciona, mas o texto fica ilegível. |
 
-- Deixe o app rodando em modo escuro antes de começar.
-- Mostre **uma** interação ao vivo — a melhor é o plano com veto
-  (*"sem cortar gastos atuais"*), porque exibe os quatro pilares de uma vez.
-- Termine no relatório `eval/resultado.md` com os 62 casos.
-- Suba o vídeo no YouTube como *não listado* e cole o link no README.
+Grave em **1080p** se puder. O avaliador precisa ler os números na tela.
 
----
+### Preparação
+
+Tudo está em [`docs/05b-roteiro-gravacao.md`](docs/05b-roteiro-gravacao.md),
+com as mensagens prontas para colar. O resumo:
+
+```bash
+rm -f data/diario_incidentes.json
+streamlit run src/app.py
+```
+
+Depois, na interface: modo **Escuro**, zoom do navegador em **125%**, e clique
+em **Reiniciar conversa** para a saudação proativa aparecer. Deixe o terminal
+com `python eval/avaliar.py` já digitado, sem apertar Enter.
+
+Feche e-mail, notificações e qualquer coisa que possa aparecer na tela.
+
+### A sequência
+
+Cinco momentos, na ordem do roteiro:
+
+1. Painel lateral (fale o problema do João)
+2. Saudação proativa (ela fala primeiro)
+3. `quanto gastei com alimentação?`
+4. `o que podemos fazer para poupar com o que já tenho sem cortar gastos atuais?`
+5. Terminal com a suíte -> fecho
+
+### O que mais atrapalha
+
+- **Digitar ao vivo.** Deixe as perguntas num bloco de notas e cole.
+- **Silêncio esperando a resposta.** Comece a falar enquanto envia.
+- **Ler a tela em voz alta.** Fale "quinhentos e setenta reais", não "erre
+  cifrão quinhentos e setenta".
+- **Tentar consertar no meio.** Se errar, termine e regrave do zero.
+
+Ensaie com o áudio de `audio/00-pitch-completo-com-trilha.mp3` tocando, falando
+por cima. É o jeito mais rápido de pegar o ritmo.
+
+### Publicar
+
+Suba no **YouTube como "não listado"** (aparece só para quem tem o link) e cole
+o link no topo do `README.md`, logo abaixo dos badges:
+
+```markdown
+**[Assista ao pitch de 3 minutos](https://youtu.be/SEU-VIDEO)**
+```
+
+Alternativas: Google Drive com link público, ou Loom.
 
 ## 4. O que ainda depende de você
 

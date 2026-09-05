@@ -14,7 +14,7 @@
         "somar_por_categoria"
       ],
       "guardrails": [],
-      "latencia_ms": 4
+      "latencia_ms": 3
     },
     {
       "id": "AS-02",

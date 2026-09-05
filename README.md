@@ -7,9 +7,13 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
 [![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4?logo=google&logoColor=white)](https://ai.google.dev)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io)
-[![Testes](https://img.shields.io/badge/testes-47%2F47%20-brightgreen)](eval/resultado.md)
+[![Testes](https://img.shields.io/badge/testes-62%2F62-brightgreen)](eval/resultado.md)
 [![CI](https://github.com/SEU-USUARIO/SEU-REPO/actions/workflows/testes.yml/badge.svg)](../../actions)
-[![Red Team](https://img.shields.io/badge/red%20team-12%2F12%20bloqueados-critical)](docs/04-metricas.md)
+[![Seguranca](https://img.shields.io/badge/seguran%C3%A7a-16%2F16-critical)](docs/04-metricas.md)
+
+<!-- Cole aqui o link do pitch depois de gravar, e apague este comentario:
+**[Assista ao pitch de 3 minutos](https://youtu.be/SEU-VIDEO)**
+-->
 
 *Projeto do Lab **Construa Seu Assistente Virtual Com Inteligência Artificial** — DIO / Bootcamp Bradesco GenAI & Dados*
 
@@ -250,6 +254,7 @@ assistente-financeiro/
 ├── README.md
 ├── requirements.txt
 ├── .env.example                     # Modelo de configuração (chave opcional)
+├── publicar.sh                      # Prepara o repo para publicação
 │
 ├── data/                            # Base de conhecimento
 │   ├── transacoes.csv               # 10 lançamentos do mês
