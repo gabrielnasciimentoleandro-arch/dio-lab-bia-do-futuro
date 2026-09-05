@@ -1,0 +1,16 @@
+[server]
+address = "0.0.0.0"
+port = 8501
+headless = true
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+# Base clara. O tema escuro e aplicado em tempo de execucao por src/app.py,
+# que sobrescreve as variaveis CSS do proprio Streamlit (ver bloco :root).
+base = "light"
+primaryColor = "#0369A1"
+font = "sans serif"

@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" width="980" height="620" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <marker id="arw" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 z" fill="#94A3B8"/>
+    </marker>
+    <marker id="arwG" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 z" fill="#059669"/>
+    </marker>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.09"/>
+    </filter>
+  </defs>
+
+  <rect width="980" height="620" fill="#FBFCFE"/>
+
+  <!-- título -->
+  <g>
+    <rect x="40" y="26" width="34" height="34" rx="10" fill="url(#brand)"/>
+    <path d="M57 33 L59.4 41.6 L68 44 L59.4 46.4 L57 55 L54.6 46.4 L46 44 L54.6 41.6 Z" fill="#fff"/>
+    <text x="86" y="43" font-size="19" font-weight="700" fill="#0F172A">Luma — Arquitetura</text>
+    <text x="86" y="59" font-size="12.5" fill="#64748B">O LLM interpreta e explica · o Python calcula</text>
+  </g>
+
+  <!-- 1. usuário -->
+  <g filter="url(#sh)">
+    <rect x="40" y="96" width="160" height="56" rx="13" fill="#fff" stroke="#E2E8F0"/>
+    <circle cx="68" cy="124" r="12" fill="#E2E8F0"/>
+    <circle cx="68" cy="120.5" r="4.2" fill="#94A3B8"/>
+    <path d="M60.5 132c0-4.4 3.4-7 7.5-7s7.5 2.6 7.5 7z" fill="#94A3B8"/>
+    <text x="90" y="121" font-size="13" font-weight="600" fill="#0F172A">Pessoa usuária</text>
+    <text x="90" y="136" font-size="11" fill="#64748B">pergunta em texto</text>
+  </g>
+
+  <!-- 2. guardrail entrada -->
+  <g filter="url(#sh)">
+    <rect x="240" y="90" width="176" height="68" rx="13" fill="#FEF2F2" stroke="#FECACA"/>
+    <text x="258" y="115" font-size="13" font-weight="700" fill="#B91C1C">🛡 Guardrail de entrada</text>
+    <text x="258" y="131" font-size="10.5" fill="#7F1D1D">prompt injection · senha/CVV</text>
+    <text x="258" y="145" font-size="10.5" fill="#7F1D1D">dados de terceiros (LGPD)</text>
+  </g>
+
+  <!-- bloqueio -->
+  <g filter="url(#sh)">
+    <rect x="240" y="188" width="176" height="42" rx="11" fill="#fff" stroke="#FECACA" stroke-dasharray="4 3"/>
+    <text x="258" y="207" font-size="11.5" font-weight="600" fill="#B91C1C">bloqueado →</text>
+    <text x="258" y="221" font-size="10.5" fill="#64748B">resposta segura padrão</text>
+  </g>
+
+  <!-- 3. LLM -->
+  <g filter="url(#sh)">
+    <rect x="458" y="90" width="182" height="68" rx="13" fill="#EFF6FF" stroke="#BFDBFE"/>
+    <text x="476" y="114" font-size="13" font-weight="700" fill="#1D4ED8">🧠 Gemini</text>
+    <text x="476" y="130" font-size="10.5" fill="#1E40AF">interpreta a intenção</text>
+    <text x="476" y="144" font-size="10.5" fill="#1E40AF">escolhe a ferramenta</text>
+  </g>
+
+  <!-- 4. ferramentas -->
+  <g filter="url(#sh)">
+    <rect x="330" y="252" width="440" height="176" rx="15" fill="#fff" stroke="#A7F3D0" stroke-width="2"/>
+    <rect x="330" y="252" width="440" height="34" rx="15" fill="#ECFDF5"/>
+    <rect x="330" y="272" width="440" height="14" fill="#ECFDF5"/>
+    <text x="350" y="274" font-size="12.5" font-weight="700" fill="#047857">🔧 Camada determinística — ferramentas.py</text>
+    <text x="350" y="303" font-size="10.5" font-weight="600" fill="#059669">O PYTHON CALCULA · o modelo nunca soma</text>
+
+    <g font-size="10.5" fill="#334155">
+      <rect x="350" y="314" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="360" y="330">somar_por_categoria()</text>
+      <rect x="558" y="314" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="568" y="330">resumo_financeiro()</text>
+
+      <rect x="350" y="344" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="360" y="360">progresso_metas()</text>
+      <rect x="558" y="344" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="568" y="360">recomendar_produtos()</text>
+
+      <rect x="350" y="374" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="360" y="390">simular_economia()</text>
+      <rect x="558" y="374" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="568" y="390">analisar_resiliencia()</text>
+
+      <rect x="350" y="404" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="360" y="420">avaliar_compra()</text>
+      <rect x="558" y="404" width="192" height="24" rx="7" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <text x="568" y="420">diagnostico_geral()  +2</text>
+    </g>
+  </g>
+
+  <!-- 5. dados -->
+  <g filter="url(#sh)">
+    <rect x="800" y="252" width="140" height="176" rx="13" fill="#fff" stroke="#E2E8F0"/>
+    <text x="820" y="278" font-size="12.5" font-weight="700" fill="#0F172A">📁 data/</text>
+    <g font-size="10" fill="#475569">
+      <text x="820" y="302">transacoes.csv</text>
+      <text x="820" y="322">perfil_investidor</text>
+      <text x="820" y="342">produtos_financ.</text>
+      <text x="820" y="362">historico_atend.</text>
+    </g>
+    <line x1="818" y1="378" x2="922" y2="378" stroke="#E2E8F0"/>
+    <text x="820" y="396" font-size="9.5" fill="#94A3B8">fonte única</text>
+    <text x="820" y="410" font-size="9.5" fill="#94A3B8">da verdade</text>
+  </g>
+
+  <!-- 6. guardrail saída -->
+  <g filter="url(#sh)">
+    <rect x="458" y="462" width="312" height="60" rx="13" fill="#FFFBEB" stroke="#FDE68A"/>
+    <text x="476" y="486" font-size="12.5" font-weight="700" fill="#B45309">🛡 Guardrail de saída — compliance</text>
+    <text x="476" y="503" font-size="10.5" fill="#92400E">promessa de rentabilidade reescrita · disclaimer</text>
+    <text x="476" y="515" font-size="10.5" fill="#92400E">injetado · produto incompatível filtrado na origem</text>
+  </g>
+
+  <!-- 7. resposta -->
+  <g filter="url(#sh)">
+    <rect x="40" y="462" width="330" height="60" rx="13" fill="#fff" stroke="#A7F3D0" stroke-width="2"/>
+    <text x="60" y="484" font-size="12.5" font-weight="700" fill="#047857">💬 Resposta ao usuário</text>
+    <text x="60" y="501" font-size="10.5" fill="#334155">valor exato do Python + próximo passo sugerido</text>
+    <text x="60" y="514" font-size="10.5" fill="#059669">📎 Fonte: data/transacoes.csv (2 registros)</text>
+  </g>
+
+  <!-- 8. observabilidade -->
+  <g>
+    <rect x="40" y="548" width="900" height="42" rx="11" fill="#F8FAFC" stroke="#E2E8F0" stroke-dasharray="5 4"/>
+    <text x="60" y="566" font-size="11.5" font-weight="700" fill="#475569">📊 Observabilidade</text>
+    <text x="60" y="580" font-size="10.5" fill="#64748B">latência por resposta · ferramentas acionadas · guardrails disparados · 32 casos de teste automatizados (100%)</text>
+  </g>
+
+  <!-- setas -->
+  <g stroke="#94A3B8" stroke-width="1.7" fill="none">
+    <path d="M200 124 L234 124" marker-end="url(#arw)"/>
+    <path d="M416 124 L452 124" marker-end="url(#arw)"/>
+    <path d="M328 158 L328 182" marker-end="url(#arw)"/>
+    <path d="M549 158 L549 246" marker-end="url(#arw)"/>
+    <path d="M770 340 L794 340" marker-end="url(#arw)"/>
+  </g>
+  <g stroke="#059669" stroke-width="1.9" fill="none">
+    <path d="M794 366 L774 366" marker-end="url(#arwG)"/>
+    <path d="M614 428 L614 456" marker-end="url(#arwG)"/>
+    <path d="M452 492 L376 492" marker-end="url(#arwG)"/>
+  </g>
+
+  <!-- rótulos das setas -->
+  <g font-size="9.5" fill="#64748B">
+    <text x="556" y="200">function</text>
+    <text x="556" y="212">calling</text>
+    <text x="646" y="360" fill="#059669">JSON + _fonte</text>
+    <text x="622" y="447" fill="#059669">texto redigido</text>
+    <text x="392" y="484" fill="#059669">validado</text>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+name: Suíte de Avaliação
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  avaliar:
+    name: Avaliar a agente Luma
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Rodar a suíte de avaliação
+        run: python eval/avaliar.py
+
+      - name: Publicar relatório no resumo
+        if: always()
+        run: cat eval/resultado.md >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,297 @@
+{
+  "_meta": {
+    "descricao": "Base de conhecimento antifraude da Luma. Golpes financeiros mais comuns no Brasil, com sinais de alerta verificáveis e a conduta correta.",
+    "fontes_de_referencia": [
+      "Febraban — campanhas de segurança bancária",
+      "Banco Central — orientações sobre Pix e MED (Mecanismo Especial de Devolução)",
+      "Cartilha de segurança CERT.br"
+    ],
+    "aviso": "Conteúdo educacional. Em caso de golpe, procure sempre os canais oficiais do seu banco e registre boletim de ocorrência."
+  },
+  "regras_de_ouro": [
+    "Banco NUNCA liga pedindo senha, PIN, CVV ou código de aprovação.",
+    "Banco NUNCA pede para você transferir dinheiro para uma 'conta segura'. Essa conta não existe.",
+    "Banco NUNCA envia funcionário à sua casa para buscar cartão.",
+    "Desligue e ligue você mesmo para o número oficial no verso do cartão.",
+    "Urgência extrema é a principal ferramenta do golpista: ela existe para impedir você de pensar.",
+    "Ninguém garante rentabilidade alta e sem risco. Isso não existe no mercado financeiro.",
+    "Confira o link antes de clicar: golpistas trocam uma letra no endereço do site."
+  ],
+  "golpes": [
+    {
+      "id": "falso_funcionario",
+      "nome": "Falso funcionário do banco",
+      "tambem_chamado": [
+        "falsa central de atendimento",
+        "golpe do falso gerente"
+      ],
+      "como_funciona": "Alguém liga dizendo que houve uma compra suspeita ou invasão na sua conta. Para 'resolver', pede seus dados, um código de confirmação ou que você transfira o dinheiro para uma 'conta segura'.",
+      "sinais_de_alerta": [
+        "Ligação não solicitada dizendo que sua conta foi invadida",
+        "Pedido de senha, código enviado por SMS ou CVV do cartão",
+        "Pressa: 'precisa ser agora ou você perde o dinheiro'",
+        "Menção a 'conta segura', 'conta espelho' ou 'conta do Banco Central'",
+        "Pedido para instalar um aplicativo para 'verificação'"
+      ],
+      "o_que_fazer": [
+        "Desligue imediatamente, sem dar nenhuma informação",
+        "Ligue você mesmo para o número oficial no verso do seu cartão",
+        "Nunca use o número que a pessoa passou na ligação"
+      ],
+      "frase_chave": "Conta segura não existe. É sempre golpe."
+    },
+    {
+      "id": "pix_errado",
+      "nome": "Golpe do Pix errado",
+      "tambem_chamado": [
+        "depósito por engano",
+        "estorno de Pix"
+      ],
+      "como_funciona": "Você recebe um Pix inesperado e logo depois alguém pede a devolução por outra chave, alegando engano. O dinheiro recebido costuma vir de uma conta roubada — e você acaba devolvendo do seu próprio bolso.",
+      "sinais_de_alerta": [
+        "Recebimento de valor que você não esperava",
+        "Contato imediato pedindo devolução com urgência",
+        "Pedido para devolver em chave Pix diferente da que enviou",
+        "Pressão emocional: 'é o dinheiro do remédio da minha mãe'"
+      ],
+      "o_que_fazer": [
+        "Não devolva por conta própria",
+        "Procure seu banco e peça a devolução pelo canal oficial",
+        "O sistema bancário tem processo próprio para isso (MED)"
+      ],
+      "frase_chave": "Devolução de Pix se faz pelo banco, nunca por acordo particular."
+    },
+    {
+      "id": "falso_investimento",
+      "nome": "Falso investimento / pirâmide",
+      "tambem_chamado": [
+        "robô de investimento",
+        "trader mirabolante",
+        "cripto milagrosa"
+      ],
+      "como_funciona": "Promessa de rentabilidade muito acima do mercado, com risco 'zero'. No começo pagam para você confiar e trazer amigos. Depois somem com o dinheiro.",
+      "sinais_de_alerta": [
+        "Promessa de ganho fixo e alto (ex.: 10% ao mês garantido)",
+        "Alegação de 'risco zero' ou 'lucro garantido'",
+        "Pressão para trazer amigos e familiares",
+        "Empresa sem registro na CVM ou no Banco Central",
+        "Perfil em rede social exibindo carros e viagens de luxo",
+        "Pagamento feito para conta de pessoa física"
+      ],
+      "o_que_fazer": [
+        "Consulte o registro da instituição no site da CVM",
+        "Compare: se promete muito mais que o CDI, desconfie",
+        "Não invista sob pressão de tempo"
+      ],
+      "frase_chave": "Rentabilidade alta e garantida ao mesmo tempo não existe."
+    },
+    {
+      "id": "phishing",
+      "nome": "Link falso (phishing)",
+      "tambem_chamado": [
+        "SMS falso",
+        "e-mail do banco",
+        "site clonado"
+      ],
+      "como_funciona": "Mensagem por SMS, e-mail ou WhatsApp com link que leva a uma página idêntica à do banco ou da loja. Tudo que você digita ali vai para o golpista.",
+      "sinais_de_alerta": [
+        "Link encurtado ou endereço com letra trocada",
+        "Mensagem sobre prêmio, restituição, encomenda parada ou conta bloqueada",
+        "Erros de português ou formatação estranha",
+        "Domínio que não é o oficial do banco",
+        "Pedido de dados completos logo na primeira tela"
+      ],
+      "o_que_fazer": [
+        "Não clique. Abra o app oficial do banco por conta própria",
+        "Confira o remetente com calma",
+        "Se já clicou e digitou dados, troque as senhas e avise o banco"
+      ],
+      "frase_chave": "Nunca acesse seu banco por link recebido. Abra o app você mesmo."
+    },
+    {
+      "id": "whatsapp_clonado",
+      "nome": "WhatsApp clonado ou falso parente",
+      "tambem_chamado": [
+        "golpe do número novo",
+        "oi mãe, mudei de número"
+      ],
+      "como_funciona": "Alguém se passa por parente ou amigo usando número desconhecido ou foto roubada, e pede dinheiro emprestado com urgência.",
+      "sinais_de_alerta": [
+        "Número desconhecido dizendo ser alguém próximo",
+        "Justificativa de que 'perdeu o celular' ou 'mudou de número'",
+        "Urgência para transferir",
+        "Recusa em fazer chamada de voz ou vídeo",
+        "Chave Pix em nome de terceiro"
+      ],
+      "o_que_fazer": [
+        "Ligue para o número antigo da pessoa e confirme",
+        "Faça uma pergunta que só ela saberia responder",
+        "Desconfie de qualquer pedido de dinheiro por mensagem"
+      ],
+      "frase_chave": "Antes de transferir, ligue para o número antigo e confirme."
+    },
+    {
+      "id": "emprestimo_taxa",
+      "nome": "Empréstimo com taxa antecipada",
+      "tambem_chamado": [
+        "crédito para negativado",
+        "liberação de empréstimo"
+      ],
+      "como_funciona": "Oferecem crédito fácil mesmo para quem está negativado, mas exigem um pagamento antecipado a título de taxa, seguro ou IOF. Após o pagamento, somem.",
+      "sinais_de_alerta": [
+        "Crédito aprovado sem nenhuma análise",
+        "Cobrança antecipada de taxa, seguro ou 'liberação'",
+        "Contato apenas por WhatsApp",
+        "Empresa sem endereço ou CNPJ verificável",
+        "Pagamento para conta de pessoa física"
+      ],
+      "o_que_fazer": [
+        "Nunca pague nada para receber um empréstimo",
+        "Instituição regulada desconta custos do próprio crédito",
+        "Consulte o CNPJ e o registro no Banco Central"
+      ],
+      "frase_chave": "Empréstimo de verdade não cobra nada adiantado."
+    },
+    {
+      "id": "maquininha_troca_cartao",
+      "nome": "Troca de cartão e maquininha adulterada",
+      "tambem_chamado": [
+        "golpe do motoboy",
+        "cartão trocado"
+      ],
+      "como_funciona": "Em uma compra, a maquininha 'não passa' e o atendente devolve outro cartão. Ou um falso motoboy vai à sua casa buscar o cartão 'para cancelamento'.",
+      "sinais_de_alerta": [
+        "Maquininha que falha várias vezes seguidas",
+        "Atendente insistindo em manusear seu cartão",
+        "Alguém indo até você buscar cartão ou documento",
+        "Valor na tela diferente do combinado"
+      ],
+      "o_que_fazer": [
+        "Não perca o cartão de vista e digite a senha você mesmo",
+        "Confira o cartão devolvido, olhando o nome",
+        "Banco nunca envia alguém buscar cartão"
+      ],
+      "frase_chave": "Banco nunca manda buscar seu cartão em casa."
+    },
+    {
+      "id": "malware_bancario",
+      "nome": "Malware bancário (vírus no celular)",
+      "tambem_chamado": [
+        "trojan bancário",
+        "app malicioso",
+        "vírus do banco",
+        "acesso remoto"
+      ],
+      "como_funciona": "Um aplicativo malicioso é instalado no celular e fica invisível. Quando você abre o app do banco, ele sobrepõe uma tela falsa para roubar a senha, ou permite que o golpista controle o aparelho à distância e faça transferências enquanto você dorme.",
+      "sinais_de_alerta": [
+        "Celular ficou lento ou esquentando sem motivo depois de instalar algo",
+        "Bateria acabando muito mais rápido que o normal",
+        "Aparecem anúncios fora do navegador, na tela inicial",
+        "App do banco pedindo senha em tela com visual levemente diferente",
+        "Aplicativos que você não lembra de ter instalado",
+        "Tela acendendo sozinha ou aparelho travando ao abrir o banco",
+        "Consumo de dados móveis muito acima do habitual"
+      ],
+      "o_que_fazer": [
+        "Ative o modo avião para cortar o acesso remoto imediatamente",
+        "Desinstale aplicativos desconhecidos e revogue permissões de acessibilidade",
+        "Ligue para o banco de OUTRO telefone e bloqueie a conta",
+        "Se não resolver, faça backup dos arquivos e restaure o aparelho de fábrica",
+        "Troque as senhas só depois que o aparelho estiver limpo"
+      ],
+      "frase_chave": "Celular lento e quente depois de instalar algo é sinal de alerta, não coincidência."
+    },
+    {
+      "id": "app_falso",
+      "nome": "Aplicativo falso e banner malicioso",
+      "tambem_chamado": [
+        "APK pirata",
+        "app fora da loja",
+        "banner de propaganda"
+      ],
+      "como_funciona": "Um banner chamativo, uma propaganda em site de filme pirata ou um link no WhatsApp levam ao download de um aplicativo fora da loja oficial. O app imita um banco, um antivírus ou um programa do governo, e na verdade instala o vírus.",
+      "sinais_de_alerta": [
+        "Download que não veio da Play Store ou App Store",
+        "Arquivo terminado em .apk enviado por mensagem",
+        "Banner de 'seu celular está infectado, limpe agora'",
+        "Promessa de app 'liberado', 'premium grátis' ou 'versão modificada'",
+        "Pedido de permissão de acessibilidade, SMS ou 'sobrepor outras telas'",
+        "App recém-lançado, poucas avaliações e desenvolvedor desconhecido",
+        "Site com muitos pop-ups e botões falsos de download"
+      ],
+      "o_que_fazer": [
+        "Instale aplicativos apenas pela loja oficial do seu celular",
+        "Confira o nome do desenvolvedor e a quantidade de avaliações",
+        "Nunca conceda permissão de acessibilidade a app que não seja de acessibilidade",
+        "Mantenha desativada a opção de instalar de 'fontes desconhecidas'",
+        "Feche banners pelo X ou pela aba, nunca clicando no aviso"
+      ],
+      "frase_chave": "Banner que diz que seu celular está infectado é o próprio vírus se oferecendo."
+    }
+  ],
+  "higiene_digital": {
+    "descricao": "Como o malware entra no celular e como fechar as portas antes de qualquer golpe.",
+    "portas_de_entrada": [
+      {
+        "vetor": "Banner e pop-up de propaganda",
+        "exemplo": "'Seu Android está infectado! Limpe agora' em site de streaming pirata",
+        "defesa": "Nunca clique no aviso. Feche a aba inteira. Esse alerta é sempre falso."
+      },
+      {
+        "vetor": "APK fora da loja oficial",
+        "exemplo": "Link no WhatsApp com o 'app do banco atualizado' ou jogo pago de graça",
+        "defesa": "Só instale pela Play Store ou App Store. Desative 'fontes desconhecidas'."
+      },
+      {
+        "vetor": "Permissão de acessibilidade",
+        "exemplo": "App simples pedindo para 'controlar a tela' ou 'sobrepor outras janelas'",
+        "defesa": "É a permissão mais perigosa do Android. Só conceda a apps de acessibilidade reais."
+      },
+      {
+        "vetor": "Link por SMS ou WhatsApp",
+        "exemplo": "'Sua encomenda está parada, atualize os dados' com link encurtado",
+        "defesa": "Não clique. Abra o app oficial da transportadora ou do banco por conta própria."
+      },
+      {
+        "vetor": "Wi-Fi público aberto",
+        "exemplo": "Rede grátis de aeroporto ou shopping sem senha",
+        "defesa": "Não acesse banco em Wi-Fi público. Prefira os dados móveis do seu chip."
+      },
+      {
+        "vetor": "Falso suporte técnico",
+        "exemplo": "Pedido para instalar AnyDesk ou TeamViewer para 'resolver seu problema'",
+        "defesa": "Nenhum banco pede instalação de programa de acesso remoto. Nenhum."
+      },
+      {
+        "vetor": "Carregador e cabo USB público",
+        "exemplo": "Totem de carregamento em aeroporto e rodoviária",
+        "defesa": "Use tomada com seu próprio carregador, ou uma bateria portátil."
+      }
+    ],
+    "checklist_mensal": [
+      "Atualizar o sistema e os aplicativos do celular",
+      "Revisar a lista de apps instalados e remover o que não reconhece",
+      "Conferir em Configurações quais apps têm permissão de acessibilidade",
+      "Ativar a verificação em duas etapas no banco e no WhatsApp",
+      "Conferir os limites de Pix e reduzir o valor noturno",
+      "Manter o bloqueio de tela com biometria ativado",
+      "Cadastrar uma chave Pix apenas, e não todas"
+    ],
+    "sinais_de_infeccao": [
+      "Celular lento, travando ou esquentando sem uso pesado",
+      "Bateria durando muito menos do que o normal",
+      "Anúncios aparecendo fora do navegador",
+      "Aplicativos desconhecidos instalados",
+      "Consumo de dados móveis muito acima do habitual",
+      "Tela acendendo ou se movendo sozinha",
+      "App do banco com visual diferente do de costume"
+    ],
+    "acao_imediata_se_infectado": [
+      "Ative o modo avião para cortar o acesso remoto",
+      "Ligue para o banco de outro aparelho e bloqueie a conta",
+      "Desinstale apps desconhecidos e revogue acessibilidade",
+      "Faça backup e restaure o aparelho de fábrica se persistir",
+      "Troque as senhas apenas depois de limpar o aparelho"
+    ]
+  }
+}
