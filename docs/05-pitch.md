@@ -164,7 +164,7 @@ Se travar, qualquer uma destas sustenta o pitch sozinha:
 ## Áudio de referência
 
 Narração sintetizada do roteiro inteiro em [`audio/`](../audio/) —
-`00-pitch-completo.mp3` tem **2min25s**, e cada bloco está separado para
+`00-pitch-completo-com-trilha.mp3` tem **2min25s**, com trilha de fundo, e cada bloco está separado para
 ensaio. Serve para conferir ritmo e cronometragem antes de gravar com a sua
 voz. Detalhes em [`audio/LEIA-ME.md`](../audio/LEIA-ME.md).
 

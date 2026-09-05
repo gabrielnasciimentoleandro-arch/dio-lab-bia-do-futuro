@@ -281,7 +281,8 @@ assistente-financeiro/
 │   └── testes.yml                   # CI: suíte roda a cada push
 │
 ├── audio/                           # Narração de referência do pitch
-│   ├── 00-pitch-completo.mp3        # 2min25s, roteiro inteiro
+│   ├── 00-pitch-completo-com-trilha.mp3  # 2min25s, voz + trilha
+│   ├── 00-pitch-completo.mp3        # 2min25s, só a voz
 │   └── LEIA-ME.md                   # Como usar no ensaio
 │
 ├── assets/
