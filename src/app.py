@@ -62,6 +62,39 @@ def avatar_user(escuro: bool) -> str:
     )
 
 
+def marca_luma(largura: int = 190) -> str:
+    """
+    Marca da Luma em SVG vetorial: escudo (proteção) + seta de crescimento.
+
+    Vetor e nao PNG porque a logo agora aparece grande na sidebar — o PNG de
+    512px perderia nitidez e traz fundo branco opaco, que quebra no modo
+    escuro. O gradiente indigo -> teal e o mesmo da identidade.
+    """
+    return (
+        f'<svg viewBox="0 0 120 120" width="{largura}" height="{largura}" '
+        f'xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Luma">'
+        '<defs>'
+        '<linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">'
+        '<stop offset="0%" stop-color="#312E81"/>'
+        '<stop offset="55%" stop-color="#1D4E6E"/>'
+        '<stop offset="100%" stop-color="#0D9488"/>'
+        '</linearGradient>'
+        '</defs>'
+        '<rect x="4" y="4" width="112" height="112" rx="30" fill="url(#lg)"/>'
+        # escudo aberto
+        '<path d="M60 26 30 38v22c0 18 14 28 30 34 16-6 30-16 30-34V38z" '
+        'fill="none" stroke="#FFFFFF" stroke-width="7" '
+        'stroke-linejoin="round" stroke-linecap="round" opacity=".97"/>'
+        # haste da seta
+        '<line x1="60" y1="92" x2="60" y2="45" stroke="#FFFFFF" '
+        'stroke-width="7" stroke-linecap="round"/>'
+        # ponta da seta — contida dentro do escudo, sem tocar a borda
+        '<path d="M46 60 60 44l14 16" fill="none" stroke="#FFFFFF" '
+        'stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>'
+        '</svg>'
+    )
+
+
 def ico(path_d: str, cor: str, tamanho: int = 15) -> str:
     """Ícone SVG inline com traço — substitui emoji."""
     return (
@@ -207,10 +240,18 @@ st.markdown(f"""
   .luma-sub {{ font-size:.8rem; color:var(--txt3); margin:.15rem 0 0; font-weight:500; }}
 
   .badge {{
-      display:inline-flex; align-items:center; gap:.42rem;
-      font-size:.72rem; font-weight:600; padding:.32rem .72rem;
-      border-radius:999px; margin:.85rem 0 .3rem; letter-spacing:.005em;
+      display:inline-flex; align-items:center; gap:.55rem;
+      font-size:.84rem; font-weight:600; padding:.5rem .95rem;
+      border-radius:10px; margin:.9rem 0 .35rem; letter-spacing:.005em;
+      line-height:1.25;
   }}
+  /* Rotulo em caixa alta separa o ESTADO do sistema da explicacao dele. */
+  .badge .b-tag {{
+      font-size:.66rem; font-weight:800; letter-spacing:.09em;
+      text-transform:uppercase; opacity:.95;
+  }}
+  .badge .b-sep {{ opacity:.4; font-weight:400; }}
+  .badge .b-txt {{ font-weight:500; opacity:.92; }}
   .badge-live {{
       background:{'#064E3B' if ESCURO else '#ECFDF5'};
       color:{'#6EE7B7' if ESCURO else '#065F46'};
@@ -221,7 +262,8 @@ st.markdown(f"""
       color:{'#FCD34D' if ESCURO else '#92400E'};
       border:1px solid {'#78350F' if ESCURO else '#FDE68A'};
   }}
-  .dot {{ width:6px; height:6px; border-radius:50%; background:currentColor; }}
+  .dot {{ width:7px; height:7px; border-radius:50%; background:currentColor;
+          box-shadow:0 0 0 3px {'rgba(252,211,77,.12)' if ESCURO else 'rgba(146,64,14,.10)'}; }}
 
   /* ---------- chat ---------- */
   .stChatMessage {{
@@ -264,6 +306,25 @@ st.markdown(f"""
   .mk-fonte {{ color:var(--txt3); }}
   .mk-aviso {{ color:var(--alerta); border-top:none; padding-top:.15rem; }}
   .mk-sinal {{ color:var(--perigo); border-top:none; padding-top:.15rem; }}
+
+  /* ---------- marca da sidebar ---------- */
+  .marca-wrap {{
+      display:flex; flex-direction:column; align-items:center;
+      text-align:center; padding:.35rem 0 1.15rem;
+      margin:0 0 1.15rem; border-bottom:1px solid var(--borda);
+  }}
+  .marca-wrap svg {{
+      filter:drop-shadow(0 6px 18px {'rgba(13,148,136,.28)' if ESCURO else 'rgba(49,46,129,.18)'});
+      max-width:100%; height:auto;
+  }}
+  .marca-nome {{
+      font-size:1.42rem; font-weight:700; color:var(--txt);
+      letter-spacing:-.02em; line-height:1.15; margin-top:.7rem;
+  }}
+  .marca-tag {{
+      font-size:.76rem; font-weight:500; color:var(--txt3);
+      letter-spacing:.02em; margin-top:.15rem;
+  }}
 
   /* ---------- sidebar ---------- */
   section[data-testid="stSidebar"] {{
@@ -481,6 +542,15 @@ def escrever(texto: str) -> None:
 
 # ------------------------------------------------------------------ sidebar
 with st.sidebar:
+    # Marca no topo: ocupa a faixa vazia acima de "Conexão" e ancora a
+    # identidade do produto em vez de deixar espaco morto.
+    st.markdown(
+        f'<div class="marca-wrap">{marca_luma(150)}'
+        f'<div class="marca-nome">Luma</div>'
+        f'<div class="marca-tag">Guardiã da sua reserva</div></div>',
+        unsafe_allow_html=True,
+    )
+
     c1, c2 = st.columns([3, 1])
     c1.markdown(f'<div class="side-label">{ico(P_KEY, C["txt3"], 13)} Conexão</div>',
                 unsafe_allow_html=True)
@@ -495,7 +565,7 @@ with st.sidebar:
         label_visibility="collapsed",
         placeholder="Opcional — cole sua Google AI Studio API Key",
         help="Opcional. Sem chave, a Luma responde pelo motor determinístico "
-             "(as 15 ferramentas). A chave adiciona conversa livre com o Gemini, "
+             f"(as {len(tools.FERRAMENTAS)} ferramentas). A chave adiciona conversa livre com o Gemini, "
              "que continua obrigado a buscar todo número nessas mesmas ferramentas.",
     )
 
@@ -622,16 +692,31 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# A contagem vem do proprio registro de ferramentas: badge que se atualiza
+# sozinho quando uma tool nasce. Ja ficou desatualizado uma vez (15 x 16).
+N_TOOLS = len(tools.FERRAMENTAS)
+
 if agente.modo == "gemini":
-    st.markdown('<span class="badge badge-live"><span class="dot"></span>'
-                'Gemini conectado</span>', unsafe_allow_html=True)
+    st.markdown(
+        '<span class="badge badge-live"><span class="dot"></span>'
+        '<span class="b-tag">Gemini conectado</span>'
+        '<span class="b-sep">|</span>'
+        f'<span class="b-txt">Conversa livre, com os {N_TOOLS} cálculos '
+        'ainda vindos das ferramentas</span></span>',
+        unsafe_allow_html=True,
+    )
 else:
     # O modo determinístico NAO e um estado de erro: e o fallback que responde
-    # pelas 15 tools quando nao ha LLM. Por isso o texto e afirmativo, e nao
-    # um pedido de chave.
-    st.markdown('<span class="badge badge-demo"><span class="dot"></span>'
-                'Modo determinístico — respostas vindas direto das 15 ferramentas'
-                '</span>', unsafe_allow_html=True)
+    # pelas tools quando nao ha LLM. Por isso o texto e afirmativo, e nao um
+    # pedido de chave.
+    st.markdown(
+        '<span class="badge badge-demo"><span class="dot"></span>'
+        '<span class="b-tag">Modo determinístico</span>'
+        '<span class="b-sep">|</span>'
+        f'<span class="b-txt">Cada resposta sai direto das {N_TOOLS} '
+        'ferramentas, sem geração de texto por IA</span></span>',
+        unsafe_allow_html=True,
+    )
 
 
 for msg in st.session_state.mensagens:
