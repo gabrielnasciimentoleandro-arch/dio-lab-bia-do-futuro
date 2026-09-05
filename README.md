@@ -23,11 +23,11 @@
 
 Mesmo assim, sua reserva de emergência está travada em R$ 10.000 de uma meta de R$ 15.000, e o prazo que ele definiu **já venceu**.
 
-O problema não é falta de dinheiro. É **falta de direção**. O app do banco mostra extrato — histórico, não orientação.
+O problema não é falta de dinheiro. É **falta de direção**. Os dados já existem no banco; o que falta é a camada que transforma histórico em próximo passo.
 
 ## A solução
 
-O **Luma** transforma extrato + perfil + catálogo de produtos em **decisão acionável**, com uma missão específica: fechar o gap da reserva de emergência.
+A **Luma** transforma extrato + perfil + catálogo de produtos em **decisão acionável**, com uma missão específica: fechar o gap da reserva de emergência.
 
 ```
 Olá, João! Sou a Luma, sua agente financeira.
@@ -163,7 +163,7 @@ O produto é bloqueado **na ferramenta**, não no prompt. O modelo nunca o vê c
 
 O Brasil vive uma epidemia de golpes financeiros desde a popularização do Pix. Um agente que só fala de investimento ignora o risco mais concreto do dia a dia: **perder dinheiro para um estelionatário**.
 
-A Luma faz três coisas que nenhum extrato faz.
+A Luma atua em três frentes sobre esse risco.
 
 ### 1. Prevenir — catálogo de golpes financeiros
 
@@ -281,7 +281,7 @@ assistente-financeiro/
 │   └── testes.yml                   # CI: suíte roda a cada push
 │
 ├── audio/                           # Narração de referência do pitch
-│   ├── 00-pitch-completo.mp3        # 2min56s, roteiro inteiro
+│   ├── 00-pitch-completo.mp3        # 2min25s, roteiro inteiro
 │   └── LEIA-ME.md                   # Como usar no ensaio
 │
 ├── assets/

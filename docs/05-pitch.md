@@ -2,121 +2,116 @@
 
 ## Roteiro para gravação
 
-> Tempo alvo: **2min55s**. Tudo em `>` é para falar; o resto é indicação de
+> Tempo alvo: **2min45s**. Tudo em `>` é para falar; o resto é indicação de
 > tela.
 >
-> **Medição:** 407 palavras de fala = **2min54s** a 140 palavras por minuto,
-> que é ritmo de apresentação calmo. A margem é curta de propósito — se você
-> fala rápido, sobra tempo para as pausas de demonstração; se fala devagar,
-> use a lista "Se o tempo apertar" mais abaixo.
+> **Linguagem:** o roteiro evita jargão de propósito. Quem avalia entende de
+> tecnologia, mas um pitch que soa como documentação técnica cansa e come
+> tempo. "Quem soma é o código" diz o mesmo que "cálculo determinístico via
+> function calling", em metade do tempo e sem afastar ninguém. Os termos
+> técnicos estão guardados para as perguntas da banca, no fim deste arquivo.
 >
-> Todos os valores citados foram conferidos contra as ferramentas: alimentação
-> R$ 570,00 em 2 lançamentos, saldo R$ 2.511,10 (50,2% da renda), faltam
-> R$ 5.000,00 para a reserva, prazo de junho de 2026 vencido.
+> **Medição:** 364 palavras de fala. Narração de referência em `audio/` fecha
+> em **2min38s**, deixando folga para as pausas de navegação na tela.
+>
+> Valores conferidos contra as ferramentas: alimentação R$ 570,00 em 2
+> lançamentos, saldo R$ 2.511,10 (50,2% da renda), faltam R$ 5.000,00 para a
+> reserva, prazo de junho de 2026 vencido.
 
 ---
 
-### Problema (0:00 – 0:30)
+### Problema (0:00 – 0:25)
 
-> "Esse é o João. Ganha cinco mil por mês e poupa metade disso — cinquenta por
-> cento da renda.
+> "Esse é o João. Ele ganha cinco mil por mês, e guarda metade disso. Metade.
 >
-> Mesmo assim, a reserva dele está travada em dez mil, de uma meta de quinze. E
-> o prazo que ele mesmo marcou já venceu.
+> Mesmo assim, a reserva dele está parada em dez mil, e a meta era quinze. O
+> prazo que ele mesmo marcou já passou.
 >
-> O problema do João não é falta de dinheiro. É falta de direção.
->
-> O banco mostra o extrato. Extrato é passado — ninguém diz o que fazer amanhã."
+> Não falta dinheiro pro João. Falta alguém dizer o que fazer com ele."
 
 **Tela:** painel lateral — saldo R$ 2.511,10, reserva em 66,7%.
 
 ---
 
-### Solução (0:30 – 0:55)
+### Solução (0:25 – 0:45)
 
 > "Essa é a Luma.
 >
-> Repare que eu ainda não perguntei nada, e ela já abre assim: *faltam cinco
-> mil para a sua reserva; no seu ritmo dá para fechar em dois meses, mas o
-> prazo de junho já passou.*
+> Olha só: eu não perguntei nada ainda, e ela já começa contando que faltam
+> cinco mil para a reserva, e que no ritmo dele dá para fechar em dois meses.
 >
-> Ela não esperou a pergunta. Antecipou."
+> Ela não esperou a pergunta."
 
 **Tela:** abrir o app, saudação proativa.
 
 ---
 
-### Demo 1 — Precisão e arquitetura (0:55 – 1:25)
+### Demo 1 — De onde vem o número (0:45 – 1:15)
 
 > "*Quanto gastei com alimentação?*
 >
-> Quinhentos e setenta reais, em dois lançamentos — e embaixo, a fonte:
-> transacoes.csv.
+> Quinhentos e setenta reais, em dois lançamentos. E logo embaixo, de onde ela
+> tirou isso.
 >
-> Por que eu confio nesse número? Porque **a Luma não faz essa conta**. A IA só
-> interpreta a pergunta e escolhe qual ferramenta chamar. Quem soma é o Python.
+> Mas tem um detalhe: a Luma não faz essa conta. Quem soma é o código. A
+> inteligência artificial só entende a pergunta e escolhe onde buscar.
 >
-> Minha agente é matematicamente incapaz de errar um valor, porque ela não é
-> quem calcula. Isso não é um prompt pedindo 'não invente'. É arquitetura."
+> Por isso ela não tem como errar um valor. Não é ela que calcula."
 
 **Tela:** resposta com o rodapé de fonte; depois `assets/arquitetura.svg`.
 
 ---
 
-### Demo 2 — Cocriação com restrição (1:25 – 2:00)
+### Demo 2 — Ouvir o cliente (1:15 – 1:50)
 
-> "Agora o teste que eu mais gosto. O João pede: *como poupar sem cortar meus
-> gastos atuais?*
+> "Essa é a parte que eu mais gosto. O João pede: *como eu poupo sem cortar
+> meus gastos?*
 >
-> Um assistente comum sugere cortar alimentação e lazer — ignora a única regra
-> que o cliente deu.
+> A resposta fácil seria mandar ele cortar alimentação e lazer — ignorando
+> justamente o que ele acabou de pedir.
 >
-> A Luma responde: **você não precisa cortar nada.** Já sobram dois mil e
-> quinhentos por mês. O problema não é quanto sobra, é que fica solto na conta.
+> A Luma diz o contrário: **você não precisa cortar nada.** Já sobram dois mil
+> e quinhentos por mês. O problema não é o quanto sobra, é que esse dinheiro
+> fica parado na conta.
 >
-> E entrega um plano em quatro etapas que termina perguntando o que ajustar.
->
-> Cocriar é obedecer à restrição do cliente."
+> E ela monta um plano de quatro passos, e pergunta o que ele quer ajustar."
 
 **Tela:** o plano com a abertura "você não precisa cortar nada".
 
 ---
 
-### Demo 3 — Proteção (2:00 – 2:25)
+### Demo 3 — Proteger (1:50 – 2:15)
 
 > "*Me ligaram do banco pedindo para transferir para uma conta segura.*
 >
-> Risco alto, cara de golpe, não avance. E de novo: é o Python contando
-> marcadores objetivos, não o modelo achando.
+> Ela responde na hora: isso é golpe, não avance.
 >
-> E quando o João pede o Fundo de Ações, ela **recusa** — risco alto, e a
-> reserva dele ainda não está pronta.
+> E quando o João pede um fundo de risco alto, ela recusa. Porque ele mesmo
+> disse que não aceita risco, e a reserva dele ainda não está pronta.
 >
-> Um chatbot vendedor teria aceitado."
+> Ela protege o cliente até dele mesmo."
 
 **Tela:** alerta de risco ALTO; depois a recusa do fundo.
 
 ---
 
-### Prova (2:25 – 2:45)
+### Prova (2:15 – 2:32)
 
-> "Um comando: `python eval/avaliar.py`. Sessenta e dois casos, cem por cento.
-> Dezesseis são ataques — injection, pedido de senha, produto inexistente,
-> promessa de rentabilidade.
+> "E dá para conferir. Um comando roda sessenta e dois testes, e todos passam.
 >
-> Mas o número que eu levo é outro: **dezessete falhas documentadas, onze delas
-> achadas conversando com ela** enquanto a suíte marcava cem por cento."
+> Mas o número que eu levo é outro: **dezessete erros que eu achei e corrigi —
+> onze deles simplesmente conversando com ela.**"
 
 **Tela:** terminal com a suíte verde, 62/62.
 
 ---
 
-### Fecho (2:45 – 2:55)
+### Fecho (2:32 – 2:45)
 
-> "Agente financeiro confiável não nasce de um prompt melhor. Nasce de
-> arquitetura: separar quem calcula de quem conversa.
+> "No fim, é isso: um agente confiável não nasce de um texto bem escrito
+> pedindo para ele não errar. Nasce de separar quem conversa de quem calcula.
 >
-> E num banco, saber dizer 'não sei' vale mais do que parecer inteligente.
+> E saber dizer 'não sei' vale mais do que parecer esperto.
 >
 > Obrigado."
 
@@ -126,13 +121,13 @@
 
 | Tempo | Bloco | Mensagem central |
 |---|---|---|
-| 0:00–0:30 | Problema | Poupa 50% e não bate a meta. Falta direção, não dinheiro. |
-| 0:30–0:55 | Solução | Agente proativo: fala antes de ser perguntado |
-| 0:55–1:25 | Demo 1 | Número com fonte · o LLM não calcula |
-| 1:25–2:00 | Demo 2 | Cocriação que obedece ao veto do cliente |
-| 2:00–2:25 | Demo 3 | Antifraude e recusa de produto incompatível |
-| 2:25–2:45 | Prova | 62 casos, 100% · 17 falhas documentadas |
-| 2:45–2:55 | Fecho | Arquitetura > prompt · saber dizer "não sei" |
+| 0:00–0:25 | Problema | Guarda metade da renda e não bate a meta. Falta direção. |
+| 0:25–0:45 | Solução | Ela fala antes de ser perguntada |
+| 0:45–1:15 | Demo 1 | O número tem origem — e não é a IA que calcula |
+| 1:15–1:50 | Demo 2 | Ela obedece à restrição que o cliente deu |
+| 1:50–2:15 | Demo 3 | Golpe e recusa de produto incompatível |
+| 2:15–2:32 | Prova | 62 testes passando · 17 erros achados e corrigidos |
+| 2:32–2:45 | Fecho | Separar quem conversa de quem calcula |
 
 ---
 
@@ -140,10 +135,10 @@
 
 Corte nesta ordem, sem dó:
 
-1. **Demo 3 inteira** (25s) — o antifraude é ótimo, mas é o pilar mais
-   periférico ao enunciado.
-2. A segunda metade da **Prova** (10s), ficando só "62 casos, 100%".
-3. A frase do extrato na abertura (7s).
+1. **Demo 3 inteira** (25s) — golpe e recusa são ótimos, mas é o bloco mais
+   distante do que o desafio pede.
+2. A segunda frase da **Prova** (8s), ficando só "62 testes, todos passam".
+3. A frase do prazo vencido, na abertura (6s).
 
 **Nunca corte:** a Demo 1 (é a tese técnica) e a Demo 2 (é o pilar cocriar, e
 é a parte mais difícil de replicar).
@@ -169,7 +164,7 @@ Se travar, qualquer uma destas sustenta o pitch sozinha:
 ## Áudio de referência
 
 Narração sintetizada do roteiro inteiro em [`audio/`](../audio/) —
-`00-pitch-completo.mp3` tem **2min56s**, e cada bloco está separado para
+`00-pitch-completo.mp3` tem **2min25s**, e cada bloco está separado para
 ensaio. Serve para conferir ritmo e cronometragem antes de gravar com a sua
 voz. Detalhes em [`audio/LEIA-ME.md`](../audio/LEIA-ME.md).
 

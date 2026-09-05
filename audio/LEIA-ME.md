@@ -13,16 +13,20 @@ própria voz. O pitch enviado à banca deve ser seu — é você que vai respond
 
 | Arquivo | Bloco | Duração |
 |---|---|---|
-| `00-pitch-completo.mp3` | Tudo, com pausas de 0,9s entre blocos | **2min56s** |
-| `01-problema.mp3` | O João poupa 50% e não bate a meta | 25,8s |
-| `02-solucao.mp3` | A Luma antecipa, não espera a pergunta | 17,3s |
-| `03-demo1-arquitetura.mp3` | Número com fonte, o LLM não calcula | 30,1s |
-| `04-demo2-cocriacao.mp3` | Plano que respeita o veto do cliente | 34,3s |
-| `05-demo3-protecao.mp3` | Antifraude e recusa do fundo | 23,9s |
-| `06-prova.mp3` | 62 casos, 17 falhas documentadas | 24,1s |
-| `07-fecho.mp3` | Arquitetura > prompt · saber dizer "não sei" | 16,1s |
+| `00-pitch-completo.mp3` | Tudo, com pausas de 0,9s entre blocos | **2min25s** |
+| `01-problema.mp3` | O João guarda metade da renda e não bate a meta | 21,1s |
+| `02-solucao.mp3` | A Luma fala antes de ser perguntada | 13,2s |
+| `03-demo1-arquitetura.mp3` | O número tem origem; não é a IA que calcula | 22,4s |
+| `04-demo2-cocriacao.mp3` | Plano que respeita o que o cliente pediu | 30,5s |
+| `05-demo3-protecao.mp3` | Golpe e recusa do fundo | 22,1s |
+| `06-prova.mp3` | 62 testes · 17 erros achados e corrigidos | 14,4s |
+| `07-fecho.mp3` | Separar quem conversa de quem calcula | 17,2s |
 
-Total falado: **172s**. Com as pausas: **177s**. Sobram 3 segundos dos 180.
+Total falado: **141s**. Com as pausas: **146s**.
+
+Sobram **34 segundos** dos três minutos. Essa folga é proposital: no vídeo real
+você não só fala, você também navega, cola mensagem e espera a tela desenhar.
+Um roteiro que ocupa 100% do tempo estoura sempre.
 
 ---
 
@@ -40,13 +44,18 @@ Total falado: **172s**. Com as pausas: **177s**. Sobram 3 segundos dos 180.
 
 ## Diferenças entre o áudio e o texto escrito
 
-Algumas palavras foram adaptadas para soarem naturais faladas:
+O roteiro foi reescrito para soar como fala, não como documentação:
 
-- `transacoes.csv` -> "transações ponto csv"
-- `python eval/avaliar.py` -> "python avaliar"
+- "quem soma é o código" em vez de "cálculo determinístico via function calling"
+- "de onde ela tirou isso" em vez de "campo `_fonte` para rastreabilidade"
+- "dezessete erros que eu achei e corrigi" em vez de "17 falhas documentadas"
+- Nada de ler nome de arquivo ou comando em voz alta
 - Valores por extenso: "quinhentos e setenta reais", não "R$ 570,00"
 
-Faça o mesmo ao gravar. Ler pontuação de código em voz alta soa robótico.
+Isso não é simplificar por baixo. Quem avalia entende de tecnologia — mas um
+pitch que soa como manual cansa, e cada palavra técnica a mais custa segundos
+que você não tem. O vocabulário técnico está guardado para as perguntas da
+banca, na tabela ao fim de `docs/05-pitch.md`.
 
 ---
 

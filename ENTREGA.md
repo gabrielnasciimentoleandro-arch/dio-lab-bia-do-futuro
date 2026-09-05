@@ -49,7 +49,7 @@ em problema -> como funciona -> por que é inovador, com as frases-âncora
 destacadas e uma tabela de perguntas prováveis da banca.
 
 Para ensaiar, há narração sintetizada de todo o roteiro em `audio/`
-(`00-pitch-completo.mp3`, 2min56s). É material de ensaio: o pitch enviado
+(`00-pitch-completo.mp3`, 2min25s). É material de ensaio: o pitch enviado
 deve ser gravado com a sua voz.
 
 Sugestão de gravação:

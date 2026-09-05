@@ -8,7 +8,7 @@ João Silva, 32 anos, analista de sistemas, ganha R$ 5.000 por mês e **poupa 50
 
 O problema não é falta de dinheiro. É **falta de visibilidade e de um próximo passo concreto**.
 
-Os aplicativos bancários mostram extrato. Extrato é histórico — não é orientação. Ninguém diz para o João:
+O extrato responde "para onde foi o meu dinheiro". A pergunta que fica sem resposta é a seguinte — "e agora, o que eu faço com isso?". Ninguém diz para o João:
 
 > "Faltam R$ 5.000. No seu ritmo, você fecha em 2 meses. Se cortar 30% de alimentação e lazer, economiza R$ 187,77 por mês. Quer ver como?"
 
