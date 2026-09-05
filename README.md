@@ -280,6 +280,10 @@ assistente-financeiro/
 ├── .github/workflows/
 │   └── testes.yml                   # CI: suíte roda a cada push
 │
+├── audio/                           # Narração de referência do pitch
+│   ├── 00-pitch-completo.mp3        # 2min56s, roteiro inteiro
+│   └── LEIA-ME.md                   # Como usar no ensaio
+│
 ├── assets/
 │   ├── luma-avatar.png              # Identidade visual
 │   └── arquitetura.svg              # Diagrama do fluxo
@@ -328,7 +332,7 @@ Toda ferramenta devolve `_fonte` para citação e `_formatado` em padrão brasil
 | 3 | Prompts | [`docs/03-prompts.md`](docs/03-prompts.md) · [`src/prompts.py`](src/prompts.py) |
 | 4 | Aplicação funcional | [`src/app.py`](src/app.py) · [`src/cli.py`](src/cli.py) · [`examples/conversas.md`](examples/conversas.md) |
 | 5 | Avaliação e métricas | [`docs/04-metricas.md`](docs/04-metricas.md) · [`eval/`](eval) |
-| 6 | Pitch | [`docs/05-pitch.md`](docs/05-pitch.md) · [`docs/05b-roteiro-gravacao.md`](docs/05b-roteiro-gravacao.md) |
+| 6 | Pitch | [`docs/05-pitch.md`](docs/05-pitch.md) · [`docs/05b-roteiro-gravacao.md`](docs/05b-roteiro-gravacao.md) · [`audio/`](audio) |
 
 ---
 
