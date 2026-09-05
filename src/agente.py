@@ -361,10 +361,17 @@ class AgenteLuma:
             )
 
         # ------------------------------------------------------- fora de escopo
-        fora_escopo = ("tempo", "clima", "chuva", "futebol", "jogo", "receita de",
-                       "politica", "presidente", "piada")
-        if any(t in p for t in fora_escopo) and not any(
-            t in p for t in ("gast", "invest", "meta", "reserva", "saldo", "golpe")
+        # ATENCAO: "tempo" como substring capturava "em quanto TEMPO eu tenho
+        # lucro?" — uma pergunta financeira legitima. Clima exige contexto
+        # explicito; nunca a palavra solta.
+        fora_escopo_re = (
+            r"\b(previsao do tempo|tempo (hoje|amanha|agora)|clima|chuva|chove|"
+            r"temperatura|futebol|campeonato|placar|receita de|politica|"
+            r"presidente|eleicao|piada|musica|filme|namorad)\w*\b"
+        )
+        if re.search(fora_escopo_re, p) and not any(
+            t in p for t in ("gast", "invest", "meta", "reserva", "saldo", "golpe",
+                             "lucro", "render", "dinheiro")
         ):
             return Resposta(
                 texto=f"Essa eu não sei mesmo, {nome} — desculpa. Cuido só das suas "
@@ -393,6 +400,73 @@ class AgenteLuma:
                       f"Agora, se o que te preocupa é o **seu dinheiro** — uma cobrança "
                       f"que você não reconhece, uma mensagem estranha pedindo Pix ou uma "
                       f"ligação suspeita —, aí sim me conta que eu analiso com você."
+            )
+
+        # --- expectativa de lucro / enriquecer rápido
+        # Tema CENTRAL de educação financeira: nao pode cair no fallback.
+        # A Luma nao promete retorno (compliance), mas tambem nao se esquiva:
+        # devolve o horizonte real calculado com os numeros do proprio cliente.
+        # Relato de OFERTA suspeita ("me ofereceram 10% ao mes garantido") nao e
+        # duvida sobre lucro: e antifraude. Deixa passar para analisar_suspeita.
+        oferta_suspeita = (
+            re.search(r"\b(me ofereceram|me oferecer\w*|me chamaram|me convidaram|"
+                      r"apareceu uma oferta|recebi uma proposta|me mandaram)\b", p)
+            or re.search(r"\b(garantid\w+|risco zero|sem risco|lucro certo)\b", p)
+        )
+        if not oferta_suspeita and (
+                re.search(r"\b(lucr\w+|render|rende|rendimento|rentabilidade|"
+                          r"enriquecer|ficar rico|dobrar|multiplicar)\b", p)
+                or re.search(r"\bganhar (mais )?dinheiro\b", p)
+                or re.search(r"\bdinheiro (rapido|facil)\b", p)
+                or re.search(r"\b(quanto|quando|em quanto tempo)\b.*\b(vou ter|"
+                             r"consigo|posso ter|tempo)\b.*\b(lucro|retorno|"
+                             r"dinheiro)\b", p)):
+            pr = tools.recomendar_produtos()
+            res = tools.resumo_financeiro()
+            met = tools.progresso_metas()["metas"][0]
+            top = pr["produtos_compativeis"][0] if pr["produtos_compativeis"] else None
+
+            pressa = bool(re.search(r"\b(rapido|facil|urgente|ja|agora|"
+                                    r"enriquecer|ficar rico|dobrar)\b", p))
+
+            abertura = (
+                f"Vou ser honesta com você, {nome}, mesmo que não seja o que você "
+                f"quer ouvir: **não existe ganho rápido e seguro**. Toda promessa de "
+                f"lucro alto em pouco tempo ou é risco escondido, ou é golpe — dos "
+                f"nove que eu monitoro, três começam exatamente assim.\n\n"
+                if pressa else
+                f"Boa pergunta, {nome}. Não posso prometer retorno nenhum — ninguém "
+                f"pode, e quem promete está mentindo. Mas posso te mostrar o que os "
+                f"seus números dizem.\n\n"
+            )
+
+            corpo = (
+                f"O que eu **posso** afirmar, olhando a sua base:\n\n"
+                f"- Você sobra **{res['saldo_formatado']}** por mês. Esse é o seu "
+                f"motor real de crescimento — bem mais previsível que rendimento.\n"
+                f"- Faltam **{met['falta_formatado']}** para fechar sua reserva de "
+                f"emergência, e nesse ritmo isso leva cerca de "
+                f"**{met['meses_no_ritmo_atual']} mês(es)**.\n"
+            )
+            if top:
+                corpo += (f"- Compatível com seu perfil **{pr['perfil_investidor']}**: "
+                          f"**{top['nome']}**, que rende {top['rentabilidade']} "
+                          f"ao ano, com risco {top['risco']}.\n")
+            if pr["produtos_bloqueados"]:
+                corpo += (f"- Deixei **{len(pr['produtos_bloqueados'])} produto(s)** de "
+                          f"fora: rendem mais, mas você declarou não aceitar risco.\n")
+
+            fecho = ("\nA sequência que faz sentido é: primeiro a reserva de "
+                     "emergência, depois investir o excedente. Investir antes de ter "
+                     "reserva costuma terminar em resgate no pior momento.\n\n"
+                     "Quer que eu simule quanto você acelera cortando 30% de uma "
+                     "categoria?")
+
+            return Resposta(
+                texto=abertura + corpo + fecho + f"\n\n[fonte] {pr['_fonte']}",
+                ferramentas_usadas=["recomendar_produtos", "resumo_financeiro",
+                                    "progresso_metas"],
+                fontes=[pr["_fonte"], res["_fonte"]],
             )
 
         # ======================================================== ANTIFRAUDE
@@ -654,6 +728,28 @@ class AgenteLuma:
                 )
 
         # --- produtos / investimento
+        # Oferta com promessa de retorno nao e consulta de produto: e golpe.
+        # Sem este desvio, "me chamaram pra investir com retorno garantido"
+        # virava recomendacao de catalogo em vez de alerta.
+        if oferta_suspeita and re.search(r"\b(invest\w*|aplicar|retorno|lucro|"
+                                         r"rendiment\w*|oportunidade)\b", p):
+            a = tools.analisar_suspeita(pergunta)
+            sinais = "\n".join(f"[sinal] {s}" for s in a["bandeiras_vermelhas"]) or \
+                     "[sinal] Promessa de retorno garantido"
+            golpe = a["golpe_provavel"]["nome"] if a["golpe_provavel"] else \
+                    "Falso investimento"
+            return Resposta(
+                texto=f"**Risco {a['nivel_risco']}** — {a['veredito']}\n\n"
+                      f"Isso tem o padrão de **{golpe}**.\n\n{sinais}\n\n"
+                      f"Rentabilidade garantida não existe: é proibido por lei "
+                      f"prometer retorno. Quem promete está te vendendo risco "
+                      f"escondido ou aplicando um golpe.\n\n"
+                      f"Antes de qualquer coisa, confirme o CNPJ no site da CVM e "
+                      f"desconfie de pressa. Quer que eu te mostre o que **é** "
+                      f"compatível com o seu perfil?\n\n[fonte] {a['_fonte']}",
+                ferramentas_usadas=["analisar_suspeita"], fontes=[a["_fonte"]],
+            )
+
         if any(t in p for t in ("invest", "produto", "aplicar", "cdb", "tesouro",
                                 "fundo", "acao", "acoes")):
             r = tools.recomendar_produtos()

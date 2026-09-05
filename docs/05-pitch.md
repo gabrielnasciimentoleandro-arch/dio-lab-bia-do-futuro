@@ -150,7 +150,7 @@
 | 0:00–0:35 | Problema | Poupa 50% e mesmo assim não bate a meta. Falta direção, não dinheiro. |
 | 0:35–1:05 | Solução | Agente proativo que fala antes de ser perguntado |
 | 1:05–2:20 | Demo | Precisão com fonte · LLM não calcula · **antifraude** · **diário** · compliance |
-| 2:20–2:40 | Prova | 45 casos, 100%, 12 ataques bloqueados |
+| 2:20–2:40 | Prova | 48 casos, 100%, 12 ataques bloqueados |
 | 2:40–2:55 | Fecho | Arquitetura > prompt · proteger vale mais que otimizar |
 
 ---

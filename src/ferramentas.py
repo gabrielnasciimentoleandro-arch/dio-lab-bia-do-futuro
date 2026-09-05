@@ -484,6 +484,8 @@ def analisar_suspeita(relato: str) -> dict:
     DECISIVOS = [
         "conta segura", "conta espelho", "conta do banco central",
         "lucro garantido", "rendimento garantido", "risco zero",
+        "retorno garantido", "ganho garantido", "sem risco nenhum",
+        "rentabilidade garantida", "lucro certo",
         "pagar taxa", "taxa antecipada", "pagar para liberar",
         "buscar o cartao", "levar o cartao", "buscar seu cartao",
     ]

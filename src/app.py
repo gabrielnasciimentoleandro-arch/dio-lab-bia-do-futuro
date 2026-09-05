@@ -142,37 +142,50 @@ st.markdown(f"""
   [data-testid="stBottom"] > div, .stAppViewBlockContainer {{
       background: var(--bg) !important;
   }}
-  [data-testid="stHeader"] {{ background: transparent !important; }}
   html, body, [class*="css"], .stMarkdown, .stChatMessage, input, textarea, button {{
       font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
       -webkit-font-smoothing: antialiased;
   }}
-  /* Escondemos a barra de ferramentas, MAS NAO o header inteiro: o botao
-     que reabre a sidebar mora dentro do header. Ocultar o header deixava
-     o usuario sem como trazer o painel de volta depois de fecha-lo. */
-  #MainMenu, footer, [data-testid="stToolbar"], [data-testid="stDecoration"],
-  [data-testid="stStatusWidget"] {{ display:none !important; }}
+  /* A seta que reabre a sidebar (stExpandSidebarButton) vive DENTRO do
+     stToolbar, que por sua vez vive no stHeader. Esconder qualquer um dos
+     dois leva a seta junto e prende o usuario sem o painel. Entao:
+     escondemos apenas os itens do menu, e mantemos header/toolbar vivos. */
+  #MainMenu, [data-testid="stMainMenu"], footer,
+  [data-testid="stDecoration"], [data-testid="stStatusWidget"],
+  [data-testid="stToolbarActions"] {{ display:none !important; }}
+
   [data-testid="stHeader"] {{
-      background:transparent !important; height:0; visibility:visible;
+      background:transparent !important;
+      height:auto !important; min-height:0 !important;
+      visibility:visible !important; pointer-events:none;
   }}
-  /* seta de reabrir a sidebar: sempre visivel e com contraste */
-  [data-testid="stSidebarCollapsedControl"] {{
-      visibility:visible !important; opacity:1 !important;
-      top:.6rem !important; left:.6rem !important; z-index:999;
+  [data-testid="stToolbar"] {{
+      display:flex !important; visibility:visible !important;
+      opacity:1 !important; background:transparent !important;
+      right:auto !important; left:0 !important; pointer-events:auto;
   }}
-  [data-testid="stSidebarCollapsedControl"] button,
+
+  /* a seta em si: visivel, com contraste nos dois temas */
+  [data-testid="stExpandSidebarButton"] {{
+      display:inline-flex !important; visibility:visible !important;
+      opacity:1 !important; pointer-events:auto;
+  }}
+  [data-testid="stExpandSidebarButton"] button,
   [data-testid="stSidebarCollapseButton"] button {{
       background:var(--card) !important; color:var(--txt2) !important;
       border:1px solid var(--borda) !important; border-radius:9px !important;
-      box-shadow:{C['sombra']} !important;
+      box-shadow:{C['sombra']} !important; padding:.28rem !important;
   }}
-  [data-testid="stSidebarCollapsedControl"] button:hover,
+  [data-testid="stExpandSidebarButton"] button:hover,
   [data-testid="stSidebarCollapseButton"] button:hover {{
       color:var(--marca) !important; border-color:var(--marca) !important;
   }}
-  [data-testid="stSidebarCollapsedControl"] svg,
-  [data-testid="stSidebarCollapseButton"] svg {{ color:currentColor !important; }}
-  .block-container {{ padding-top: 2rem; padding-bottom: 5rem; max-width: 800px; }}
+  /* o icone e uma ligature de material icons: forcar a cor herdada */
+  [data-testid="stExpandSidebarButton"] span,
+  [data-testid="stSidebarCollapseButton"] span {{
+      color:inherit !important;
+  }}
+  .block-container {{ padding-top: 1rem; padding-bottom: 5rem; max-width: 800px; }}
 
   /* ---------- escala tipográfica (fixa, sem tamanhos avulsos) ---------- */
   /* t1 1.55rem · t2 1.0rem · corpo .945rem · aux .8rem · micro .72rem   */
