@@ -6,7 +6,8 @@
       "Banco Central — orientações sobre Pix e MED (Mecanismo Especial de Devolução)",
       "Cartilha de segurança CERT.br"
     ],
-    "aviso": "Conteúdo educacional. Em caso de golpe, procure sempre os canais oficiais do seu banco e registre boletim de ocorrência."
+    "aviso": "Conteúdo educacional. Em caso de golpe, procure sempre os canais oficiais do seu banco e registre boletim de ocorrência.",
+    "escopo": "Catalogo de golpes FINANCEIROS. A Luma orienta sobre como o dinheiro e roubado e como proteger a conta; ela nao faz diagnostico tecnico de aparelho."
   },
   "regras_de_ouro": [
     "Banco NUNCA liga pedindo senha, PIN, CVV ou código de aprovação.",
@@ -228,70 +229,5 @@
       ],
       "frase_chave": "Banner que diz que seu celular está infectado é o próprio vírus se oferecendo."
     }
-  ],
-  "higiene_digital": {
-    "descricao": "Como o malware entra no celular e como fechar as portas antes de qualquer golpe.",
-    "portas_de_entrada": [
-      {
-        "vetor": "Banner e pop-up de propaganda",
-        "exemplo": "'Seu Android está infectado! Limpe agora' em site de streaming pirata",
-        "defesa": "Nunca clique no aviso. Feche a aba inteira. Esse alerta é sempre falso."
-      },
-      {
-        "vetor": "APK fora da loja oficial",
-        "exemplo": "Link no WhatsApp com o 'app do banco atualizado' ou jogo pago de graça",
-        "defesa": "Só instale pela Play Store ou App Store. Desative 'fontes desconhecidas'."
-      },
-      {
-        "vetor": "Permissão de acessibilidade",
-        "exemplo": "App simples pedindo para 'controlar a tela' ou 'sobrepor outras janelas'",
-        "defesa": "É a permissão mais perigosa do Android. Só conceda a apps de acessibilidade reais."
-      },
-      {
-        "vetor": "Link por SMS ou WhatsApp",
-        "exemplo": "'Sua encomenda está parada, atualize os dados' com link encurtado",
-        "defesa": "Não clique. Abra o app oficial da transportadora ou do banco por conta própria."
-      },
-      {
-        "vetor": "Wi-Fi público aberto",
-        "exemplo": "Rede grátis de aeroporto ou shopping sem senha",
-        "defesa": "Não acesse banco em Wi-Fi público. Prefira os dados móveis do seu chip."
-      },
-      {
-        "vetor": "Falso suporte técnico",
-        "exemplo": "Pedido para instalar AnyDesk ou TeamViewer para 'resolver seu problema'",
-        "defesa": "Nenhum banco pede instalação de programa de acesso remoto. Nenhum."
-      },
-      {
-        "vetor": "Carregador e cabo USB público",
-        "exemplo": "Totem de carregamento em aeroporto e rodoviária",
-        "defesa": "Use tomada com seu próprio carregador, ou uma bateria portátil."
-      }
-    ],
-    "checklist_mensal": [
-      "Atualizar o sistema e os aplicativos do celular",
-      "Revisar a lista de apps instalados e remover o que não reconhece",
-      "Conferir em Configurações quais apps têm permissão de acessibilidade",
-      "Ativar a verificação em duas etapas no banco e no WhatsApp",
-      "Conferir os limites de Pix e reduzir o valor noturno",
-      "Manter o bloqueio de tela com biometria ativado",
-      "Cadastrar uma chave Pix apenas, e não todas"
-    ],
-    "sinais_de_infeccao": [
-      "Celular lento, travando ou esquentando sem uso pesado",
-      "Bateria durando muito menos do que o normal",
-      "Anúncios aparecendo fora do navegador",
-      "Aplicativos desconhecidos instalados",
-      "Consumo de dados móveis muito acima do habitual",
-      "Tela acendendo ou se movendo sozinha",
-      "App do banco com visual diferente do de costume"
-    ],
-    "acao_imediata_se_infectado": [
-      "Ative o modo avião para cortar o acesso remoto",
-      "Ligue para o banco de outro aparelho e bloqueie a conta",
-      "Desinstale apps desconhecidos e revogue acessibilidade",
-      "Faça backup e restaure o aparelho de fábrica se persistir",
-      "Troque as senhas apenas depois de limpar o aparelho"
-    ]
-  }
+  ]
 }

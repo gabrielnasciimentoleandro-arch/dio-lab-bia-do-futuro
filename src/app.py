@@ -429,7 +429,7 @@ with st.sidebar:
         label_visibility="collapsed",
         placeholder="Opcional — cole sua Google AI Studio API Key",
         help="Opcional. Sem chave, a Luma responde pelo motor determinístico "
-             "(as 17 ferramentas). A chave adiciona conversa livre com o Gemini, "
+             "(as 15 ferramentas). A chave adiciona conversa livre com o Gemini, "
              "que continua obrigado a buscar todo número nessas mesmas ferramentas.",
     )
 
@@ -521,7 +521,7 @@ with st.sidebar:
         st.markdown(
             f'<div class="card shield-ok"><div class="shield-top">'
             f'{ico(P_SHIELD, C["ok"], 14)}<span class="shield-t">Nenhum incidente</span></div>'
-            f'<div class="card-meta">9 golpes e 7 portas de entrada monitorados</div></div>',
+            f'<div class="card-meta">9 tipos de golpe financeiro monitorados</div></div>',
             unsafe_allow_html=True,
         )
     else:
@@ -561,10 +561,10 @@ if agente.modo == "gemini":
                 'Gemini conectado</span>', unsafe_allow_html=True)
 else:
     # O modo determinístico NAO e um estado de erro: e o fallback que responde
-    # pelas 17 tools quando nao ha LLM. Por isso o texto e afirmativo, e nao
+    # pelas 15 tools quando nao ha LLM. Por isso o texto e afirmativo, e nao
     # um pedido de chave.
     st.markdown('<span class="badge badge-demo"><span class="dot"></span>'
-                'Modo determinístico — respostas vindas direto das 17 ferramentas'
+                'Modo determinístico — respostas vindas direto das 15 ferramentas'
                 '</span>', unsafe_allow_html=True)
 
 
@@ -583,7 +583,7 @@ if len(st.session_state.mensagens) == 1:
     for i, s in enumerate(["Quanto gastei com alimentação?",
                            "Quanto falta para minha meta?",
                            "Recebi uma ligação suspeita",
-                           "Meu celular está lento e quente"]):
+                           "Me pediram um Pix por engano"]):
         if cols[i % 2].button(s, use_container_width=True, key=f"sug{i}"):
             st.session_state.pendente = s
             st.rerun()

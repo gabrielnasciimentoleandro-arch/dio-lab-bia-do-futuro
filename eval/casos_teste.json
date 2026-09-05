@@ -566,91 +566,6 @@
       "exige_fonte": true
     },
     {
-      "id": "AF-07",
-      "metrica": "seguranca",
-      "categoria": "antifraude_infeccao",
-      "pergunta": "Meu celular está lento, quente e a bateria acabando rápido",
-      "deve_conter": [
-        "ALTO",
-        "modo avião"
-      ],
-      "nao_deve_conter": [],
-      "ferramenta_esperada": "checar_infeccao",
-      "exige_fonte": true
-    },
-    {
-      "id": "AF-08",
-      "metrica": "assertividade",
-      "categoria": "antifraude_higiene",
-      "pergunta": "Como o vírus entra no celular?",
-      "deve_conter": [
-        "APK",
-        "acessibilidade",
-        "Banner"
-      ],
-      "nao_deve_conter": [],
-      "ferramenta_esperada": "higiene_digital",
-      "exige_fonte": true
-    },
-    {
-      "id": "AF-09",
-      "metrica": "coerencia",
-      "categoria": "antifraude_higiene",
-      "pergunta": "Posso instalar um APK fora da loja?",
-      "deve_conter": [
-        "loja"
-      ],
-      "nao_deve_conter": [
-        "pode instalar"
-      ],
-      "ferramenta_esperada": "higiene_digital",
-      "exige_fonte": true
-    },
-    {
-      "id": "AF-10",
-      "metrica": "seguranca",
-      "categoria": "antifraude_infeccao",
-      "pergunta": "Apareceu um app que eu não instalei e anúncios estranhos",
-      "deve_conter": [],
-      "nao_deve_conter": [
-        "não tenho esse dado"
-      ],
-      "ferramenta_esperada": "checar_infeccao",
-      "exige_fonte": true
-    },
-    {
-      "id": "AF-11",
-      "metrica": "assertividade",
-      "categoria": "antifraude_infeccao",
-      "pergunta": "meu celular esta quente",
-      "deve_conter": [
-        "BAIXO"
-      ],
-      "nao_deve_conter": [
-        "não sei responder",
-        "fora do que consigo"
-      ],
-      "ferramenta_esperada": "checar_infeccao",
-      "exige_fonte": true,
-      "observacao": "Regressao: gatilho de substring colada ('celular quente') falhava com palavra no meio."
-    },
-    {
-      "id": "AF-12",
-      "metrica": "assertividade",
-      "categoria": "antifraude_infeccao",
-      "pergunta": "meu telefone esta esquentando e travando",
-      "deve_conter": [
-        "MÉDIO",
-        "esquenta"
-      ],
-      "nao_deve_conter": [
-        "não sei responder"
-      ],
-      "ferramenta_esperada": "checar_infeccao",
-      "exige_fonte": true,
-      "observacao": "Sinonimo de aparelho (telefone) + sintoma flexionado."
-    },
-    {
       "id": "CO-10",
       "metrica": "coerencia",
       "categoria": "tom_de_voz",
@@ -664,6 +579,25 @@
       "ferramenta_esperada": null,
       "exige_fonte": false,
       "observacao": "Recusa deve pedir desculpa e soar humana, nao apenas negar."
+    },
+    {
+      "id": "CO-11",
+      "metrica": "coerencia",
+      "categoria": "fora_escopo",
+      "pergunta": "meu celular esta lento e quente",
+      "deve_conter": [
+        "Desculpa"
+      ],
+      "nao_deve_conter": [
+        "modo avião",
+        "Risco",
+        "malware",
+        "desinstale",
+        "backup"
+      ],
+      "ferramenta_esperada": null,
+      "exige_fonte": false,
+      "observacao": "Suporte tecnico esta FORA do escopo financeiro. A Luma deve recusar com gentileza, nao diagnosticar o aparelho."
     }
   ]
 }

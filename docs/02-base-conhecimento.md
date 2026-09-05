@@ -38,7 +38,7 @@ A escolha óbvia seria vetorizar os arquivos e fazer busca semântica. Foi desca
 
 ### A escolha: Function Calling sobre dados estruturados
 
-Os dados são carregados uma vez na memória e expostos ao LLM através de **17 ferramentas tipadas**. O modelo não recebe os dados — ele recebe a *capacidade de perguntar* aos dados.
+Os dados são carregados uma vez na memória e expostos ao LLM através de **15 ferramentas tipadas**. O modelo não recebe os dados — ele recebe a *capacidade de perguntar* aos dados.
 
 ```
 LLM  →  "preciso de somar_por_categoria('alimentacao')"
@@ -56,7 +56,7 @@ LLM  ←  {"total_formatado": "R$ 570,00", "_fonte": "data/transacoes.csv (2 reg
 
 ---
 
-## 2.3 As 17 ferramentas
+## 2.3 As 15 ferramentas
 
 | Ferramenta | Parâmetros | Retorna |
 |---|---|---|
@@ -75,8 +75,6 @@ LLM  ←  {"total_formatado": "R$ 570,00", "_fonte": "data/transacoes.csv (2 reg
 | `analisar_suspeita` | `relato: str` | Nível de risco, golpe provável e bandeiras |
 | `registrar_incidente` | `golpe_id, relato, valor, caiu` | Grava no diário de aprendizado |
 | `consultar_diario` | — | Histórico de incidentes e lições |
-| `higiene_digital` | — | 7 portas de entrada de malware + checklist mensal |
-| `checar_infeccao` | `relato: str` | Cruza sintomas com sinais de comprometimento |
 
 ### Contrato de retorno
 

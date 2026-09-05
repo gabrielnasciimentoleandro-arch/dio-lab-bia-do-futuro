@@ -37,24 +37,20 @@ Por isso a Luma ganhou um segundo pilar, o **Escudo Antifraude**, com três fun�
 
 | Função | O que faz |
 |---|---|
-| **Prevenir** | Catálogo de 9 golpes + as 7 portas de entrada de malware no celular |
+| **Prevenir** | Catálogo de 9 tipos de golpe financeiro, com gatilhos e conduta |
 | **Detectar** | Classifica o risco de uma abordagem suspeita descrita pelo usuário |
 | **Aprender** | Registra golpes sofridos num diário que vira defesa futura |
 
 Isso é coerente com a persona: a Luma já recusava produto incompatível para proteger o cliente. Proteger contra fraude é a mesma postura, aplicada a um risco mais imediato.
 
-#### Dois vetores distintos
+#### O que fica de fora, e por quê
 
-Um erro comum é tratar "golpe" como categoria única. São dois caminhos diferentes, que exigem respostas diferentes:
+Uma versão anterior deste agente também diagnosticava celular infectado: cruzava sintomas (lento, quente, bateria caindo) com sinais de malware e dava um protocolo de contenção. Funcionava, e estava testado.
 
-| Vetor | Como age | Resposta da Luma |
-|---|---|---|
-| **Engenharia social** | Convence a vítima a agir: ligação, mensagem, pressão emocional | Identifica o padrão, lista os sinais, orienta a conduta |
-| **Infecção técnica** | Compromete o aparelho: banner, APK, permissão de acessibilidade. **Não há conversa** — o dinheiro sai enquanto a pessoa dorme | Cruza sintomas do celular com sinais de malware e dá o protocolo de contenção |
+Foi removido. O motivo é o próprio princípio anti-alucinação: a base da Luma são transações, perfil, metas, produtos e golpes financeiros. Nada ali sustenta uma afirmação sobre o hardware do cliente. Um agente que opina fora da sua base é exatamente o que os guardrails deveriam impedir — e a coerência de escopo vale mais do que a soma de funcionalidades.
 
-O segundo é mais perigoso justamente porque não dá à vítima a chance de desconfiar. Por isso a Luma trabalha o **antes**: as 7 portas de entrada e um checklist mensal.
+O que permaneceu foi o golpe **malware bancário** no catálogo, tratado pelo ângulo que é competência dela: como o dinheiro é roubado e como proteger a conta. O diagnóstico do aparelho é da assistência técnica.
 
-Detalhe de conduta que a maioria dos materiais erra: quase todos mandam "troque suas senhas" como primeiro passo. Num aparelho infectado, isso **entrega a senha nova** ao golpista. A ordem correta — e a que a Luma dá — é: modo avião, avisar o banco de outro aparelho, limpar o aparelho, **e só então** trocar senhas.
 
 ### Fora de escopo (o que a Luma NÃO faz)
 

@@ -603,81 +603,6 @@ def consultar_diario() -> dict:
     }
 
 
-def higiene_digital() -> dict:
-    """Como o malware entra no celular: vetores de infecção e defesas."""
-    h = GOLPES["higiene_digital"]
-    return {
-        "portas_de_entrada": h["portas_de_entrada"],
-        "total_vetores": len(h["portas_de_entrada"]),
-        "checklist_mensal": h["checklist_mensal"],
-        "_fonte": "data/golpes.json",
-    }
-
-
-def checar_infeccao(relato: str = "") -> dict:
-    """
-    Cruza o relato do usuário com os sinais conhecidos de celular comprometido.
-    Quanto mais sinais, maior a chance de malware — contagem determinística.
-    """
-    h = GOLPES["higiene_digital"]
-    txt = _slug(relato)
-
-    SINAIS = {
-        "lentidao": ["lento", "travando", "travou", "devagar", "engasgando"],
-        "temperatura": ["quente", "esquentando", "aquecendo", "fervendo"],
-        "bateria": ["bateria", "descarregando", "acabando rapido", "nao dura"],
-        "anuncios": ["anuncio", "propaganda", "pop up", "popup", "banner"],
-        "app_desconhecido": ["app que nao instalei", "aplicativo estranho",
-                             "nao lembro de instalar", "apareceu sozinho",
-                             "app desconhecido", "instalei um apk", "fora da loja"],
-        "dados": ["consumo de dados", "internet acabando", "gastando dados"],
-        "tela": ["tela acende sozinha", "mexendo sozinho", "sozinho",
-                 "acesso remoto", "anydesk", "teamviewer"],
-        "banco_diferente": ["app do banco diferente", "tela diferente",
-                            "pedindo senha de novo", "layout mudou"],
-    }
-
-    LABEL = {
-        "lentidao": "celular lento ou travando",
-        "temperatura": "aparelho esquentando",
-        "bateria": "bateria acabando rápido",
-        "anuncios": "anúncios fora do navegador",
-        "app_desconhecido": "aplicativo desconhecido instalado",
-        "dados": "consumo de dados acima do normal",
-        "tela": "tela se movendo sozinha ou acesso remoto",
-        "banco_diferente": "app do banco com visual diferente",
-    }
-
-    achados = [LABEL[k] for k, termos in SINAIS.items() if any(t in txt for t in termos)]
-    n = len(achados)
-
-    if n >= 3:
-        nivel = "ALTO"
-        veredito = ("Vários sinais de comprometimento ao mesmo tempo. "
-                    "Trate como celular infectado até provar o contrário.")
-    elif n == 2:
-        nivel = "MÉDIO"
-        veredito = "Dois sinais juntos merecem verificação hoje mesmo."
-    elif n == 1:
-        nivel = "BAIXO"
-        veredito = ("Um sinal isolado pode ter outra causa, mas vale conferir "
-                    "os aplicativos instalados.")
-    else:
-        nivel = "SEM SINAL"
-        veredito = "Não identifiquei sinais de infecção no que você descreveu."
-
-    return {
-        "nivel_risco": nivel,
-        "veredito": veredito,
-        "sinais_encontrados": achados,
-        "qtd_sinais": n,
-        "todos_os_sinais": h["sinais_de_infeccao"],
-        "acao_imediata": h["acao_imediata_se_infectado"],
-        "_fonte": "data/golpes.json",
-    }
-
-
-# ------------------------------------------------------------------- registry
 FERRAMENTAS = {
     "somar_por_categoria": somar_por_categoria,
     "resumo_financeiro": resumo_financeiro,
@@ -694,8 +619,6 @@ FERRAMENTAS = {
     "analisar_suspeita": analisar_suspeita,
     "registrar_incidente": registrar_incidente,
     "consultar_diario": consultar_diario,
-    "higiene_digital": higiene_digital,
-    "checar_infeccao": checar_infeccao,
 }
 
 

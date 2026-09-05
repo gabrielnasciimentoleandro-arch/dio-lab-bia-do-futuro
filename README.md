@@ -75,7 +75,7 @@ Pergunta: "quanto gastei com alimentação?"
 | 1 | **Cálculo determinístico** | 7 ferramentas Python. O modelo nunca soma. |
 | 2 | **Citação obrigatória de fonte** | Toda resposta com dado termina em `📎 Fonte:` — auditável |
 | 3 | **Guardrails em código** | Prompt injection e dado sensível bloqueados **antes** do LLM |
-| 4 | **Suíte automatizada + red team** | 47 casos, 12 deles ataques deliberados. Um comando. |
+| 4 | **Suíte automatizada + red team** | 45 casos, 12 deles ataques deliberados. Um comando. |
 | 5 | **Escudo antifraude** | Detecta padrões de golpe e transforma o erro em aprendizado |
 | 6 | **Roda sem API key** | Modo demo com as mesmas ferramentas e guardrails |
 
@@ -165,43 +165,12 @@ O Brasil vive uma epidemia de golpes financeiros desde a popularização do Pix.
 
 A Luma faz três coisas que nenhum extrato faz.
 
-### 1. Prevenir — dois níveis
+### 1. Prevenir — catálogo de golpes financeiros
 
-**Nível A — engenharia social (alguém te convence).** Nove golpes mapeados em `data/golpes.json`: falso funcionário, Pix errado, falso investimento, phishing, WhatsApp clonado, empréstimo com taxa antecipada, troca de cartão, malware bancário e aplicativo falso.
+Nove golpes mapeados em `data/golpes.json`, cada um com gatilhos, sinais e conduta: falso funcionário do banco, Pix errado, falso investimento, phishing, WhatsApp clonado, empréstimo com taxa antecipada, troca de cartão na maquininha, malware bancário e aplicativo falso.
 
-**Nível B — infecção técnica (o aparelho é comprometido).** Aqui não há ligação nenhuma: o vírus entra, e o dinheiro sai enquanto a pessoa dorme. A Luma mapeia as **7 portas de entrada**:
+O foco é sempre **o dinheiro**: como o golpista chega até ele e como barrar a transação. A Luma não faz suporte técnico de aparelho — quando o assunto é celular lento ou vírus, ela diz que não é a área dela e reconduz.
 
-| Porta de entrada | Defesa |
-|---|---|
-| Banner *"seu celular está infectado"* | O aviso **é** o vírus. Feche a aba, nunca clique |
-| APK fora da loja oficial | Só Play Store / App Store. Desative "fontes desconhecidas" |
-| Permissão de acessibilidade | A mais perigosa do Android — só para apps de acessibilidade reais |
-| Link por SMS/WhatsApp | Abra o app oficial você mesmo |
-| Wi-Fi público aberto | Não acesse banco. Use os dados do seu chip |
-| Falso suporte (AnyDesk/TeamViewer) | Nenhum banco pede acesso remoto. Nenhum |
-| Carregador USB público | Use tomada com carregador próprio |
-
-Mais um **checklist mensal** de 7 itens (atualizar sistema, revisar permissões, 2FA, limites de Pix noturno).
-
-```
-👤 Meu celular está lento, quente e a bateria acabando rápido
-
-🤖 🚨 Risco ALTO — Vários sinais de comprometimento ao mesmo tempo.
-
-   Isso importa para o seu dinheiro: um celular comprometido permite que o
-   golpista veja sua senha ou movimente a conta sem nenhuma ligação — o
-   dinheiro some enquanto você dorme.
-
-   Faça agora, nesta ordem:
-   1. Ative o modo avião para cortar o acesso remoto
-   2. Ligue para o banco de outro aparelho e bloqueie a conta
-   3. Desinstale apps desconhecidos e revogue acessibilidade
-
-   ⚠️ Importante: não troque a senha antes de limpar o aparelho.
-      Se ele estiver infectado, a senha nova é capturada na hora.
-```
-
-> **O detalhe da ordem das ações:** quase todo material de segurança manda "troque suas senhas" primeiro. Num aparelho infectado, isso **entrega a senha nova** ao golpista. A Luma inverte: limpe o aparelho, depois troque.
 
 ### 2. Detectar — análise de risco em tempo real
 
@@ -283,7 +252,7 @@ assistente-financeiro/
 │
 ├── data/                            # Base de conhecimento
 │   ├── transacoes.csv               # 10 lançamentos do mês
-│   ├── golpes.json                  # Base antifraude: 9 golpes + higiene digital
+│   ├── golpes.json                  # Base antifraude: 9 golpes financeiros
 │   ├── perfil_investidor.json       # Perfil e metas do cliente
 │   ├── produtos_financeiros.json    # Catálogo com nível de risco
 │   └── historico_atendimento.csv    # Memória de atendimentos
@@ -317,7 +286,7 @@ assistente-financeiro/
 
 ---
 
-## 🔧 As 17 ferramentas
+## As 15 ferramentas
 
 | Ferramenta | Retorna |
 |---|---|
@@ -336,8 +305,6 @@ assistente-financeiro/
 | `analisar_suspeita(relato)` | **Classifica risco** de uma abordagem suspeita |
 | `registrar_incidente(...)` | Grava o golpe sofrido no diário de aprendizado |
 | `consultar_diario()` | Histórico de incidentes e lições acumuladas |
-| `higiene_digital()` | **7 portas de entrada** de malware + checklist mensal |
-| `checar_infeccao(relato)` | Cruza sintomas do celular com sinais de comprometimento |
 
 Toda ferramenta devolve `_fonte` para citação e `_formatado` em padrão brasileiro — o modelo nunca precisa formatar moeda.
 
@@ -367,8 +334,8 @@ Confiar que o modelo recusaria prompt injection funcionava ~80% das vezes. Movid
 **Avaliação automatizada encontra bugs que a leitura não encontra.**
 O caso AS-09 falhou porque o agente ignorava a coluna `tema` do CSV. Eu tinha lido aquela resposta várias vezes sem notar. A suíte notou na primeira execução.
 
-**Segurança tem dois vetores, e a ordem das ações importa.**
-Cobrir só engenharia social deixava metade do risco de fora — o malware não dá à vítima a chance de desconfiar. E ao escrever o protocolo de contenção percebi que a recomendação usual ("troque suas senhas imediatamente") é a pior primeira ação num aparelho infectado: a senha nova é capturada na digitação. A ordem correta virou caso de teste.
+**Escopo é uma decisão de produto, e ampliá-lo tem custo.**
+Cheguei a implementar diagnóstico de celular infectado — parecia proteger mais o cliente. Ao revisar, vi o erro: um agente financeiro opinando sobre hardware está falando fora da sua base, que é exatamente o que os guardrails existem para impedir. Removi duas ferramentas e 74 linhas já prontas e testadas. Saber dizer "não é a minha área" vale mais do que parecer completo.
 
 **O nome faz parte do produto.**
 O agente se chamava "FIN" — sigla de *finance*, técnica e sem alma. Virou **Luma**. Falar de dinheiro envolve vergonha; um nome com calor humano reduz essa barreira. O nome remete a luz, que é a proposta: clareza sobre as próprias finanças.

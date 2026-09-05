@@ -150,7 +150,7 @@
 | 0:00–0:35 | Problema | Poupa 50% e mesmo assim não bate a meta. Falta direção, não dinheiro. |
 | 0:35–1:05 | Solução | Agente proativo que fala antes de ser perguntado |
 | 1:05–2:20 | Demo | Precisão com fonte · LLM não calcula · **antifraude** · **diário** · compliance |
-| 2:20–2:40 | Prova | 47 casos, 100%, 12 ataques bloqueados |
+| 2:20–2:40 | Prova | 45 casos, 100%, 12 ataques bloqueados |
 | 2:40–2:55 | Fecho | Arquitetura > prompt · proteger vale mais que otimizar |
 
 ---
@@ -164,7 +164,7 @@ Se esquecer o roteiro, essas três sustentam o pitch:
 3. **"Num banco, saber dizer 'não sei' vale mais do que parecer inteligente."**
 4. **"De que adianta economizar R$ 187 por mês se um golpe de Pix leva R$ 800 numa tarde?"**
 5. **"Cair em golpe não é burrice — e isso está no meu caso de teste."**
-6. **"No golpe por telefone você pode desconfiar. No malware, não tem conversa: o dinheiro sai enquanto você dorme."**
+6. **"Cortei uma funcionalidade que já estava pronta e testada, porque ela falava fora da base. Escopo também é segurança."**
 
 ---
 
@@ -188,4 +188,4 @@ Se esquecer o roteiro, essas três sustentam o pitch:
 | "A detecção de golpe usa IA?" | Não. É contagem determinística de marcadores objetivos no relato. O LLM redige, mas não decide o nível de risco. |
 | "E se der falso positivo?" | Testei frases inofensivas com vocabulário próximo: retorna INDETERMINADO. Um detector que grita sempre é ignorado quando importa. |
 | "Quem alimenta a base de golpes?" | Hoje é curada, com referência em Febraban, Banco Central e CERT.br. Em produção, entraria um feed oficial. |
-| "Por que cobrir malware num agente financeiro?" | Porque é o vetor que não dá à vítima a chance de desconfiar. Cobrir só engenharia social deixa metade do risco de fora. |
+| "Por que a Luma não ajuda com celular infectado?" | Porque a base dela não tem nada sobre hardware. Um agente financeiro opinando sobre aparelho está alucinando com boa intenção. Ela recusa e reconduz — e isso é um caso de teste. |

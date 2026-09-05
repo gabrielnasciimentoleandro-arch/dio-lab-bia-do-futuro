@@ -239,20 +239,6 @@ SCHEMAS = [
         "description": "Histórico de incidentes de golpe e lições aprendidas.",
         "parameters": {"type": "object", "properties": {}},
     },
-    {
-        "name": "higiene_digital",
-        "description": "Portas de entrada de malware no celular e checklist mensal de segurança.",
-        "parameters": {"type": "object", "properties": {}},
-    },
-    {
-        "name": "checar_infeccao",
-        "description": "Cruza sintomas do celular com sinais de comprometimento por malware.",
-        "parameters": {
-            "type": "object",
-            "properties": {"relato": {"type": "string"}},
-            "required": ["relato"],
-        },
-    },
 ]
 
 
@@ -387,81 +373,29 @@ class AgenteLuma:
                       f"emergência. Topa?"
             )
 
-        # ======================================================== ANTIFRAUDE
-        # --- suspeita de celular infectado (vetor técnico)
-        # Usamos proximidade, e nao substring colada: "celular esta quente" e
-        # "celular ta muito lento" tem palavras no meio e falhavam com
-        # gatilhos do tipo "celular quente".
-        aparelho = r"(celular|telefone|aparelho|smartphone|cel)"
+        # --- suporte técnico: FORA DO ESCOPO
+        # A Luma cuida do dinheiro, não do aparelho. Um agente financeiro que
+        # opina sobre celular infectado está inventando fora da sua base — o
+        # oposto do princípio anti-alucinação. Recusa explícita e reconduz.
+        aparelho = r"(celular|telefone|aparelho|smartphone|notebook|computador|pc)"
         sintoma = (r"(lent[oa]|quente|esquenta\w*|trava\w*|devagar|estranh[oa]|"
-                   r"infectad[oa]|virus|lerd[oa]|pesad[oa]|reinicia\w*|desliga\w* sozinho)")
-        infeccao_regex = (
-            rf"\b{aparelho}\b(?:\W+\w+){{0,4}}?\W+\b{sintoma}\b"
-            rf"|\b{sintoma}\b(?:\W+\w+){{0,4}}?\W+\b{aparelho}\b"
-        )
-        # Pergunta educativa ("como o virus entra?", "posso instalar apk?") NAO e
-        # relato de sintoma: deve cair na higiene digital, logo abaixo.
-        educativo = re.search(
-            r"^\s*(como|posso|devo|vale a pena|e seguro|é seguro|o que (e|é)|qual|"
-            r"quais|por que|porque|existe)\b", p
-        ) or any(t in p for t in ("como evitar", "como prevenir", "como proteger",
-                                  "fora da loja", "higiene digital"))
-
-        if not educativo and (re.search(infeccao_regex, p) or any(t in p for t in (
-                "bateria acabando", "bateria durando", "bateria descarregando",
-                "aparecendo anuncio", "anuncios estranhos", "pop up", "popup",
-                "app que nao instalei", "aplicativo estranho", "consumo de dados",
-                "app desconhecido", "virus no celular", "malware", "spyware",
-                "acesso remoto", "anydesk", "teamviewer",
-                "instalei um apk", "baixei um apk"))):
-            r = tools.checar_infeccao(pergunta)
-
-            if r["qtd_sinais"]:
-                sinais = "\n".join(f"- {s}" for s in r["sinais_encontrados"])
-                acoes = "\n".join(f"{i}. {a}" for i, a in enumerate(r["acao_imediata"], 1))
-                corpo = (f"**Risco {r['nivel_risco']}** — {r['veredito']}\n\n"
-                         f"**O que você descreveu bate com:**\n{sinais}\n\n"
-                         f"Isso importa para o seu dinheiro: um celular comprometido permite "
-                         f"que o golpista veja sua senha ou movimente a conta **sem nenhuma "
-                         f"ligação** — o dinheiro some enquanto você dorme.\n\n"
-                         f"**Faça agora, nesta ordem:**\n{acoes}\n\n"
-                         f"**Importante:** não troque a senha antes de limpar o aparelho. "
-                         f"Se ele estiver infectado, a senha nova é capturada na hora.")
-            else:
-                lista = "\n".join(f"- {s}" for s in r["todos_os_sinais"])
-                corpo = (f"**Risco {r['nivel_risco']}** — {r['veredito']}\n\n"
-                         f"Os sinais clássicos de celular comprometido são:\n{lista}\n\n"
-                         f"Se algum desses aparecer, me avise.")
-
+                   r"infectad[oa]|virus|v[ií]rus|malware|lerd[oa]|bateria|"
+                   r"reinicia\w*|desliga\w*|formatar|atualiza\w*)")
+        if (re.search(rf"\b{aparelho}\b(?:\W+\w+){{0,4}}?\W+\b{sintoma}\b", p)
+                or re.search(rf"\b{sintoma}\b(?:\W+\w+){{0,4}}?\W+\b{aparelho}\b", p)):
             return Resposta(
-                texto=f"{corpo}\n\nQuer ver as portas de entrada mais comuns de vírus "
-                      f"no celular?\n\n[fonte] {r['_fonte']}",
-                ferramentas_usadas=["checar_infeccao"], fontes=[r["_fonte"]],
+                texto=f"Desculpa, {nome} — isso eu não sei avaliar. Cuido das suas "
+                      f"finanças, não da parte técnica do aparelho. Se eu palpitasse "
+                      f"sobre o seu celular estaria inventando, e prefiro te dizer a "
+                      f"verdade: não é a minha área.\n\n"
+                      f"Para isso, vale procurar a assistência técnica ou o suporte do "
+                      f"fabricante.\n\n"
+                      f"Agora, se o que te preocupa é o **seu dinheiro** — uma cobrança "
+                      f"que você não reconhece, uma mensagem estranha pedindo Pix ou uma "
+                      f"ligação suspeita —, aí sim me conta que eu analiso com você."
             )
 
-        # --- higiene digital: como o malware entra
-        if any(t in p for t in ("como o virus entra", "como pega virus", "como me infecto",
-                                "higiene digital", "proteger meu celular",
-                                "seguranca do celular", "porta de entrada", "banner",
-                                "apk", "fora da loja", "wifi publico", "wi-fi publico",
-                                "permissao de acessibilidade", "checklist",
-                                "como evitar virus", "instalar app")):
-            r = tools.higiene_digital()
-            vetores = "\n\n".join(
-                f"**{i}. {v['vetor']}**\n*Exemplo:* {v['exemplo']}\n{v['defesa']}"
-                for i, v in enumerate(r["portas_de_entrada"], 1)
-            )
-            check = "\n".join(f"- [ ] {c}" for c in r["checklist_mensal"])
-            return Resposta(
-                texto=f"Boa — prevenir a infecção é mais eficaz do que remediar o roubo.\n\n"
-                      f"Antes do golpe existir, o vírus precisa entrar. Estas são as "
-                      f"**{r['total_vetores']} portas de entrada** mais usadas:\n\n{vetores}\n\n"
-                      f"---\n\n**Checklist mensal de segurança:**\n{check}\n\n"
-                      f"Se o seu celular já anda estranho, me descreva o que está "
-                      f"acontecendo que eu analiso.\n\n[fonte] {r['_fonte']}",
-                ferramentas_usadas=["higiene_digital"], fontes=[r["_fonte"]],
-            )
-
+        # ======================================================== ANTIFRAUDE
         # --- relato de golpe já sofrido
         if any(t in p for t in ("cai no golpe", "cai num golpe", "fui golpead",
                                 "me golpearam", "fui enganad", "perdi dinheiro",
