@@ -22,6 +22,11 @@ caso falhar, então a CI reprova sozinha se algo quebrar.
 
 ## 2. Publicar no GitHub
 
+> **Já fez o fork?** Então o que falta é trazer o projeto para a sua máquina e
+> enviar. O passo a passo completo, com solução dos erros mais comuns, está em
+> [`COMO-SUBIR.md`](COMO-SUBIR.md).
+
+
 ### Fork ou repositório novo?
 
 **Faça o fork.** É o caminho recomendado, por três motivos:

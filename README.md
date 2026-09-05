@@ -255,6 +255,7 @@ assistente-financeiro/
 ├── requirements.txt
 ├── .env.example                     # Modelo de configuração (chave opcional)
 ├── publicar.sh                      # Prepara o repo para publicação
+├── COMO-SUBIR.md                    # Passo a passo para enviar ao seu fork
 │
 ├── data/                            # Base de conhecimento
 │   ├── transacoes.csv               # 10 lançamentos do mês
