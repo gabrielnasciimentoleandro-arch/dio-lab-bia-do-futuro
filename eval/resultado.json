@@ -14,7 +14,7 @@
         "somar_por_categoria"
       ],
       "guardrails": [],
-      "latencia_ms": 2
+      "latencia_ms": 3
     },
     {
       "id": "AS-02",
@@ -823,6 +823,62 @@
       "falhas": [],
       "ferramentas": [
         "montar_plano"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-19",
+      "metrica": "coerencia",
+      "categoria": "refinamento",
+      "pergunta": "pode simplificar pra mim esta muito longo",
+      "resposta": "Claro. Se for para fazer só 2 coisas, João, são estas:\n\n**1.** Automatizar o que já sobra — Você já fecha o mês com R$ 2.511,10 — 50.2% da renda.\n**2.** Colocar a reserva para render — Reserva de emergência precisa de liquidez diária, não de rentabilidade alta.\n\nO resto é consequência dessas.\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json + data/produtos_financeiros.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "montar_plano"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-20",
+      "metrica": "coerencia",
+      "categoria": "refinamento",
+      "pergunta": "so me de duas opcoes dessas ai de cima que ja esta bom",
+      "resposta": "Claro. Se for para fazer só 2 coisas, João, são estas:\n\n**1.** Automatizar o que já sobra — Você já fecha o mês com R$ 2.511,10 — 50.2% da renda.\n**2.** Colocar a reserva para render — Reserva de emergência precisa de liquidez diária, não de rentabilidade alta.\n\nO resto é consequência dessas.\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json + data/produtos_financeiros.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "montar_plano"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-21",
+      "metrica": "coerencia",
+      "categoria": "refinamento",
+      "pergunta": "qual o mais importante",
+      "resposta": "Resumindo, João — seu maior gasto:\n\n**1.** moradia — R$ 1.380,00\n\nSaldo do mês: **R$ 2.511,10**.\n\n[fonte] data/transacoes.csv (10 registros)",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "resumo_financeiro"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "AS-27",
+      "metrica": "assertividade",
+      "categoria": "refinamento",
+      "pergunta": "Me mostra um resumo dos meus gastos",
+      "resposta": "Seu mês em números:\n\n- Entradas: **R$ 5.000,00**\n- Saídas: **R$ 2.488,90**\n- Saldo: **R$ 2.511,10** (taxa de poupança de 50.2%)\n\nGastos por categoria:\n- moradia: R$ 1.380,00 (27.6% da renda)\n- alimentação: R$ 570,00 (11.4% da renda)\n- transporte: R$ 295,00 (5.9% da renda)\n- saúde: R$ 188,00 (3.8% da renda)\n- lazer: R$ 55,90 (1.1% da renda)\n\nQuer ver o impacto disso nas suas metas?\n\n[fonte] data/transacoes.csv (10 registros)",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "resumo_financeiro"
       ],
       "guardrails": [],
       "latencia_ms": 0

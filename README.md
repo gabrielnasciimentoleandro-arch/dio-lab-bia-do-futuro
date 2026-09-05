@@ -75,7 +75,7 @@ Pergunta: "quanto gastei com alimentação?"
 | 1 | **Cálculo determinístico** | 7 ferramentas Python. O modelo nunca soma. |
 | 2 | **Citação obrigatória de fonte** | Toda resposta com dado termina em `📎 Fonte:` — auditável |
 | 3 | **Guardrails em código** | Prompt injection e dado sensível bloqueados **antes** do LLM |
-| 4 | **Suíte automatizada + red team** | 58 casos, 12 deles ataques deliberados. Um comando. |
+| 4 | **Suíte automatizada + red team** | 62 casos, 12 deles ataques deliberados. Um comando. |
 | 5 | **Escudo antifraude** | Detecta padrões de golpe e transforma o erro em aprendizado |
 | 6 | **Roda sem API key** | Modo demo com as mesmas ferramentas e guardrails |
 
@@ -339,7 +339,7 @@ O caso AS-09 falhou porque o agente ignorava a coluna `tema` do CSV. Eu tinha li
 Cheguei a implementar diagnóstico de celular infectado — parecia proteger mais o cliente. Ao revisar, vi o erro: um agente financeiro opinando sobre hardware está falando fora da sua base, que é exatamente o que os guardrails existem para impedir. Removi duas ferramentas e 74 linhas já prontas e testadas. Saber dizer "não é a minha área" vale mais do que parecer completo.
 
 **Conversar com a agente achou mais bugs do que a suíte.**
-Das 15 falhas registradas em `docs/04-metricas.md`, **10 vieram de conversa livre** — e a suíte marcava 100% enquanto elas existiam. Um exemplo: a agente perguntava *"quer ver o impacto nas suas metas?"* e não entendia o "sim quero" — havia 16 ofertas no código e nenhuma memória delas. Outro: ela ignorava *"moradia eu não posso cortar"*, porque a ferramenta de simulação não tinha parâmetro de restrição. Nenhum dos dois é detectável com perguntas isoladas. Virou método documentado: conversar sem roteiro, contradizer a agente, responder o que ela ofereceu, trocar os dados de entrada — e transformar todo achado em caso de teste. Foi assim que o projeto saiu de 24 para 58 casos.
+Das 16 falhas registradas em `docs/04-metricas.md`, **11 vieram de conversa livre** — e a suíte marcava 100% enquanto elas existiam. Um exemplo: a agente perguntava *"quer ver o impacto nas suas metas?"* e não entendia o "sim quero" — havia 16 ofertas no código e nenhuma memória delas. Outro: ela ignorava *"moradia eu não posso cortar"*, porque a ferramenta de simulação não tinha parâmetro de restrição. Nenhum dos dois é detectável com perguntas isoladas. Virou método documentado: conversar sem roteiro, contradizer a agente, responder o que ela ofereceu, trocar os dados de entrada — e transformar todo achado em caso de teste. Foi assim que o projeto saiu de 24 para 62 casos.
 
 **Trocar os dados revela o que o teste esconde.**
 Adicionei uma despesa de R$ 3.000 ao CSV só para conferir se o painel era dinâmico. Era — e mostrou a agente dizendo *"dá para fechar em 0 mês(es)"* com saldo negativo. O `0` significava "inalcançável", mas soava como a melhor notícia possível. Os 48 casos não pegavam porque todos rodavam sobre um cliente que sempre sobra dinheiro. Daí nasceu uma segunda suíte, `eval/testar_calculos.py`, com dados sintéticos e invariantes.

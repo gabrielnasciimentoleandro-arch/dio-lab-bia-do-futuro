@@ -125,6 +125,29 @@ NEGACAO = re.compile(
 )
 
 
+# Mapeia a ferramenta usada -> topico, para "resume isso" saber do que falar.
+TOPICO_POR_TOOL = {
+    "montar_plano": "plano",
+    "resumo_financeiro": "categorias",
+    "somar_por_categoria": "categorias",
+    "listar_golpes": "golpes",
+    "detalhar_golpe": "golpes",
+    "analisar_suspeita": "golpes",
+    "progresso_metas": "metas",
+    "simular_economia": "metas",
+    "diagnostico_geral": "diagnostico",
+    "recomendar_produtos": "produtos",
+    "analisar_resiliencia": "diagnostico",
+}
+
+
+def _topico_de(resposta) -> str | None:
+    for tool in resposta.ferramentas_usadas:
+        if tool in TOPICO_POR_TOOL:
+            return TOPICO_POR_TOOL[tool]
+    return None
+
+
 def _validar_entrada(pergunta: str) -> tuple[str, str] | None:
     """Guardrails de ENTRADA. Retorna (motivo, resposta) se deve bloquear."""
     if PADROES_SENSIVEIS.search(pergunta):
@@ -303,6 +326,10 @@ class AgenteLuma:
         self.client = None
         self._fallbacks = 0
         self._oferta_pendente: str | None = None
+        # Memória de curto prazo: sobre o que a última resposta falou. Permite
+        # "resume isso", "me dá só duas" e "qual a mais importante" — pedidos
+        # que só fazem sentido em relação à resposta anterior.
+        self._ultimo_topico: str | None = None
 
         if self.api_key:
             try:
@@ -349,6 +376,7 @@ class AgenteLuma:
             r.latencia_ms = int((time.perf_counter() - inicio) * 1000)
             r.modo = self.modo
             self._oferta_pendente = r.oferta
+            self._ultimo_topico = _topico_de(r) or self._ultimo_topico
             return r
 
         if pendente and NEGACAO.match(pergunta.strip()):
@@ -372,6 +400,7 @@ class AgenteLuma:
         r.latencia_ms = int((time.perf_counter() - inicio) * 1000)
         r.modo = self.modo
         self._oferta_pendente = r.oferta
+        self._ultimo_topico = _topico_de(r) or self._ultimo_topico
         return r
 
     # ------------------------------------------------------------- gemini
@@ -415,6 +444,29 @@ class AgenteLuma:
         """Roteamento por palavra-chave. Mesmas ferramentas, redação por template."""
         p = _normalizar(pergunta)
         nome = tools.PERFIL["nome"].split()[0]
+
+        # ------------------------------------------------- refinar resposta
+        # "resume", "me dá só duas", "qual a mais importante": pedidos que se
+        # referem ao que a agente ACABOU de dizer. Sem memória do último
+        # tópico, caíam no fallback — a conversa não se interligava.
+        # "me mostra um resumo dos gastos" e consulta, nao pedido de sintese.
+        # So tratamos como refinamento quando o resumo se refere ao que ja foi
+        # dito ("resume isso", "resume ai") ou vem sozinho ("resume").
+        pede_resumo_novo = re.search(r"\b(resumo|resumao)\b.*\b(gasto|mes|mês|"
+                                     r"financ\w+|conta|extrato|categoria)", p)
+        quer_menos = None if pede_resumo_novo else re.search(
+            r"\b(simplific\w+|resum[ae]\b|resumir|encurt\w+|mais curto|muito longo|"
+            r"muito grande|muita coisa|so o essencial|só o essencial|"
+            r"direto ao ponto|objetiv\w+|preguica|preguiça|"
+            r"(me )?d[ae] (so|só|apenas) )", p)
+        quer_top = re.search(
+            r"\b(duas|dois|tres|três|3|2|1|uma|um)\b.*\b(opcoes|opções|opcao|"
+            r"opção|melhores|principais|mais importantes|dicas|coisas|etapas)\b"
+            r"|\b(qual|quais)\b.*\b(mais importante|prioridade|primeiro|"
+            r"melhor|comeco por|começo por)\b|\bso as? (duas|dois|principais)\b", p)
+
+        if (quer_menos or quer_top) and self._ultimo_topico:
+            return self._refinar(self._ultimo_topico, p, nome, quer_top)
 
         # ---------------------------------------------------- conversação
         SAUDACAO = (r"(oi+|ola+|opa|eai|e ai|fala|alo+|hey|hello|hi|"
@@ -1128,6 +1180,95 @@ class AgenteLuma:
                   f"[fonte] {r['_fonte']}",
             ferramentas_usadas=["resumo_financeiro"], fontes=[r["_fonte"]],
             oferta="maior_gasto",
+        )
+
+    # --------------------------------------------------------- refinamento
+    def _refinar(self, topico: str, p: str, nome: str, so_top: bool) -> Resposta:
+        """
+        Reapresenta o último tópico de forma enxuta.
+
+        Um cliente real cansa de texto longo e pede "me dá só as duas
+        melhores". Isso não é uma pergunta nova: é a mesma resposta com
+        outro recorte. Sem memória do tópico, virava fallback.
+        """
+        quantos = 2
+        # Pergunta no singular pede UMA resposta.
+        if re.search(r"\b(qual (a|o) (mais|melhor)|prioridade|so (uma|um)\b|"
+                     r"a mais importante|o mais importante|por onde comec)", p):
+            quantos = 1
+        m = re.search(r"\b(uma|um|1|duas|dois|2|tres|três|3)\b", p)
+        if m:
+            quantos = {"uma": 1, "um": 1, "1": 1, "duas": 2, "dois": 2,
+                       "2": 2, "tres": 3, "três": 3, "3": 3}[m.group(1)]
+
+        if topico == "plano":
+            r = tools.montar_plano(sem_cortes=True)
+            etapas = r["etapas"][:quantos]
+            # Nao usar split('.'): quebra em "R$ 2.511,10". Corta na primeira
+            # sentenca de verdade (ponto seguido de espaco e maiuscula).
+            def primeira_frase(txt: str) -> str:
+                partes = re.split(r"(?<=[a-z\u00e0-\u00fc])\.\s+(?=[A-Z])", txt, maxsplit=1)
+                return partes[0].rstrip(".") + "."
+
+            lista = "\n".join(
+                f"**{i}.** {e['titulo']} — {primeira_frase(e['acao'])}"
+                for i, e in enumerate(etapas, 1)
+            )
+            return Resposta(
+                texto=f"Claro. Se for para fazer só {'uma coisa' if quantos == 1 else f'{quantos} coisas'}, "
+                      f"{nome}, {'é esta' if quantos == 1 else 'são estas'}:\n\n{lista}\n\n"
+                      f"O resto é consequência dessas.\n\n[fonte] {r['_fonte']}",
+                ferramentas_usadas=["montar_plano"], fontes=[r["_fonte"]],
+                oferta="metas",
+            )
+
+        if topico == "categorias":
+            r = tools.resumo_financeiro()
+            top = r["gastos_por_categoria"][:quantos]
+            lista = "\n".join(
+                f"**{i}.** {tools.rotulo(c['categoria'])} — {c['valor_formatado']}"
+                for i, c in enumerate(top, 1)
+            )
+            return Resposta(
+                texto=f"Resumindo, {nome} — {'seu maior gasto' if quantos == 1 else f'seus {quantos} maiores gastos'}:\n\n"
+                      f"{lista}\n\nSaldo do mês: **{r['saldo_formatado']}**.\n\n"
+                      f"[fonte] {r['_fonte']}",
+                ferramentas_usadas=["resumo_financeiro"], fontes=[r["_fonte"]],
+                oferta="simular",
+            )
+
+        if topico == "golpes":
+            r = tools.listar_golpes()
+            regras = r["regras_de_ouro"][:quantos]
+            lista = "\n".join(f"**{i}.** {g}" for i, g in enumerate(regras, 1))
+            cab = ("A regra que mais importa" if quantos == 1
+                   else f"As {quantos} que mais importam")
+            return Resposta(
+                texto=f"{cab}, {nome}:\n\n{lista}\n\n"
+                      f"[fonte] {r['_fonte']}",
+                ferramentas_usadas=["listar_golpes"], fontes=[r["_fonte"]],
+                oferta="golpes",
+            )
+
+        if topico == "metas":
+            m0 = tools.progresso_metas()["metas"][0]
+            return Resposta(
+                texto=f"Direto ao ponto, {nome}: faltam **{m0['falta_formatado']}** "
+                      f"para a reserva, e no seu ritmo "
+                      f"{tools.prazo_texto(m0['meses_no_ritmo_atual'])}.\n\n"
+                      f"[fonte] data/perfil_investidor.json",
+                ferramentas_usadas=["progresso_metas"],
+                fontes=["data/perfil_investidor.json"],
+                oferta="simular",
+            )
+
+        # produtos, diagnóstico e afins
+        r = tools.diagnostico_geral()
+        return Resposta(
+            texto=f"Resumindo, {nome}: {r['prioridade']}\n\n"
+                  f"[fonte] {r['_fonte']}",
+            ferramentas_usadas=["diagnostico_geral"], fontes=[r["_fonte"]],
+            oferta="simular",
         )
 
     # ------------------------------------------------------- proatividade

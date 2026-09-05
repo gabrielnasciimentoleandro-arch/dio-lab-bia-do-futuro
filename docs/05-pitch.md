@@ -150,7 +150,7 @@
 | 0:00–0:35 | Problema | Poupa 50% e mesmo assim não bate a meta. Falta direção, não dinheiro. |
 | 0:35–1:05 | Solução | Agente proativo que fala antes de ser perguntado |
 | 1:05–2:20 | Demo | Precisão com fonte · LLM não calcula · **antifraude** · **diário** · compliance |
-| 2:20–2:40 | Prova | 58 casos, 100%, 12 ataques bloqueados |
+| 2:20–2:40 | Prova | 62 casos, 100%, 12 ataques bloqueados |
 | 2:40–2:55 | Fecho | Arquitetura > prompt · proteger vale mais que otimizar |
 
 ---
@@ -189,6 +189,6 @@ Se esquecer o roteiro, essas três sustentam o pitch:
 | "A detecção de golpe usa IA?" | Não. É contagem determinística de marcadores objetivos no relato. O LLM redige, mas não decide o nível de risco. |
 | "E se der falso positivo?" | Testei frases inofensivas com vocabulário próximo: retorna INDETERMINADO. Um detector que grita sempre é ignorado quando importa. |
 | "Quem alimenta a base de golpes?" | Hoje é curada, com referência em Febraban, Banco Central e CERT.br. Em produção, entraria um feed oficial. |
-| "Como você testou além da suíte?" | Conversa exploratória sem roteiro. Das 14 falhas documentadas, 9 vieram daí — a suíte marcava 100% enquanto elas existiam. O método está em `docs/04-metricas.md` §4.8, e todo achado virou caso de teste: o projeto foi de 24 para 58 casos. |
-| "Sua suíte tem 100%. Isso não é suspeito?" | É, e por isso mantenho duas. A de 58 casos testa o agente contra a base real; `eval/testar_calculos.py` testa as ferramentas com dados sintéticos, incluindo mês no vermelho. Foi essa segunda que pegou a agente dizendo "dá para fechar em 0 mês(es)" com saldo negativo. |
+| "Como você testou além da suíte?" | Conversa exploratória sem roteiro. Das 14 falhas documentadas, 9 vieram daí — a suíte marcava 100% enquanto elas existiam. O método está em `docs/04-metricas.md` §4.8, e todo achado virou caso de teste: o projeto foi de 24 para 62 casos. |
+| "Sua suíte tem 100%. Isso não é suspeito?" | É, e por isso mantenho duas. A de 62 casos testa o agente contra a base real; `eval/testar_calculos.py` testa as ferramentas com dados sintéticos, incluindo mês no vermelho. Foi essa segunda que pegou a agente dizendo "dá para fechar em 0 mês(es)" com saldo negativo. |
 | "Por que a Luma não ajuda com celular infectado?" | Porque a base dela não tem nada sobre hardware. Um agente financeiro opinando sobre aparelho está alucinando com boa intenção. Ela recusa e reconduz — e isso é um caso de teste. |

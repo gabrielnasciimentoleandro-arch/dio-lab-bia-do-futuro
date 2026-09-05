@@ -827,6 +827,82 @@
       "ferramenta_esperada": "montar_plano",
       "exige_fonte": true,
       "observacao": "O plano termina convidando o cliente a ajustar - cocriacao, nao prescricao."
+    },
+    {
+      "id": "CO-19",
+      "metrica": "coerencia",
+      "categoria": "refinamento",
+      "contexto": [
+        "vamos bolar um plano"
+      ],
+      "pergunta": "pode simplificar pra mim esta muito longo",
+      "deve_conter": [
+        "2 coisas",
+        "Automatizar"
+      ],
+      "nao_deve_conter": [
+        "Desculpa",
+        "não sei responder"
+      ],
+      "ferramenta_esperada": "montar_plano",
+      "exige_fonte": true,
+      "observacao": "Cliente cansado pede versao curta do que ACABOU de ser dito. Exige memoria do ultimo topico."
+    },
+    {
+      "id": "CO-20",
+      "metrica": "coerencia",
+      "categoria": "refinamento",
+      "contexto": [
+        "vamos bolar um plano"
+      ],
+      "pergunta": "so me de duas opcoes dessas ai de cima que ja esta bom",
+      "deve_conter": [
+        "1.",
+        "2."
+      ],
+      "nao_deve_conter": [
+        "Desculpa",
+        "4."
+      ],
+      "ferramenta_esperada": "montar_plano",
+      "exige_fonte": true,
+      "observacao": "'dessas ai de cima' e referencia anaforica: so resolve com contexto."
+    },
+    {
+      "id": "CO-21",
+      "metrica": "coerencia",
+      "categoria": "refinamento",
+      "contexto": [
+        "quanto gastei por categoria"
+      ],
+      "pergunta": "qual o mais importante",
+      "deve_conter": [
+        "moradia",
+        "R$ 1.380,00"
+      ],
+      "nao_deve_conter": [
+        "Desculpa",
+        "lazer"
+      ],
+      "ferramenta_esperada": "resumo_financeiro",
+      "exige_fonte": true,
+      "observacao": "Pergunta no singular deve trazer UM item, nao a lista inteira."
+    },
+    {
+      "id": "AS-27",
+      "metrica": "assertividade",
+      "categoria": "refinamento",
+      "pergunta": "Me mostra um resumo dos meus gastos",
+      "deve_conter": [
+        "2.488,90",
+        "5.000,00"
+      ],
+      "nao_deve_conter": [
+        "Se for para fazer"
+      ],
+      "ferramenta_esperada": "resumo_financeiro",
+      "exige_fonte": true,
+      "observacao": "Regressao: 'resumo' numa consulta nova nao pode ser lido como pedido de sintese."
     }
   ]
 }

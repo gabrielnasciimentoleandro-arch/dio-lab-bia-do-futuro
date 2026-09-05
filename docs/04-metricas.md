@@ -10,7 +10,7 @@ Aqui a avaliação é **código executável**:
 python eval/avaliar.py
 ```
 
-Um comando roda 58 casos, verifica asserções por máquina e gera `eval/resultado.md`. Isso transforma avaliação num **teste de regressão**: mudou o prompt, roda a suíte, vê o que quebrou.
+Um comando roda 62 casos, verifica asserções por máquina e gera `eval/resultado.md`. Isso transforma avaliação num **teste de regressão**: mudou o prompt, roda a suíte, vê o que quebrou.
 
 ### Como um caso é declarado
 
@@ -53,7 +53,7 @@ O `nao_deve_conter` é o mais valioso: é ele que pega o agente **oferecendo Fun
 
 ## 4.3 Resultado
 
-> Execução em 05/09/2026 · modo `demo` · 58 casos
+> Execução em 05/09/2026 · modo `demo` · 62 casos
 
 | Métrica | Aprovados | Taxa | Nota |
 |---|---|---|---|
@@ -351,20 +351,34 @@ O insight que o plano entrega é o mais forte do projeto: **o João já poupa 50
 
 **Aprendizado:** cocriar não é responder bem a cada pergunta isolada, é sustentar uma direção. E respeitar restrição do cliente é parte da resposta correta: um plano que ignora "não posso cortar" está tecnicamente certo e praticamente inútil.
 
+### Falha 16 — As respostas não se interligavam
+
+O plano em 4 etapas ficou longo. O usuário fez o que qualquer pessoa faria: *"pode simplificar pra mim, está muito longo"* e depois *"só me dê duas opções dessas aí de cima"*.
+
+As duas caíram no fallback. Também *"resume"*, *"qual a mais importante"* e *"me dá só o essencial"*.
+
+A causa era arquitetural: **cada resposta era um evento isolado.** A agente não guardava sobre o que tinha acabado de falar, então qualquer pedido referente à resposta anterior — uma anáfora como *"dessas aí de cima"* — não tinha a que se referir.
+
+**Correção:** memória de curto prazo (`_ultimo_topico`), derivada da ferramenta usada em cada resposta, e um método `_refinar()` que reapresenta o tópico com o recorte pedido. Reconhece a quantidade (*"só uma"*, *"as duas"*, *"três"*) e ajusta a concordância. Pergunta no singular — *"qual a mais importante?"* — devolve **um** item.
+
+Isso gerou uma regressão imediata, pega pela suíte: *"Me mostra um **resum**o dos meus gastos"* passou a ser lido como pedido de síntese. Foi preciso distinguir o resumo-consulta (*"resumo dos gastos"*) do resumo-refinamento (*"resume isso"*).
+
+**Aprendizado:** um agente que responde bem a perguntas isoladas ainda não conversa. Conversa exige que a resposta N+1 saiba o que foi dito na resposta N — e é justamente aí que mora a impressão de estar falando com alguém, em vez de consultar um sistema.
+
 ---
 
 ## 4.8 Teste exploratório humano
 
-As 15 falhas acima têm uma origem desproporcional:
+As 16 falhas acima têm uma origem desproporcional:
 
 | Origem | Falhas encontradas |
 |---|---|
-| Conversa livre com a agente | **10** |
+| Conversa livre com a agente | **11** |
 | Suíte automatizada (regressão) | 3 |
 | Troca deliberada dos dados de entrada | 1 |
 | Revisão de escopo | 1 |
 
-A suíte marcava **100%** no momento em que 10 dessas falhas existiam. Isso não é defeito da suíte — é a sua natureza. **Cobertura de teste herda o viés de quem escreve os testes**: eu só automatizo o que já imaginei que poderia dar errado.
+A suíte marcava **100%** no momento em que 11 dessas falhas existiam. Isso não é defeito da suíte — é a sua natureza. **Cobertura de teste herda o viés de quem escreve os testes**: eu só automatizo o que já imaginei que poderia dar errado.
 
 ### O método, na prática
 
@@ -377,7 +391,7 @@ A suíte marcava **100%** no momento em que 10 dessas falhas existiam. Isso não
 
 O ciclo é: conversar → achar → corrigir → **automatizar** → rodar a suíte inteira. Os passos 4 e 5 são o que impede a mesma falha de voltar.
 
-> Este projeto passou de 24 para 58 casos automatizados. **A maior parte desse crescimento veio de falhas descobertas conversando**, não de casos planejados na mesa.
+> Este projeto passou de 24 para 62 casos automatizados. **A maior parte desse crescimento veio de falhas descobertas conversando**, não de casos planejados na mesa.
 
 ---
 
@@ -412,7 +426,7 @@ Complemento humano ao teste automatizado. **5 avaliadores**, contextualizados de
 
 Honestidade sobre o que estes números **não** provam:
 
-- Base de 58 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
+- Base de 62 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
 - As asserções são por palavra-chave, não semânticas. Uma resposta correta com fraseado inesperado pode falhar (falso negativo).
 - Os 5 avaliadores são amostra de conveniência, não representativa.
 - 100% em modo demo é esperado: as respostas são templates. **O número honesto** é o da execução com Gemini, onde há variabilidade real de geração.

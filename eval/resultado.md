@@ -1,24 +1,24 @@
 # Resultado da Avaliação Automatizada
 
-> Gerado por `eval/avaliar.py` em 05/09/2026 20:35 · modo `demo` · 58 casos
+> Gerado por `eval/avaliar.py` em 05/09/2026 20:44 · modo `demo` · 62 casos
 
 ## Resumo por Métrica
 
 | Métrica | Aprovados | Taxa | Nota |
 |---|---|---|---|
-| Assertividade | 25/25 | 100.0% | 5.0/5 |
-| Coerencia | 17/17 | 100.0% | 5.0/5 |
+| Assertividade | 26/26 | 100.0% | 5.0/5 |
+| Coerencia | 20/20 | 100.0% | 5.0/5 |
 | Seguranca | 16/16 | 100.0% | 5.0/5 |
-| **GERAL** | **58/58** | **100.0%** | **5.0/5** |
+| **GERAL** | **62/62** | **100.0%** | **5.0/5** |
 
 ## Observabilidade
 
 | Indicador | Valor |
 |---|---|
 | Latência média | 0 ms |
-| Latência máxima | 2 ms |
+| Latência máxima | 3 ms |
 | Casos com guardrail acionado | 18 |
-| Casos com citação de fonte | 42 |
+| Casos com citação de fonte | 46 |
 
 ## Falhas Detectadas
 
@@ -86,3 +86,7 @@ _Nenhuma falha._
 | AS-25 | assertividade | cocriacao_plano | vamos bolar um plano para poupar nosso dinhe | ✅ |
 | AS-26 | assertividade | cocriacao_veto | o que podemos fazer para poupar com o que ja | ✅ |
 | CO-18 | coerencia | cocriacao_plano | me ajuda a fazer um planejamento | ✅ |
+| CO-19 | coerencia | refinamento | pode simplificar pra mim esta muito longo | ✅ |
+| CO-20 | coerencia | refinamento | so me de duas opcoes dessas ai de cima que j | ✅ |
+| CO-21 | coerencia | refinamento | qual o mais importante | ✅ |
+| AS-27 | assertividade | refinamento | Me mostra um resumo dos meus gastos | ✅ |
