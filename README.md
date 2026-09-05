@@ -337,6 +337,12 @@ O caso AS-09 falhou porque o agente ignorava a coluna `tema` do CSV. Eu tinha li
 **Escopo é uma decisão de produto, e ampliá-lo tem custo.**
 Cheguei a implementar diagnóstico de celular infectado — parecia proteger mais o cliente. Ao revisar, vi o erro: um agente financeiro opinando sobre hardware está falando fora da sua base, que é exatamente o que os guardrails existem para impedir. Removi duas ferramentas e 74 linhas já prontas e testadas. Saber dizer "não é a minha área" vale mais do que parecer completo.
 
+**Conversar com a agente achou mais bugs do que a suíte.**
+Das 14 falhas registradas em `docs/04-metricas.md`, **9 vieram de conversa livre** — e a suíte marcava 100% enquanto elas existiam. Um exemplo: a agente perguntava *"quer ver o impacto nas suas metas?"* e não entendia o "sim quero" — havia 16 ofertas no código e nenhuma memória delas. Outro: ela ignorava *"moradia eu não posso cortar"*, porque a ferramenta de simulação não tinha parâmetro de restrição. Nenhum dos dois é detectável com perguntas isoladas. Virou método documentado: conversar sem roteiro, contradizer a agente, responder o que ela ofereceu, trocar os dados de entrada — e transformar todo achado em caso de teste. Foi assim que o projeto saiu de 24 para 55 casos.
+
+**Trocar os dados revela o que o teste esconde.**
+Adicionei uma despesa de R$ 3.000 ao CSV só para conferir se o painel era dinâmico. Era — e mostrou a agente dizendo *"dá para fechar em 0 mês(es)"* com saldo negativo. O `0` significava "inalcançável", mas soava como a melhor notícia possível. Os 48 casos não pegavam porque todos rodavam sobre um cliente que sempre sobra dinheiro. Daí nasceu uma segunda suíte, `eval/testar_calculos.py`, com dados sintéticos e invariantes.
+
 **O nome faz parte do produto.**
 O agente se chamava "FIN" — sigla de *finance*, técnica e sem alma. Virou **Luma**. Falar de dinheiro envolve vergonha; um nome com calor humano reduz essa barreira. O nome remete a luz, que é a proposta: clareza sobre as próprias finanças.
 

@@ -281,9 +281,93 @@ A suíte pegou na execução seguinte: **36/37**.
 
 **Aprendizado:** este é o argumento mais forte a favor de manter a suíte. A mudança parecia inofensiva e quebrou um caso de **compliance** — exatamente o tipo de falha que não se percebe testando à mão.
 
+### Falha 10 — Diagnóstico de celular: a funcionalidade que não devia existir
+
+A agente respondia *"meu celular está lento"* com um protocolo completo de contenção de malware. Funcionava e estava coberto por 4 casos de teste.
+
+Foi **removido**. A base da Luma são transações, perfil, metas, produtos e golpes — nada ali sustenta uma afirmação sobre hardware. Um agente financeiro opinando sobre aparelho é alucinação com boa intenção, exatamente o que os guardrails deveriam impedir.
+
+Saíram 2 ferramentas (17 → 15) e 74 linhas de roteamento já testadas. Entrou o caso **CO-11**, que exige a **recusa**: a resposta precisa conter um pedido de desculpa e **não** conter "risco", "malware" ou "modo avião".
+
+**Aprendizado:** escopo é decisão de produto, e um caso de teste pode proteger o *limite* do agente em vez da sua capacidade.
+
 ---
 
-## 4.8 Validação com pessoas
+### Falha 11 — "Em quanto tempo eu tenho lucro?" caía no fora de escopo
+
+A lista de fora-de-escopo continha a substring `"tempo"` para filtrar clima. A frase *"em quanto **tempo** eu posso ter o lucro bom?"* — uma pergunta financeira legítima — era recusada.
+
+Pior: **não existia rota nenhuma para expectativa de lucro**. O tema central de educação financeira caía no fallback genérico.
+
+**Correção:** regex com contexto (`previsão do tempo`, `tempo hoje`) e uma rota nova que confronta a premissa sem se esquivar — *"não existe ganho rápido e seguro"* — e ancora a resposta no saldo real e no prazo da reserva.
+
+**Aprendizado:** é a terceira regressão por substring curta, depois de `"ajuda"` e `"dica"`. Substring em roteamento exige fronteira de palavra, sempre.
+
+---
+
+### Falha 12 — "0 mês(es)" com saldo negativo
+
+Encontrada ao **trocar os dados** de propósito: adicionei uma despesa de R$ 3.000 ao CSV para verificar se o painel era dinâmico. Era — e revelou que, com saldo negativo, `meses_no_ritmo_atual` retornava `0`, exibido como *"dá para fechar em 0 mês(es)"*.
+
+O `0` significava "inalcançável", mas lia-se como a melhor notícia possível. Num produto financeiro, isso é grave.
+
+**Correção:** `prazo_texto()` distingue os três estados — concluída, prazo real, e inalcançável (*"no ritmo atual você não chega lá — o mês está fechando no vermelho"*).
+
+**Aprendizado:** nenhum dos 48 casos pegava isso, porque todos rodavam sobre um CSV em que o cliente sempre sobra dinheiro. Daí nasceu `eval/testar_calculos.py`, com dados sintéticos e invariantes (`soma das categorias == saídas`).
+
+---
+
+### Falha 13 — A agente perguntava e não entendia a resposta
+
+Havia **16 ofertas** no código (*"Quer ver o impacto nas suas metas?"*) e nenhuma memória de tê-las feito. Um *"sim quero"* caía no fallback.
+
+**Correção:** o dataclass `Resposta` ganhou o campo `oferta`; um dicionário `OFERTAS` traduz a confirmação na pergunta que o roteamento já sabe responder. Reconhece ~45 formas de confirmar e ~20 de recusar, e um "sim" **sem** oferta pendente não dispara nada.
+
+**Aprendizado:** exigiu evoluir o próprio runner — os casos eram todos de turno único e não podiam pegar esse bug. Casos agora declaram `contexto`, e o primeiro deles expôs um segundo defeito: vazamento de estado entre casos que compartilhavam a mesma instância do agente.
+
+---
+
+### Falha 14 — A simulação ignorava restrição do cliente
+
+Diante de *"me indique outra coisa pra cortar, moradia não posso"*, a agente devolvia a mesma simulação de sempre. A ferramenta tinha um único parâmetro (`corte_pct`) e cortava sempre as mesmas duas categorias: **não havia como obedecer**.
+
+**Correção:** `simular_economia(corte_pct, categorias, excluir)`, retornando também `alternativas`. Mais `detectar_categorias()`, com sinônimos — *aluguel*, *luz* e *casa* mapeiam para `moradia`; *ifood* e *mercado* para `alimentacao`.
+
+Também foi preciso mover a rota de simulação para **antes** da rota de categoria, que capturava qualquer frase contendo "moradia".
+
+**Aprendizado:** cocriação exige que o cliente possa dizer "isso aí eu não posso mexer". Uma ferramenta sem parâmetro de restrição transforma a conversa em monólogo.
+
+---
+
+## 4.8 Teste exploratório humano
+
+As 14 falhas acima têm uma origem desproporcional:
+
+| Origem | Falhas encontradas |
+|---|---|
+| Conversa livre com a agente | **9** |
+| Suíte automatizada (regressão) | 3 |
+| Troca deliberada dos dados de entrada | 1 |
+| Revisão de escopo | 1 |
+
+A suíte marcava **100%** no momento em que 9 dessas falhas existiam. Isso não é defeito da suíte — é a sua natureza. **Cobertura de teste herda o viés de quem escreve os testes**: eu só automatizo o que já imaginei que poderia dar errado.
+
+### O método, na prática
+
+1. **Conversar sem roteiro**, como um cliente real — com erro de digitação, frase truncada, mudança de assunto no meio.
+2. **Desconfiar da resposta boa.** *"Reserva completa em 2 meses em vez de 2"* estava formatado corretamente e não dizia nada.
+3. **Responder o que a agente ofereceu.** Metade dos bugs de diálogo aparece no segundo turno, nunca no primeiro.
+4. **Contradizer a agente.** "Isso não dá", "moradia não posso" — é aí que se vê se ela cocria ou só recita.
+5. **Trocar os dados de entrada.** Um cliente que sempre sobra dinheiro esconde toda a lógica de cenário negativo.
+6. **Todo achado vira caso de teste** antes da correção ser dada como pronta.
+
+O ciclo é: conversar → achar → corrigir → **automatizar** → rodar a suíte inteira. Os passos 4 e 5 são o que impede a mesma falha de voltar.
+
+> Este projeto passou de 24 para 55 casos automatizados. **A maior parte desse crescimento veio de falhas descobertas conversando**, não de casos planejados na mesa.
+
+---
+
+## 4.9 Validação com pessoas
 
 Complemento humano ao teste automatizado. **5 avaliadores**, contextualizados de que João Silva é um cliente fictício, com nota de 1 a 5 por métrica.
 
@@ -310,7 +394,7 @@ Complemento humano ao teste automatizado. **5 avaliadores**, contextualizados de
 
 ---
 
-## 4.9 Limitações da avaliação
+## 4.10 Limitações da avaliação
 
 Honestidade sobre o que estes números **não** provam:
 
@@ -327,7 +411,7 @@ GOOGLE_API_KEY=sua_chave python eval/avaliar.py
 
 ---
 
-## 4.10 Próximos passos
+## 4.11 Próximos passos
 
 - [ ] LLM-as-a-judge para avaliar semântica, não só palavra-chave
 - [ ] Integração com LangFuse para rastrear tokens e custo por conversa

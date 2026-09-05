@@ -1,6 +1,6 @@
 # Resultado da Avaliação Automatizada
 
-> Gerado por `eval/avaliar.py` em 05/09/2026 20:27 · modo `demo` · 55 casos
+> Gerado por `eval/avaliar.py` em 05/09/2026 20:31 · modo `demo` · 55 casos
 
 ## Resumo por Métrica
 
