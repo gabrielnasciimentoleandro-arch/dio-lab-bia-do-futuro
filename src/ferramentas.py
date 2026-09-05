@@ -13,6 +13,7 @@ Cada retorno carrega o campo "_fonte" para citação obrigatória na resposta.
 from __future__ import annotations
 
 import csv
+import re
 import json
 import unicodedata
 from datetime import date
@@ -54,6 +55,49 @@ ROTULOS = {
 
 def rotulo(categoria: str) -> str:
     return ROTULOS.get(categoria.lower(), categoria)
+
+
+# Sinônimos que o cliente usa para nomear cada categoria da base.
+SINONIMOS_CAT = {
+    "moradia": ("moradia", "casa", "aluguel", "aluguer", "luz", "energia",
+                "condominio", "agua", "iptu", "moradias"),
+    "alimentacao": ("alimentacao", "alimentação", "comida", "mercado",
+                    "supermercado", "restaurante", "ifood", "delivery",
+                    "lanche", "alimento"),
+    "transporte": ("transporte", "uber", "gasolina", "combustivel", "onibus",
+                   "carro", "99", "taxi", "metro", "passagem"),
+    "saude": ("saude", "saúde", "farmacia", "remedio", "academia", "medico",
+              "plano de saude", "dentista"),
+    "lazer": ("lazer", "netflix", "streaming", "cinema", "diversao",
+              "assinatura", "spotify", "bar", "festa"),
+}
+
+
+def _norm_cat(texto: str) -> str:
+    """
+    Converte o que o usuário escreveu na chave da base.
+    'aluguel', 'casa' e 'luz' -> 'moradia'.
+    """
+    t = unicodedata.normalize("NFD", texto.strip().lower())
+    t = "".join(c for c in t if unicodedata.category(c) != "Mn")
+    for chave, termos in SINONIMOS_CAT.items():
+        if t == chave or t in termos:
+            return chave
+    for chave, termos in SINONIMOS_CAT.items():
+        if any(termo in t for termo in termos):
+            return chave
+    return t
+
+
+def detectar_categorias(texto: str) -> list[str]:
+    """Extrai todas as categorias mencionadas numa frase livre."""
+    t = unicodedata.normalize("NFD", texto.lower())
+    t = "".join(c for c in t if unicodedata.category(c) != "Mn")
+    achadas = []
+    for chave, termos in SINONIMOS_CAT.items():
+        if any(re.search(rf"\b{re.escape(termo)}\b", t) for termo in termos):
+            achadas.append(chave)
+    return achadas
 
 
 def brl(valor: float) -> str:
@@ -238,25 +282,53 @@ def recomendar_produtos() -> dict:
     }
 
 
-def simular_economia(corte_pct: float = 30.0) -> dict:
-    """Simula cortar X% das categorias flexíveis e o impacto no prazo das metas."""
+def simular_economia(corte_pct: float = 30.0,
+                     categorias: list[str] | None = None,
+                     excluir: list[str] | None = None) -> dict:
+    """
+    Simula cortar X% de gastos e o impacto no prazo das metas.
+
+    categorias: quais cortar. Padrão = as flexíveis (alimentação e lazer).
+                Aceita categorias fixas se o usuário pedir explicitamente.
+    excluir:    categorias que o usuário disse que NÃO pode cortar.
+
+    O cliente precisa poder dizer "moradia não dá para mexer". Sem os
+    parâmetros, a simulação era sempre a mesma e ignorava a restrição.
+    """
     resumo = resumo_financeiro()
     gastos: dict[str, float] = {}
     for t in TRANSACOES:
         if t["tipo"] == "saida":
             gastos[t["categoria"]] = gastos.get(t["categoria"], 0.0) + float(t["valor"])
 
+    excluir_norm = {_norm_cat(c) for c in (excluir or [])}
+
+    if categorias:
+        alvo = [_norm_cat(c) for c in categorias]
+    else:
+        # Ordena por valor: cortar onde há mais dinheiro faz mais diferença.
+        alvo = sorted(CATEGORIAS_FLEXIVEIS, key=lambda c: -gastos.get(c, 0.0))
+
+    alvo = [c for c in alvo if c not in excluir_norm and gastos.get(c, 0.0) > 0]
+
     economia = 0.0
     detalhe = []
-    for cat in CATEGORIAS_FLEXIVEIS:
-        if cat in gastos:
-            valor = gastos[cat] * (corte_pct / 100)
-            economia += valor
-            detalhe.append({
-                "categoria": rotulo(cat),
-                "gasto_atual_formatado": brl(gastos[cat]),
-                "economia_formatado": brl(valor),
-            })
+    for cat in alvo:
+        valor = gastos[cat] * (corte_pct / 100)
+        economia += valor
+        detalhe.append({
+            "categoria": rotulo(cat),
+            "gasto_atual_formatado": brl(gastos[cat]),
+            "economia_formatado": brl(valor),
+        })
+
+    # Alternativas que sobraram: o que ainda dá para cortar, da maior p/ menor.
+    alternativas = [
+        {"categoria": rotulo(c), "gasto_formatado": brl(v),
+         "economia_possivel_formatado": brl(v * corte_pct / 100)}
+        for c, v in sorted(gastos.items(), key=lambda kv: -kv[1])
+        if c not in alvo and c not in excluir_norm
+    ]
 
     novo_saldo = resumo["saldo"] + economia
     reserva = float(PERFIL.get("reserva_emergencia_atual", 0))
@@ -272,6 +344,10 @@ def simular_economia(corte_pct: float = 30.0) -> dict:
     return {
         "corte_pct": corte_pct,
         "categorias_ajustadas": detalhe,
+        "categorias_excluidas": [rotulo(c) for c in excluir_norm],
+        "alternativas": alternativas,
+        "sem_categorias": not detalhe,
+        "economia_mensal": round(economia, 2),
         "economia_mensal_formatado": brl(economia),
         "economia_anual_formatado": brl(economia * 12),
         "saldo_atual_formatado": brl(resumo["saldo"]),

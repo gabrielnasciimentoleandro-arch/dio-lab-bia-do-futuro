@@ -105,14 +105,14 @@
       "metrica": "assertividade",
       "categoria": "simulacao",
       "pergunta": "Simule um corte de 30% nos meus gastos",
-      "resposta": "Simulei um corte de **30%** nos gastos flexíveis (alimentação e lazer):\n\n- Economia mensal: **R$ 187,77**\n- Em 12 meses: **R$ 2.253,24**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.698,87**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
+      "resposta": "Simulei um corte de **30%** em **alimentação, lazer**:\n\n- Economia mensal: **R$ 187,77**\n- Em 12 meses: **R$ 2.253,24**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.698,87**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nSe quiser ir além, **moradia** ainda tem R$ 1.380,00 — cortar 30% aí renderia mais R$ 414,00.\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
       "passou": true,
       "falhas": [],
       "ferramentas": [
         "simular_economia"
       ],
       "guardrails": [],
-      "latencia_ms": 0
+      "latencia_ms": 1
     },
     {
       "id": "AS-09",
@@ -708,7 +708,7 @@
       "metrica": "coerencia",
       "categoria": "dialogo_multiturno",
       "pergunta": "pode",
-      "resposta": "Simulei um corte de **30%** nos gastos flexíveis (alimentação e lazer):\n\n- Economia mensal: **R$ 187,77**\n- Em 12 meses: **R$ 2.253,24**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.698,87**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
+      "resposta": "Simulei um corte de **30%** em **alimentação, lazer**:\n\n- Economia mensal: **R$ 187,77**\n- Em 12 meses: **R$ 2.253,24**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.698,87**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nSe quiser ir além, **moradia** ainda tem R$ 1.380,00 — cortar 30% aí renderia mais R$ 414,00.\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
       "passou": true,
       "falhas": [],
       "ferramentas": [
@@ -740,6 +740,48 @@
       "passou": true,
       "falhas": [],
       "ferramentas": [],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "AS-23",
+      "metrica": "assertividade",
+      "categoria": "simulacao_restricao",
+      "pergunta": "quero que me indique outra coisa pra ser cortado menos minha moradia nao posso",
+      "resposta": "Respeitei sua restrição: deixei **moradia** de fora.\n\nSimulei um corte de **30%** em **alimentação, lazer**:\n\n- Economia mensal: **R$ 187,77**\n- Em 12 meses: **R$ 2.253,24**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.698,87**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nSe quiser ir além, **transporte** ainda tem R$ 295,00 — cortar 30% aí renderia mais R$ 88,50.\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "simular_economia"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "AS-24",
+      "metrica": "assertividade",
+      "categoria": "simulacao_dirigida",
+      "pergunta": "corta 20% do transporte",
+      "resposta": "Simulei um corte de **20%** em **transporte**:\n\n- Economia mensal: **R$ 59,00**\n- Em 12 meses: **R$ 708,00**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.570,10**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nSe quiser ir além, **moradia** ainda tem R$ 1.380,00 — cortar 20% aí renderia mais R$ 276,00.\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "simular_economia"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-17",
+      "metrica": "coerencia",
+      "categoria": "simulacao_restricao",
+      "pergunta": "me indique outra coisa pra cortar",
+      "resposta": "Entendi, João — tirando o que você não pode mexer, não sobrou nada nas categorias que eu costumo sugerir.\n\nO que ainda dá para olhar:\n\n- **moradia**: gasta R$ 1.380,00, cortando 30% economizaria R$ 414,00\n- **transporte**: gasta R$ 295,00, cortando 30% economizaria R$ 88,50\n- **saúde**: gasta R$ 188,00, cortando 30% economizaria R$ 56,40\n\nMe diz qual dessas faz sentido cortar que eu simulo o impacto na sua reserva.\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "simular_economia"
+      ],
       "guardrails": [],
       "latencia_ms": 0
     }

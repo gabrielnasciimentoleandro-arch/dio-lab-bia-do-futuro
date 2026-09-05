@@ -65,7 +65,7 @@ LLM  ←  {"total_formatado": "R$ 570,00", "_fonte": "data/transacoes.csv (2 reg
 | `consultar_perfil` | — | Dados cadastrais e metas |
 | `progresso_metas` | — | % concluído, quanto falta, aporte necessário, se está no ritmo |
 | `recomendar_produtos` | — | Produtos compatíveis **e bloqueados**, com motivo |
-| `simular_economia` | `corte_pct: float` | Economia projetada e impacto no prazo da meta |
+| `simular_economia` | `corte_pct, categorias, excluir` | Economia projetada e impacto no prazo da meta |
 | `historico_atendimento` | — | Atendimentos e temas recorrentes |
 | `analisar_resiliencia` | — | Meses de fôlego sem renda, no cenário normal e no enxuto |
 | `avaliar_compra` | `valor: float` | Se a compra cabe, quanto atrasa a meta, veredito |

@@ -783,6 +783,76 @@ class AgenteLuma:
                       f"Todo número que eu falo vem com a fonte. Por onde começamos?"
             )
 
+        # --- simulação
+        if (re.search(r"\b(simul\w*|cort\w+|economi\w+|reduz\w+|antecip\w+|"
+                      r"sobraria|poupar mais|gastar menos)\b", p)
+                or "outra coisa" in p or "outra opcao" in p):
+            m = re.search(r"(\d{1,2})\s*%", p)
+            pct = float(m.group(1)) if m else 30.0
+
+            # O cliente pode vetar categorias ("moradia não posso", "menos
+            # aluguel") ou pedir uma específica ("corta do transporte").
+            mencionadas = tools.detectar_categorias(p)
+            veto_re = (r"(nao posso|não posso|nao da|não dá|nao dah|impossivel|"
+                       r"nao consigo|não consigo|menos|exceto|fora|tirando|"
+                       r"sem mexer|nao quero cortar|não quero cortar|precisa|"
+                       r"nao tem como|não tem como)")
+            tem_veto = bool(re.search(veto_re, p))
+
+            excluir = mencionadas if tem_veto else None
+            categorias = mencionadas if (mencionadas and not tem_veto) else None
+
+            # "me indique outra coisa" após uma simulação: veta o que já foi
+            # sugerido e procura alternativa.
+            if re.search(r"\b(outra coisa|outra opcao|outra categoria|"
+                         r"alguma outra|mais alguma)\b", p) and not mencionadas:
+                excluir = list(tools.CATEGORIAS_FLEXIVEIS)
+
+            r = tools.simular_economia(pct, categorias=categorias, excluir=excluir)
+
+            if r["sem_categorias"]:
+                alt = r["alternativas"]
+                lista = "\n".join(
+                    f"- **{a['categoria']}**: gasta {a['gasto_formatado']}, "
+                    f"cortando {pct:.0f}% economizaria {a['economia_possivel_formatado']}"
+                    for a in alt[:4]
+                ) or "- Não sobrou categoria com gasto registrado."
+                return Resposta(
+                    texto=f"Entendi, {nome} — tirando o que você não pode mexer, não "
+                          f"sobrou nada nas categorias que eu costumo sugerir.\n\n"
+                          f"O que ainda dá para olhar:\n\n{lista}\n\n"
+                          f"Me diz qual dessas faz sentido cortar que eu simulo o "
+                          f"impacto na sua reserva.\n\n[fonte] {r['_fonte']}",
+                    ferramentas_usadas=["simular_economia"], fontes=[r["_fonte"]],
+                )
+
+            cortadas = ", ".join(c["categoria"] for c in r["categorias_ajustadas"])
+            respeito = ""
+            if r["categorias_excluidas"]:
+                respeito = (f"Respeitei sua restrição: deixei "
+                            f"**{', '.join(r['categorias_excluidas'])}** de fora.\n\n")
+
+            extra = ""
+            if r["alternativas"]:
+                a = r["alternativas"][0]
+                extra = (f"\nSe quiser ir além, **{a['categoria']}** ainda tem "
+                         f"{a['gasto_formatado']} — cortar {pct:.0f}% aí renderia "
+                         f"mais {a['economia_possivel_formatado']}.\n")
+
+            return Resposta(
+                texto=f"{respeito}Simulei um corte de **{pct:.0f}%** em **{cortadas}**:\n\n"
+                      f"- Economia mensal: **{r['economia_mensal_formatado']}**\n"
+                      f"- Em 12 meses: **{r['economia_anual_formatado']}**\n"
+                      f"- Saldo mensal iria de {r['saldo_atual_formatado']} para "
+                      f"**{r['novo_saldo_formatado']}**\n"
+                      f"- Reserva completa em **{r['meses_para_meta_depois']} mês(es)** "
+                      f"em vez de {r['meses_para_meta_antes']}\n"
+                      f"{extra}\n"
+                      f"Quer que eu detalhe onde está esse gasto?\n\n[fonte] {r['_fonte']}",
+                ferramentas_usadas=["simular_economia"], fontes=[r["_fonte"]],
+                oferta="maior_gasto",
+            )
+
         # --- gasto por categoria
         for cat in ("alimentacao", "moradia", "transporte", "saude", "lazer"):
             if cat in p:
@@ -890,25 +960,6 @@ class AgenteLuma:
                         f"[fonte] {r['_fonte']}",
                 ferramentas_usadas=["progresso_metas"], fontes=[r["_fonte"]],
                 oferta="simular",
-            )
-
-        # --- simulação
-        if any(t in p for t in ("simul", "cortar", "economiz", "reduzir",
-                                "antecipar", "sobraria")):
-            m = re.search(r"(\d{1,2})\s*%", p)
-            r = tools.simular_economia(float(m.group(1)) if m else 30.0)
-            return Resposta(
-                texto=f"Simulei um corte de **{r['corte_pct']:.0f}%** nos gastos flexíveis "
-                      f"(alimentação e lazer):\n\n"
-                      f"- Economia mensal: **{r['economia_mensal_formatado']}**\n"
-                      f"- Em 12 meses: **{r['economia_anual_formatado']}**\n"
-                      f"- Saldo mensal iria de {r['saldo_atual_formatado']} para "
-                      f"**{r['novo_saldo_formatado']}**\n"
-                      f"- Reserva completa em **{r['meses_para_meta_depois']} mês(es)** "
-                      f"em vez de {r['meses_para_meta_antes']}\n\n"
-                      f"Quer que eu detalhe onde está esse gasto?\n\n[fonte] {r['_fonte']}",
-                ferramentas_usadas=["simular_economia"], fontes=[r["_fonte"]],
-                oferta="maior_gasto",
             )
 
         # --- perfil

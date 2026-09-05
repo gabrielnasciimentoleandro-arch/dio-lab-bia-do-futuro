@@ -75,7 +75,7 @@ Pergunta: "quanto gastei com alimentação?"
 | 1 | **Cálculo determinístico** | 7 ferramentas Python. O modelo nunca soma. |
 | 2 | **Citação obrigatória de fonte** | Toda resposta com dado termina em `📎 Fonte:` — auditável |
 | 3 | **Guardrails em código** | Prompt injection e dado sensível bloqueados **antes** do LLM |
-| 4 | **Suíte automatizada + red team** | 52 casos, 12 deles ataques deliberados. Um comando. |
+| 4 | **Suíte automatizada + red team** | 55 casos, 12 deles ataques deliberados. Um comando. |
 | 5 | **Escudo antifraude** | Detecta padrões de golpe e transforma o erro em aprendizado |
 | 6 | **Roda sem API key** | Modo demo com as mesmas ferramentas e guardrails |
 

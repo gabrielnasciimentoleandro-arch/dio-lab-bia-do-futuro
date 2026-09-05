@@ -722,6 +722,59 @@
       "contexto": [
         "quem e voce"
       ]
+    },
+    {
+      "id": "AS-23",
+      "metrica": "assertividade",
+      "categoria": "simulacao_restricao",
+      "pergunta": "quero que me indique outra coisa pra ser cortado menos minha moradia nao posso",
+      "deve_conter": [
+        "Respeitei sua restrição",
+        "moradia",
+        "alimentação"
+      ],
+      "nao_deve_conter": [
+        "Você gastou **R$ 1.380,00**"
+      ],
+      "ferramenta_esperada": "simular_economia",
+      "exige_fonte": true,
+      "observacao": "Veto de categoria: o cliente disse que moradia nao pode ser cortada. A agente deve respeitar e sugerir outra."
+    },
+    {
+      "id": "AS-24",
+      "metrica": "assertividade",
+      "categoria": "simulacao_dirigida",
+      "pergunta": "corta 20% do transporte",
+      "deve_conter": [
+        "20%",
+        "transporte",
+        "R$ 59,00"
+      ],
+      "nao_deve_conter": [
+        "alimentação, lazer"
+      ],
+      "ferramenta_esperada": "simular_economia",
+      "exige_fonte": true,
+      "observacao": "Simulacao dirigida a uma categoria especifica, com percentual proprio."
+    },
+    {
+      "id": "CO-17",
+      "metrica": "coerencia",
+      "categoria": "simulacao_restricao",
+      "contexto": [
+        "simule um corte de 30%"
+      ],
+      "pergunta": "me indique outra coisa pra cortar",
+      "deve_conter": [
+        "moradia",
+        "transporte"
+      ],
+      "nao_deve_conter": [
+        "Desculpa"
+      ],
+      "ferramenta_esperada": "simular_economia",
+      "exige_fonte": true,
+      "observacao": "Apos simular o padrao, pedir 'outra coisa' deve listar alternativas, nao repetir a mesma resposta."
     }
   ]
 }
