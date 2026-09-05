@@ -22,21 +22,72 @@ caso falhar, então a CI reprova sozinha se algo quebrar.
 
 ## 2. Publicar no GitHub
 
-1. Faça o **fork** do repositório oficial `digitalinnovationone/dio-lab-bia-do-futuro`.
-2. Copie o conteúdo deste projeto para o fork.
-3. Abra o `README.md` e troque, na linha 11, `SEU-USUARIO/SEU-REPO` pelo seu
-   caminho real — é o badge de CI. Sem isso ele aparece quebrado.
-4. Commit e push.
-5. Confira a aba **Actions**: a suíte deve rodar sozinha e ficar verde.
+### Fork ou repositório novo?
+
+**Faça o fork.** É o caminho recomendado, por três motivos:
+
+1. O fork cria um vínculo visível com o repositório oficial da DIO. Quem abrir
+   o seu vê "forked from digitalinnovationone/dio-lab-bia-do-futuro".
+2. Você aparece na lista de forks do repo oficial — que é justamente onde os
+   avaliadores procuram os projetos entregues.
+3. Se a DIO pedir Pull Request, só é possível a partir de um fork.
+
+Repositório novo do zero funcionaria tecnicamente, mas você perde a
+rastreabilidade e corre o risco de o projeto não ser encontrado.
+
+> O seu histórico de commits **não se perde** no processo abaixo. Ele é
+> preservado inteiro, com os 18 commits que contam a evolução do projeto — e
+> esse histórico é argumento a seu favor: mostra as decisões e correções, não
+> um despejo de código pronto.
+
+### Passo a passo
+
+**1. Faça o fork** de `digitalinnovationone/dio-lab-bia-do-futuro` pelo botão
+*Fork* no GitHub.
+
+**2. Conecte o seu repositório local ao fork.** Na pasta do projeto:
 
 ```bash
-git add -A
-git commit -m "Luma: agente financeira com function calling determinístico"
-git push
+git remote add origin https://github.com/SEU-USUARIO/dio-lab-bia-do-futuro.git
 ```
 
-**Não suba a sua chave de API.** O `.gitignore` já cobre `.env`, mas confira
-com `git status` antes do push.
+**3. Troque o badge de CI** no `README.md`, linha 11: substitua
+`SEU-USUARIO/SEU-REPO` pelo caminho real. Sem isso o badge aparece quebrado.
+
+```bash
+git add README.md
+git commit -m "Ajusta badge de CI para o repositorio publicado"
+```
+
+**4. Envie.** O seu projeto substitui o conteúdo do template — é isso mesmo que
+se espera, já que os arquivos oficiais são modelos a preencher:
+
+```bash
+git push --force origin main
+```
+
+O `--force` é necessário porque o seu histórico e o do template são
+independentes. Como o fork é seu e acabou de ser criado, não há o que perder.
+
+> Se preferir preservar os commits originais do template, use
+> `git pull origin main --allow-unrelated-histories` antes do push e resolva os
+> conflitos. Dá mais trabalho e não agrega à avaliação.
+
+**5. Confira a aba Actions.** A suíte roda sozinha e deve ficar verde. Se o
+GitHub pedir para habilitar Actions no fork, autorize.
+
+**6. Confira que nenhuma chave vazou:**
+
+```bash
+git log -p | grep -oE "AIza[A-Za-z0-9_-]{30,}" | head
+```
+
+Sem resultado = seguro. Chaves do Google AI Studio começam com `AIza`. As
+ocorrências de `GOOGLE_API_KEY=sua_chave` na documentação são exemplos, não
+credenciais.
+
+Já verificado neste projeto: nenhuma chave real no histórico, e o `.gitignore`
+cobre `.env`, `__pycache__` e o diário de incidentes.
 
 ---
 
