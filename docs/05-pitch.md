@@ -6,7 +6,7 @@
 
 ---
 
-### 🎬 Abertura — O problema (0:00 – 0:35)
+### Abertura — O problema (0:00 – 0:35)
 
 > "Esse é o João. 32 anos, analista de sistemas, ganha cinco mil reais por mês.
 >
@@ -22,7 +22,7 @@
 
 ---
 
-### 🎬 A solução (0:35 – 1:05)
+### A solução (0:35 – 1:05)
 
 > "Essa é a **Luma**, uma agente financeira consultiva.
 >
@@ -36,13 +36,13 @@
 
 ---
 
-### 🎬 Demonstração (1:05 – 2:20)
+### Demonstração (1:05 – 2:20)
 
 **Demo 1 — precisão e fonte** *(15s)*
 
 > "Quanto gastei com alimentação?"
 >
-> "R$ 570,00, em dois lançamentos. E aqui está o detalhe que muda tudo: **📎 Fonte: transacoes.csv, dois registros**.
+> "R$ 570,00, em dois lançamentos. E aqui está o detalhe que muda tudo: **Fonte: transacoes.csv, dois registros**.
 >
 > Todo número que a Luma fala vem com a origem. Você pode auditar."
 
@@ -58,7 +58,7 @@
 >
 > Isso não é um prompt pedindo 'por favor não invente'. É arquitetura."
 
-**Tela:** diagrama do fluxo, destacando LLM → ferramenta → Python → LLM.
+**Tela:** diagrama do fluxo, destacando LLM -> ferramenta -> Python -> LLM.
 
 **Demo 3 — o escudo antifraude** *(25s)*
 
@@ -110,7 +110,7 @@
 
 ---
 
-### 🎬 Prova (2:20 – 2:40)
+### Prova (2:20 – 2:40)
 
 > "E eu não estou pedindo pra você acreditar. Um comando:
 >
@@ -128,7 +128,7 @@
 
 ---
 
-### 🎬 Fechamento (2:40 – 2:55)
+### Fechamento (2:40 – 2:55)
 
 >
 > "A Luma mostra duas coisas.
@@ -166,6 +166,8 @@ Se esquecer o roteiro, essas três sustentam o pitch:
 5. **"Cair em golpe não é burrice — e isso está no meu caso de teste."**
 6. **"Cortei uma funcionalidade que já estava pronta e testada, porque ela falava fora da base. Escopo também é segurança."**
 7. **"Minha suíte marcava 100% enquanto nove bugs estavam vivos. Cobertura de teste herda o viés de quem escreve os testes."**
+8. **"Ele pediu um plano para poupar sem cortar nada, e ela respondeu sugerindo cortes. Cocriar é obedecer à restrição do cliente."**
+9. **"Eu sei exatamente o que falta neste projeto, e está escrito no README. Protótipo que não declara seus limites está escondendo alguma coisa."**
 
 ---
 
@@ -189,6 +191,7 @@ Se esquecer o roteiro, essas três sustentam o pitch:
 | "A detecção de golpe usa IA?" | Não. É contagem determinística de marcadores objetivos no relato. O LLM redige, mas não decide o nível de risco. |
 | "E se der falso positivo?" | Testei frases inofensivas com vocabulário próximo: retorna INDETERMINADO. Um detector que grita sempre é ignorado quando importa. |
 | "Quem alimenta a base de golpes?" | Hoje é curada, com referência em Febraban, Banco Central e CERT.br. Em produção, entraria um feed oficial. |
-| "Como você testou além da suíte?" | Conversa exploratória sem roteiro. Das 14 falhas documentadas, 9 vieram daí — a suíte marcava 100% enquanto elas existiam. O método está em `docs/04-metricas.md` §4.8, e todo achado virou caso de teste: o projeto foi de 24 para 62 casos. |
+| "Como você testou além da suíte?" | Conversa exploratória sem roteiro. Das 17 falhas documentadas, 11 vieram daí — a suíte marcava 100% enquanto elas existiam. O método está em `docs/04-metricas.md` §4.8, e todo achado virou caso de teste: o projeto foi de 24 para 62 casos. |
 | "Sua suíte tem 100%. Isso não é suspeito?" | É, e por isso mantenho duas. A de 62 casos testa o agente contra a base real; `eval/testar_calculos.py` testa as ferramentas com dados sintéticos, incluindo mês no vermelho. Foi essa segunda que pegou a agente dizendo "dá para fechar em 0 mês(es)" com saldo negativo. |
+| "O que falta para isso ir para produção?" | Persistência e multi-cliente, memória entre sessões, e um juiz-modelo na avaliação — hoje os testes checam substring, o que já me deu falso negativo. Está tudo listado em "Limites conhecidos" no README, com a razão de cada corte. |
 | "Por que a Luma não ajuda com celular infectado?" | Porque a base dela não tem nada sobre hardware. Um agente financeiro opinando sobre aparelho está alucinando com boa intenção. Ela recusa e reconduz — e isso é um caso de teste. |

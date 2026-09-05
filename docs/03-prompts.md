@@ -21,13 +21,13 @@ Prefira sempre os campos "_formatado" (já em R$ com padrão brasileiro).
 
 # CITAÇÃO DE FONTE (OBRIGATÓRIA)
 Toda resposta que contenha dados do cliente termina com uma linha:
-📎 Fonte: <valor do campo _fonte da ferramenta usada>
+Fonte: <valor do campo _fonte da ferramenta usada>
 
 # REGRAS DE COMPLIANCE (setor financeiro — inegociáveis)
 1. NUNCA prometa rentabilidade futura. Diga "rendeu", "historicamente", nunca "vai render".
 2. NUNCA garanta resultado. Não existe investimento sem risco.
 3. Ao falar de produtos, encerre com:
-   ⚠️ Conteúdo educacional. Não constitui recomendação de investimento.
+   Conteúdo educacional. Não constitui recomendação de investimento.
 4. NUNCA sugira produto que a ferramenta listou em "produtos_bloqueados".
    Se o cliente pedir um deles, RECUSE e explique o motivo com base no perfil dele.
 5. NUNCA peça, aceite ou exiba senha, PIN, CVV ou dado sensível.
@@ -85,11 +85,11 @@ o Fundo de Ações é de risco alto, e no seu cadastro você declarou não aceit
 Além disso, sua reserva de emergência ainda não está completa — e ela é o colchão que
 evita que você precise resgatar um investimento no pior momento.
 Que tal fecharmos a reserva primeiro? Posso te mostrar o caminho.
-⚠️ Conteúdo educacional. Não constitui recomendação de investimento.
-📎 Fonte: data/produtos_financeiros.json + data/perfil_investidor.json
+Conteúdo educacional. Não constitui recomendação de investimento.
+Fonte: data/produtos_financeiros.json + data/perfil_investidor.json
 ```
 
-A estrutura do "não": **valida o desejo → explica o porquê técnico → dá o motivo educacional → oferece alternativa**. Nunca um "não" seco.
+A estrutura do "não": **valida o desejo -> explica o porquê técnico -> dá o motivo educacional -> oferece alternativa**. Nunca um "não" seco.
 
 ---
 
@@ -111,7 +111,7 @@ Estrutura:
 1. Cumprimente João pelo nome.
 2. Traga UM insight proativo sobre a meta de reserva de emergência.
 3. Ofereça 2 ou 3 opções curtas do que ele pode perguntar.
-Termine com: 📎 Fonte: {metas['_fonte']}"""
+Termine com: Fonte: {metas['_fonte']}"""
 ```
 
 Note que os valores chegam **já calculados e formatados**. O modelo redige, não computa.
@@ -187,7 +187,7 @@ Não consigo prever rentabilidade futura — e desconfie de quem garantir isso.
 O CDB Liquidez Diária historicamente rendeu 102% do CDI, mas rentabilidade
 passada não garante rentabilidade futura.
 
-⚠️ Conteúdo educacional. Não constitui recomendação de investimento.
+Conteúdo educacional. Não constitui recomendação de investimento.
 ```
 
 ---
@@ -224,7 +224,7 @@ As ferramentas devolviam `570.0`, e o modelo formatava. Saiu `R$ 570.00` e `R$ 5
 **Correção:** devolver os bloqueados **com o motivo**. A recusa ficou específica e educativa.
 
 ### It. 4 — Fonte esquecida em respostas longas
-Em respostas com muitos dados, o modelo às vezes omitia o `📎 Fonte:`.
+Em respostas com muitos dados, o modelo às vezes omitia o `Fonte:`.
 **Correção:** regra movida para o topo do prompt + verificação automatizada (`exige_fonte`) na suíte de testes.
 
 ### It. 5 — Prazo vencido
@@ -238,7 +238,7 @@ Ao testar a interface, a primeira mensagem digitada foi um simples `ola`. O agen
 
 ### It. 7 — Cifrão quebrando o Markdown no Streamlit
 No navegador, `R$ 570,00 ... R$ 120,00` era renderizado como fórmula matemática e o texto entre os cifrões sumia. O Streamlit interpreta `$...$` como LaTeX.
-**Correção:** função `md()` em `app.py` escapando `$` → `\$` antes de todo `st.markdown()`.
+**Correção:** função `md()` em `app.py` escapando `$` -> `\$` antes de todo `st.markdown()`.
 **Aprendizado:** o agente estava certo, a camada de apresentação é que corrompia. Vale testar a saída no meio final, não só no terminal.
 
 ### It. 8 — Acento nos rótulos de categoria

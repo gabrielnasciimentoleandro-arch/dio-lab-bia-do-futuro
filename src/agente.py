@@ -967,14 +967,25 @@ class AgenteLuma:
                          f"{a['gasto_formatado']} — cortar {pct:.0f}% aí renderia "
                          f"mais {a['economia_possivel_formatado']}.\n")
 
+            # "2 mes(es) em vez de 2" parecia erro de conta. Quando o corte
+            # nao encurta o prazo, dizer isso E a informacao util: o gargalo
+            # nao esta na despesa.
+            antes = r["meses_para_meta_antes"]
+            depois = r["meses_para_meta_depois"]
+            if antes == depois:
+                linha_prazo = (f"- Reserva completa em **{depois} mês(es)** — "
+                               f"o mesmo prazo de antes: aqui o gargalo não é o gasto")
+            else:
+                linha_prazo = (f"- Reserva completa em **{depois} mês(es)** "
+                               f"em vez de {antes}")
+
             return Resposta(
                 texto=f"{respeito}Simulei um corte de **{pct:.0f}%** em **{cortadas}**:\n\n"
                       f"- Economia mensal: **{r['economia_mensal_formatado']}**\n"
                       f"- Em 12 meses: **{r['economia_anual_formatado']}**\n"
                       f"- Saldo mensal iria de {r['saldo_atual_formatado']} para "
                       f"**{r['novo_saldo_formatado']}**\n"
-                      f"- Reserva completa em **{r['meses_para_meta_depois']} mês(es)** "
-                      f"em vez de {r['meses_para_meta_antes']}\n"
+                      f"{linha_prazo}\n"
                       f"{extra}\n"
                       f"Quer que eu detalhe onde está esse gasto?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["simular_economia"], fontes=[r["_fonte"]],

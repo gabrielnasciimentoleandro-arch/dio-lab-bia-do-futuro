@@ -93,7 +93,7 @@ def main() -> int:
     resultados = [avaliar_caso(agente, c) for c in suite["casos"]]
 
     for r in resultados:
-        icone = "✅" if r["passou"] else "❌"
+        icone = "PASSOU" if r["passou"] else "FALHOU"
         print(f"{icone} [{r['id']}] {r['pergunta'][:52]:<52} {r['latencia_ms']:>4}ms")
         for f in r["falhas"]:
             print(f"      ↳ {f}")
@@ -158,7 +158,7 @@ def main() -> int:
 |---|---|---|---|---|
 """ + "\n".join(
         f"| {r['id']} | {r['metrica']} | {r['categoria']} | {r['pergunta'][:44]} | "
-        f"{'✅' if r['passou'] else '❌'} |" for r in resultados
+        f"{'ok' if r['passou'] else 'FALHOU'} |" for r in resultados
     ) + "\n"
 
     (RAIZ / "eval" / "resultado.md").write_text(md, encoding="utf-8")
@@ -166,7 +166,7 @@ def main() -> int:
         json.dumps({"modo": agente.modo, "geral_pct": pct_geral, "resultados": resultados},
                    ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"📄 eval/resultado.md e eval/resultado.json gerados.\n")
+    print(f"[relatorio] eval/resultado.md e eval/resultado.json gerados.\n")
     return 0 if total_ok == len(resultados) else 1
 
 

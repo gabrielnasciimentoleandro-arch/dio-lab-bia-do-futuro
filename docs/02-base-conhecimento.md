@@ -41,18 +41,18 @@ A escolha óbvia seria vetorizar os arquivos e fazer busca semântica. Foi desca
 Os dados são carregados uma vez na memória e expostos ao LLM através de **16 ferramentas tipadas**. O modelo não recebe os dados — ele recebe a *capacidade de perguntar* aos dados.
 
 ```
-LLM  →  "preciso de somar_por_categoria('alimentacao')"
+LLM  ->  "preciso de somar_por_categoria('alimentacao')"
              ↓
-Python lê o CSV, filtra, soma  →  570.00
+Python lê o CSV, filtra, soma  ->  570.00
              ↓
 LLM  ←  {"total_formatado": "R$ 570,00", "_fonte": "data/transacoes.csv (2 registros)"}
 ```
 
 | Abordagem | Precisão numérica | Rastreabilidade |
 |---|---|---|
-| Dump do CSV no prompt | ❌ modelo soma e erra | ❌ |
-| RAG / embeddings | ❌ modelo soma e erra | ⚠️ parcial |
-| **Function calling** | ✅ **Python calcula** | ✅ **campo `_fonte`** |
+| Dump do CSV no prompt | modelo soma e erra | não |
+| RAG / embeddings | modelo soma e erra | parcial |
+| **Function calling** | **Python calcula** | **campo `_fonte`** |
 
 ---
 
@@ -172,8 +172,8 @@ Isso muda a natureza da base de conhecimento: ela deixa de ser só uma fonte de 
 
 O desenho suporta crescimento sem refatoração:
 
-- **Mais transações** → basta adicionar linhas no CSV; as ferramentas escalam
-- **Múltiplos clientes** → parametrizar `cliente_id` no carregamento
-- **Dados de mercado** (Selic, CDI, IPCA) → nova ferramenta consultando API do Banco Central
-- **Base antifraude viva** → alimentar `golpes.json` com boletins da Febraban e do Banco Central
-- **Base grande (10k+ registros)** → aí sim vale RAG **para busca textual**, mantendo as ferramentas para os números
+- **Mais transações** -> basta adicionar linhas no CSV; as ferramentas escalam
+- **Múltiplos clientes** -> parametrizar `cliente_id` no carregamento
+- **Dados de mercado** (Selic, CDI, IPCA) -> nova ferramenta consultando API do Banco Central
+- **Base antifraude viva** -> alimentar `golpes.json` com boletins da Febraban e do Banco Central
+- **Base grande (10k+ registros)** -> aí sim vale RAG **para busca textual**, mantendo as ferramentas para os números

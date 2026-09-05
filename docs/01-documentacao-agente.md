@@ -92,7 +92,7 @@ Falar sobre dinheiro envolve vergonha e ansiedade. Um cliente conta a um assiste
 
 | Situação | Como a Luma fala |
 |---|---|
-| Cumprimento | *"Olá, João! 👋 Dei uma olhada nos seus números antes de você perguntar..."* |
+| Cumprimento | *"Olá, João!  Dei uma olhada nos seus números antes de você perguntar..."* |
 | Entrega de dado | *"Você gastou **R$ 570,00** com alimentação, em 2 lançamentos: ..."* |
 | Não sabe | *"Não tenho esse dado na minha base, e prefiro não arriscar um palpite sobre o seu dinheiro."* |
 | Recusa (compliance) | *"Entendo a vontade de acelerar os ganhos, mas preciso ser honesto com você: ..."* |
@@ -100,10 +100,10 @@ Falar sobre dinheiro envolve vergonha e ansiedade. Um cliente conta a um assiste
 
 ### Anti-persona (o que evitar)
 
-- ❌ Vendedor: *"Aproveite essa oportunidade imperdível!"*
-- ❌ Robô: *"Sua solicitação foi processada. Código 200."*
-- ❌ Julgador: *"Você gastou demais com lazer."*
-- ❌ Adivinho: *"Esse fundo deve render uns 12% ao ano."*
+- Vendedor: *"Aproveite essa oportunidade imperdível!"*
+- Robô: *"Sua solicitação foi processada. Código 200."*
+- Julgador: *"Você gastou demais com lazer."*
+- Adivinho: *"Esse fundo deve render uns 12% ao ano."*
 
 ---
 
@@ -123,11 +123,11 @@ Um LLM é um excelente tradutor de intenção e um péssimo somador. Então nenh
 
 ```mermaid
 flowchart TD
-    U([👤 Usuário]) --> GE{🛡️ Guardrail<br/>de entrada}
+    U([Usuário]) --> GE{Guardrail<br/>de entrada}
     GE -->|bloqueado| BLOCK[Resposta segura padrão]
-    GE -->|liberado| LLM[🧠 Gemini<br/>interpreta a intenção]
+    GE -->|liberado| LLM[Gemini<br/>interpreta a intenção]
 
-    LLM -->|function calling| T{🔧 Camada determinística<br/>ferramentas.py}
+    LLM -->|function calling| T{Camada determinística<br/>ferramentas.py}
 
     T --> T1[somar_por_categoria]
     T --> T2[resumo_financeiro]
@@ -137,14 +137,14 @@ flowchart TD
     T --> T6[consultar_perfil]
     T --> T7[historico_atendimento]
 
-    T1 & T2 & T3 & T4 & T5 & T6 & T7 --> D[(📁 data/<br/>CSV + JSON)]
+    T1 & T2 & T3 & T4 & T5 & T6 & T7 --> D[(data/<br/>CSV + JSON)]
 
-    D -->|JSON + campo _fonte| LLM2[🧠 Gemini redige<br/>usando SÓ esses valores]
-    LLM2 --> GS{🛡️ Guardrail<br/>de saída}
-    GS --> R([💬 Resposta + 📎 Fonte])
+    D -->|JSON + campo _fonte| LLM2[Gemini redige<br/>usando SÓ esses valores]
+    LLM2 --> GS{Guardrail<br/>de saída}
+    GS --> R([Resposta + Fonte])
     BLOCK --> R
 
-    R -.->|latência, tools, guardrails| LOG[📊 Observabilidade]
+    R -.->|latência, tools, guardrails| LOG[Observabilidade]
 ```
 
 ### Componentes
@@ -187,7 +187,7 @@ Se o Python calculou `R$ 570,00`, é isso que chega ao usuário. A alucinação 
 Toda ferramenta retorna um campo `_fonte`. Toda resposta com dados termina com:
 
 ```
-📎 Fonte: data/transacoes.csv (2 registros)
+Fonte: data/transacoes.csv (2 registros)
 ```
 
 O usuário sempre pode auditar de onde veio o número.
@@ -223,7 +223,7 @@ Decisão de design importante: a resposta a quem caiu em golpe começa por *"cai
 
 ### Camada 6 — Avaliação contínua
 
-25 casos automatizados, incluindo **10 testes adversariais** (red team). Rodam com um comando e geram relatório versionado. Ver `docs/04-metricas.md`.
+62 casos automatizados, incluindo **10 testes adversariais** (red team). Rodam com um comando e geram relatório versionado. Ver `docs/04-metricas.md`.
 
 ### Limitações declaradas
 

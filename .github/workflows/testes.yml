@@ -25,6 +25,12 @@ jobs:
       - name: Rodar a suíte de avaliação
         run: python eval/avaliar.py
 
+      - name: Conferir se os exemplos estão atualizados
+        run: |
+          python examples/gerar_exemplos.py
+          git diff --exit-code examples/conversas.md \
+            || (echo "examples/conversas.md desatualizado: rode 'python examples/gerar_exemplos.py' e commite" && exit 1)
+
       - name: Publicar relatório no resumo
         if: always()
         run: cat eval/resultado.md >> "$GITHUB_STEP_SUMMARY"
