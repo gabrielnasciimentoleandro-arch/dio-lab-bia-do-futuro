@@ -228,22 +228,11 @@ st.markdown(f"""
   /* ---------- escala tipográfica (fixa, sem tamanhos avulsos) ---------- */
   /* t1 1.55rem · t2 1.0rem · corpo .945rem · aux .8rem · micro .72rem   */
 
-  .luma-head {{ display:flex; align-items:center; gap:.8rem; margin-bottom:.3rem; }}
-  .luma-mark {{
-      width:44px; height:44px; border-radius:12px; flex-shrink:0;
-      object-fit:contain; background:transparent;
-  }}
-  .luma-title {{
-      font-size:1.55rem; font-weight:700; letter-spacing:-.021em;
-      color:var(--txt); line-height:1.15; margin:0;
-  }}
-  .luma-sub {{ font-size:.8rem; color:var(--txt3); margin:.15rem 0 0; font-weight:500; }}
-
   .badge {{
-      display:inline-flex; align-items:center; gap:.55rem;
-      font-size:.84rem; font-weight:600; padding:.5rem .95rem;
-      border-radius:10px; margin:.9rem 0 .35rem; letter-spacing:.005em;
-      line-height:1.25;
+      display:flex; align-items:center; gap:.62rem;
+      font-size:.88rem; font-weight:600; padding:.72rem 1.05rem;
+      border-radius:12px; margin:.2rem 0 .5rem; letter-spacing:.005em;
+      line-height:1.35;
   }}
   /* Rotulo em caixa alta separa o ESTADO do sistema da explicacao dele. */
   .badge .b-tag {{
@@ -310,20 +299,23 @@ st.markdown(f"""
   /* ---------- marca da sidebar ---------- */
   .marca-wrap {{
       display:flex; flex-direction:column; align-items:center;
-      text-align:center; padding:.35rem 0 1.15rem;
-      margin:0 0 1.15rem; border-bottom:1px solid var(--borda);
+      text-align:center; padding:.15rem 0 1rem;
+      margin:0 0 1rem; border-bottom:1px solid var(--borda);
   }}
   .marca-wrap svg {{
       filter:drop-shadow(0 6px 18px {'rgba(13,148,136,.28)' if ESCURO else 'rgba(49,46,129,.18)'});
       max-width:100%; height:auto;
   }}
   .marca-nome {{
-      font-size:1.42rem; font-weight:700; color:var(--txt);
-      letter-spacing:-.02em; line-height:1.15; margin-top:.7rem;
+      font-size:1.18rem; font-weight:700; color:var(--txt);
+      letter-spacing:-.015em; line-height:1.2; margin-top:.62rem;
   }}
+  /* Legenda em caixa alta espacada: lida como assinatura de marca, nao
+     como texto secundario perdido embaixo do logo. */
   .marca-tag {{
-      font-size:.76rem; font-weight:500; color:var(--txt3);
-      letter-spacing:.02em; margin-top:.15rem;
+      font-size:.635rem; font-weight:700; color:var(--txt3);
+      text-transform:uppercase; letter-spacing:.13em;
+      line-height:1.3; margin-top:.34rem;
   }}
 
   /* ---------- sidebar ---------- */
@@ -545,7 +537,7 @@ with st.sidebar:
     # Marca no topo: ocupa a faixa vazia acima de "Conexão" e ancora a
     # identidade do produto em vez de deixar espaco morto.
     st.markdown(
-        f'<div class="marca-wrap">{marca_luma(150)}'
+        f'<div class="marca-wrap">{marca_luma(104)}'
         f'<div class="marca-nome">Luma</div>'
         f'<div class="marca-tag">Guardiã da sua reserva</div></div>',
         unsafe_allow_html=True,
@@ -685,12 +677,8 @@ if "agente" not in st.session_state or st.session_state.get("_key") != api_key:
 agente: AgenteLuma = st.session_state.agente
 AV_USER = avatar_user(ESCURO)
 
-st.markdown(
-    f'<div class="luma-head"><img class="luma-mark" src="{AVATAR_LUMA}" alt="Luma">'
-    f'<div><p class="luma-title">Luma</p>'
-    f'<p class="luma-sub">Agente financeira inteligente</p></div></div>',
-    unsafe_allow_html=True,
-)
+# A marca ja aparece grande na sidebar: repeti-la aqui era redundancia.
+# O topo do painel agora abre direto com a declaracao de arquitetura.
 
 # A contagem vem do proprio registro de ferramentas: badge que se atualiza
 # sozinho quando uma tool nasce. Ja ficou desatualizado uma vez (15 x 16).
@@ -701,8 +689,8 @@ if agente.modo == "gemini":
         '<span class="badge badge-live"><span class="dot"></span>'
         '<span class="b-tag">Gemini conectado</span>'
         '<span class="b-sep">|</span>'
-        f'<span class="b-txt">Conversa livre, com os {N_TOOLS} cálculos '
-        'ainda vindos das ferramentas</span></span>',
+        f'<span class="b-txt">A conversa é do Gemini; todo número continua '
+        f'saindo das {N_TOOLS} ferramentas auditáveis</span></span>',
         unsafe_allow_html=True,
     )
 else:
@@ -713,8 +701,8 @@ else:
         '<span class="badge badge-demo"><span class="dot"></span>'
         '<span class="b-tag">Modo determinístico</span>'
         '<span class="b-sep">|</span>'
-        f'<span class="b-txt">Cada resposta sai direto das {N_TOOLS} '
-        'ferramentas, sem geração de texto por IA</span></span>',
+        f'<span class="b-txt">Nenhum número é gerado por IA: cada valor sai '
+        f'calculado das {N_TOOLS} ferramentas, com a fonte declarada</span></span>',
         unsafe_allow_html=True,
     )
 
