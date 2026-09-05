@@ -406,36 +406,39 @@ O ciclo é: conversar -> achar -> corrigir -> **automatizar** -> rodar a suíte 
 
 ---
 
-## 4.9 Validação com pessoas
+## 4.9 Validação com pessoas (complemento opcional)
 
-> **Status: pendente.** Esta seção está deliberadamente em branco.
->
-> As notas humanas ainda não foram coletadas. Preenchê-la com valores
-> plausíveis seria inventar evidência — exatamente o comportamento que este
-> projeto inteiro existe para impedir na agente. Um número inventado num
-> relatório de avaliação é a mesma falha que uma alucinação numa resposta:
-> informação sem origem, apresentada com aparência de fato.
->
-> O instrumento de coleta está pronto em
-> [`eval/formulario-avaliacao.md`](../eval/formulario-avaliacao.md) —
-> roteiro de 9 interações, três métricas de 1 a 5 e seis perguntas abertas.
-> Assim que as respostas chegarem, a tabela abaixo é preenchida com elas.
+O enunciado do desafio sugere, como **dica opcional**, pedir a 3-5 pessoas que
+testem o agente e deem notas de 1 a 5 por métrica — "isso torna suas métricas
+mais confiáveis". A avaliação exigida é a estruturada, e ela está completa nas
+secoes anteriores: 62 casos automatizados, 19 testes unitários e 17 falhas
+documentadas com correção.
 
-### Instrumento
+Esta seção fica **em branco de propósito**. As notas humanas não foram
+coletadas, e preenchê-las com valores plausíveis seria inventar evidência —
+exatamente o comportamento que este projeto existe para impedir na agente. Um
+número sem origem num relatório de avaliação é a mesma falha que uma
+alucinação numa resposta.
 
-O formulário pede que o avaliador **saia do roteiro** e tente quebrar a
-agente. Isso não é gentileza com o participante: das 17 falhas registradas
-neste documento, 11 vieram de conversa livre e nenhuma da execução de um
-roteiro fixo (ver secao 4.8). Um teste humano que só repete o script já
-automatizado não acrescenta informação que a suíte não tenha.
+O instrumento está pronto em
+[`eval/formulario-avaliacao.md`](../eval/formulario-avaliacao.md), então a
+coleta é execução, não construção: 9 interações roteirizadas, três métricas de
+1 a 5 e seis perguntas abertas.
 
-Duas perguntas abertas foram escritas para provocar crítica em vez de
-elogio — *"ela recusou algo que deveria ter respondido?"* e o inverso,
-*"respondeu algo que deveria ter recusado?"*. As duas mapeiam direto para a
-métrica de segurança, e uma resposta positiva em qualquer delas vira caso
-de teste.
+### Por que o formulário pede para o avaliador sair do roteiro
 
-### Tabela a preencher
+Das 17 falhas registradas neste documento, **11 vieram de conversa livre** e
+nenhuma da execução de um roteiro fixo (secao 4.8). Um teste humano que apenas
+repete o script já automatizado não acrescenta informação que a suíte não
+tenha — o valor de uma pessoa testando está justamente no que ela faz fora do
+previsto.
+
+Por isso duas perguntas do formulário são espelhadas e provocam crítica em vez
+de elogio: *"ela recusou algo que deveria ter respondido?"* e *"respondeu algo
+que deveria ter recusado?"*. As duas mapeiam direto para a métrica de
+segurança, e qualquer resposta positiva vira caso de teste.
+
+### Tabela a preencher, se a coleta for feita
 
 | Avaliador | Perfil | Assertiv. | Segurança | Coerência | Comentário |
 |---|---|---|---|---|---|
@@ -446,14 +449,9 @@ de teste.
 | E | | | | | |
 | **Média** | | | | | |
 
-### Como consolidar
-
-1. Aplicar o formulário com 3 a 5 pessoas, de perfis diferentes — ao menos
-   uma sem familiaridade com tecnologia.
-2. Transcrever as notas acima, **incluindo as baixas**.
-3. Separar o feedback qualitativo em "funcionou bem" e "a melhorar".
-4. Cada problema apontado por um humano vira um caso em
-   `eval/casos_teste.json`, seguindo o método da secao 4.8.
+Ao consolidar: registrar **todas** as notas, inclusive as baixas, separar o
+feedback em "funcionou bem" e "a melhorar", e transformar cada problema
+apontado em caso novo em `eval/casos_teste.json`.
 
 ---
 
