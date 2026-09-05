@@ -784,6 +784,48 @@
       ],
       "guardrails": [],
       "latencia_ms": 0
+    },
+    {
+      "id": "AS-25",
+      "metrica": "assertividade",
+      "categoria": "cocriacao_plano",
+      "pergunta": "vamos bolar um plano para poupar nosso dinheiro?",
+      "resposta": "Vamos montar juntos, João. Parti do que a sua base já mostra: você fecha o mês com R$ 2.511,10 e faltam R$ 5.000,00 para a reserva.\n\n**1. Automatizar o que já sobra**\nVocê já fecha o mês com R$ 2.511,10 — 50.2% da renda. O problema não é o quanto sobra, é que sobra solto. Programe uma transferência automática no dia do salário.\n*Resultado:* R$ 2.511,10/mês indo para a reserva sem depender de disciplina\n\n**2. Colocar a reserva para render**\nReserva de emergência precisa de liquidez diária, não de rentabilidade alta. Compatíveis com seu perfil moderado: Tesouro Selic ou CDB Liquidez Diária. O Tesouro Selic rende 100% da Selic, risco baixo.\n*Resultado:* O mesmo dinheiro, rendendo em vez de parado na conta\n\n**3. Fechar a reserva**\nFaltam R$ 5.000,00. Mantendo R$ 2.511,10/mês, dá para fechar em 2 mês(es). O prazo de 2026-06 já venceu — vale repactuar para uma data realista.\n*Resultado:* Reserva de R$ 15.000,00 completa\n\n**4. Só então atacar: entrada do apartamento**\nCom a reserva pronta, o mesmo R$ 2.511,10/mês passa a construir os R$ 50.000,00. Investir antes de ter reserva costuma terminar em resgate no pior momento.\n*Resultado:* Ordem correta: proteção primeiro, patrimônio depois\n\n---\n\n**Acelerar (opcional)** — Se quiser antecipar, cortar 30% em alimentação, lazer liberaria R$ 187,77/mês a mais. (R$ 2.253,24 em 12 meses)\n\nEsse é o esqueleto. Me diz qual etapa faz sentido para a sua realidade que a gente ajusta — se alguma não couber, eu refaço o plano sem ela.\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json + data/produtos_financeiros.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "montar_plano"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "AS-26",
+      "metrica": "assertividade",
+      "categoria": "cocriacao_veto",
+      "pergunta": "o que podemos fazer para poupar com o que ja tenho sem cortar gastos atuais?",
+      "resposta": "Vamos montar juntos, João. E olhando seus números, a boa notícia é que **você não precisa cortar nada** — já sobra R$ 2.511,10 por mês, 50.2% da sua renda. O problema não é quanto sobra, é que esse dinheiro fica solto.\n\n**1. Automatizar o que já sobra**\nVocê já fecha o mês com R$ 2.511,10 — 50.2% da renda. O problema não é o quanto sobra, é que sobra solto. Programe uma transferência automática no dia do salário.\n*Resultado:* R$ 2.511,10/mês indo para a reserva sem depender de disciplina\n\n**2. Colocar a reserva para render**\nReserva de emergência precisa de liquidez diária, não de rentabilidade alta. Compatíveis com seu perfil moderado: Tesouro Selic ou CDB Liquidez Diária. O Tesouro Selic rende 100% da Selic, risco baixo.\n*Resultado:* O mesmo dinheiro, rendendo em vez de parado na conta\n\n**3. Fechar a reserva**\nFaltam R$ 5.000,00. Mantendo R$ 2.511,10/mês, dá para fechar em 2 mês(es). O prazo de 2026-06 já venceu — vale repactuar para uma data realista.\n*Resultado:* Reserva de R$ 15.000,00 completa\n\n**4. Só então atacar: entrada do apartamento**\nCom a reserva pronta, o mesmo R$ 2.511,10/mês passa a construir os R$ 50.000,00. Investir antes de ter reserva costuma terminar em resgate no pior momento.\n*Resultado:* Ordem correta: proteção primeiro, patrimônio depois\n\nEsse é o esqueleto. Me diz qual etapa faz sentido para a sua realidade que a gente ajusta — se alguma não couber, eu refaço o plano sem ela.\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json + data/produtos_financeiros.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "montar_plano"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-18",
+      "metrica": "coerencia",
+      "categoria": "cocriacao_plano",
+      "pergunta": "me ajuda a fazer um planejamento",
+      "resposta": "Vamos montar juntos, João. Parti do que a sua base já mostra: você fecha o mês com R$ 2.511,10 e faltam R$ 5.000,00 para a reserva.\n\n**1. Automatizar o que já sobra**\nVocê já fecha o mês com R$ 2.511,10 — 50.2% da renda. O problema não é o quanto sobra, é que sobra solto. Programe uma transferência automática no dia do salário.\n*Resultado:* R$ 2.511,10/mês indo para a reserva sem depender de disciplina\n\n**2. Colocar a reserva para render**\nReserva de emergência precisa de liquidez diária, não de rentabilidade alta. Compatíveis com seu perfil moderado: Tesouro Selic ou CDB Liquidez Diária. O Tesouro Selic rende 100% da Selic, risco baixo.\n*Resultado:* O mesmo dinheiro, rendendo em vez de parado na conta\n\n**3. Fechar a reserva**\nFaltam R$ 5.000,00. Mantendo R$ 2.511,10/mês, dá para fechar em 2 mês(es). O prazo de 2026-06 já venceu — vale repactuar para uma data realista.\n*Resultado:* Reserva de R$ 15.000,00 completa\n\n**4. Só então atacar: entrada do apartamento**\nCom a reserva pronta, o mesmo R$ 2.511,10/mês passa a construir os R$ 50.000,00. Investir antes de ter reserva costuma terminar em resgate no pior momento.\n*Resultado:* Ordem correta: proteção primeiro, patrimônio depois\n\n---\n\n**Acelerar (opcional)** — Se quiser antecipar, cortar 30% em alimentação, lazer liberaria R$ 187,77/mês a mais. (R$ 2.253,24 em 12 meses)\n\nEsse é o esqueleto. Me diz qual etapa faz sentido para a sua realidade que a gente ajusta — se alguma não couber, eu refaço o plano sem ela.\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json + data/produtos_financeiros.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "montar_plano"
+      ],
+      "guardrails": [],
+      "latencia_ms": 0
     }
   ]
 }

@@ -775,6 +775,58 @@
       "ferramenta_esperada": "simular_economia",
       "exige_fonte": true,
       "observacao": "Apos simular o padrao, pedir 'outra coisa' deve listar alternativas, nao repetir a mesma resposta."
+    },
+    {
+      "id": "AS-25",
+      "metrica": "assertividade",
+      "categoria": "cocriacao_plano",
+      "pergunta": "vamos bolar um plano para poupar nosso dinheiro?",
+      "deve_conter": [
+        "Vamos montar juntos",
+        "R$ 2.511,10",
+        "1."
+      ],
+      "nao_deve_conter": [
+        "não sei responder",
+        "Desculpa"
+      ],
+      "ferramenta_esperada": "montar_plano",
+      "exige_fonte": true,
+      "observacao": "Pilar COCRIAR: pedido de plano conjunto caia no fallback. A agente deve organizar um caminho em etapas."
+    },
+    {
+      "id": "AS-26",
+      "metrica": "assertividade",
+      "categoria": "cocriacao_veto",
+      "pergunta": "o que podemos fazer para poupar com o que ja tenho sem cortar gastos atuais?",
+      "deve_conter": [
+        "não precisa cortar nada",
+        "R$ 2.511,10"
+      ],
+      "nao_deve_conter": [
+        "Simulei um corte",
+        "cortar 30%",
+        "alimentação, lazer"
+      ],
+      "ferramenta_esperada": "montar_plano",
+      "exige_fonte": true,
+      "observacao": "O cliente vetou cortes. O plano nao pode sugerir corte nenhum, nem como alavanca opcional."
+    },
+    {
+      "id": "CO-18",
+      "metrica": "coerencia",
+      "categoria": "cocriacao_plano",
+      "pergunta": "me ajuda a fazer um planejamento",
+      "deve_conter": [
+        "reserva",
+        "Me diz qual etapa"
+      ],
+      "nao_deve_conter": [
+        "Desculpa"
+      ],
+      "ferramenta_esperada": "montar_plano",
+      "exige_fonte": true,
+      "observacao": "O plano termina convidando o cliente a ajustar - cocriacao, nao prescricao."
     }
   ]
 }

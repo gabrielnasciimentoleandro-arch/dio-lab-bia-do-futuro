@@ -204,10 +204,27 @@ SCHEMAS = [
     },
     {
         "name": "simular_economia",
-        "description": "Simula cortar uma porcentagem dos gastos flexíveis.",
+        "description": "Simula cortar uma porcentagem dos gastos. Aceita categorias específicas e categorias que o cliente NÃO pode cortar.",
         "parameters": {
             "type": "object",
-            "properties": {"corte_pct": {"type": "number", "description": "Padrão 30."}},
+            "properties": {
+                "corte_pct": {"type": "number", "description": "Padrão 30."},
+                "categorias": {"type": "array", "items": {"type": "string"},
+                               "description": "Cortar apenas estas categorias."},
+                "excluir": {"type": "array", "items": {"type": "string"},
+                            "description": "Categorias que o cliente vetou."},
+            },
+        },
+    },
+    {
+        "name": "montar_plano",
+        "description": ("Monta um plano de ação em etapas para atingir a reserva. "
+                        "Use quando o cliente pedir plano, planejamento ou 'o que fazer'. "
+                        "sem_cortes=true quando ele pedir para não reduzir gastos."),
+        "parameters": {
+            "type": "object",
+            "properties": {"sem_cortes": {"type": "boolean",
+                                          "description": "True se o cliente vetou cortes."}},
         },
     },
     {
@@ -781,6 +798,65 @@ class AgenteLuma:
                       f"{tools.PERFIL['perfil_investidor']}\n"
                       f"- **Segurança**: identificar golpes e proteger seu celular\n\n"
                       f"Todo número que eu falo vem com a fonte. Por onde começamos?"
+            )
+
+        # --- plano de ação (cocriação)
+        # Precisa vir ANTES da simulação: "vamos poupar sem cortar gastos" tem
+        # a palavra "poupar" e era capturado pelo corte automático — sugerindo
+        # exatamente o que o cliente acabara de vetar.
+        pede_plano = re.search(
+            r"\b(plano|planejamento|planejar|estrategia|estratégia|"
+            r"organizar|organizacao|roteiro|caminho|passo a passo|"
+            r"por onde (eu )?(comec|começ|inici)\w*|o que (eu )?(faco|faço|fazer)|"
+            r"o que podemos fazer|o que fazer|me ajuda a|"
+            r"vamos (bolar|montar|criar|fazer|pensar|traçar|tracar))\b", p
+        )
+        quer_poupar = re.search(r"\b(poupar|guardar|juntar|economizar mais|"
+                                r"render mais|fazer render)\b", p)
+
+        if pede_plano or (quer_poupar and re.search(
+                r"\b(sem cortar|nao cortar|não cortar|sem mexer|sem reduzir|"
+                r"com o que (ja|já) (tenho|tenhos|sobra)|sem tirar)\b", p)):
+
+            # O cliente pode vetar cortes explicitamente.
+            sem_cortes = bool(re.search(
+                r"\b(sem cortar|nao cortar|não cortar|sem mexer|sem reduzir|"
+                r"sem tirar|nao quero cortar|não quero cortar|"
+                r"com o que (ja|já) (tenho|tenhos|sobra)|sem abrir mao|"
+                r"sem abrir mão|mantendo meus gastos)\b", p))
+
+            r = tools.montar_plano(sem_cortes=sem_cortes)
+
+            abertura = (
+                f"Vamos montar juntos, {nome}. E olhando seus números, a boa "
+                f"notícia é que **você não precisa cortar nada** — já sobra "
+                f"{r['saldo_disponivel_formatado']} por mês, "
+                f"{r['taxa_poupanca_pct']}% da sua renda. O problema não é "
+                f"quanto sobra, é que esse dinheiro fica solto.\n\n"
+                if sem_cortes else
+                f"Vamos montar juntos, {nome}. Parti do que a sua base já "
+                f"mostra: você fecha o mês com {r['saldo_disponivel_formatado']} "
+                f"e faltam {r['falta_reserva_formatado']} para a reserva.\n\n"
+            )
+
+            corpo = "\n\n".join(
+                f"**{i}. {e['titulo']}**\n{e['acao']}\n*Resultado:* {e['impacto']}"
+                for i, e in enumerate(r["etapas"], 1)
+            )
+
+            extra = ""
+            if r["alavanca_opcional"]:
+                a = r["alavanca_opcional"]
+                extra = f"\n\n---\n\n**{a['titulo']}** — {a['acao']} ({a['impacto']})"
+
+            fecho = ("\n\nEsse é o esqueleto. Me diz qual etapa faz sentido para a "
+                     "sua realidade que a gente ajusta — se alguma não couber, "
+                     "eu refaço o plano sem ela.")
+
+            return Resposta(
+                texto=abertura + corpo + extra + fecho + f"\n\n[fonte] {r['_fonte']}",
+                ferramentas_usadas=["montar_plano"], fontes=[r["_fonte"]],
+                oferta="metas",
             )
 
         # --- simulação

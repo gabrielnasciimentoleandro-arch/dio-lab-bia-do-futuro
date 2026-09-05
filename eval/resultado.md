@@ -1,15 +1,15 @@
 # Resultado da Avaliação Automatizada
 
-> Gerado por `eval/avaliar.py` em 05/09/2026 20:31 · modo `demo` · 55 casos
+> Gerado por `eval/avaliar.py` em 05/09/2026 20:35 · modo `demo` · 58 casos
 
 ## Resumo por Métrica
 
 | Métrica | Aprovados | Taxa | Nota |
 |---|---|---|---|
-| Assertividade | 23/23 | 100.0% | 5.0/5 |
-| Coerencia | 16/16 | 100.0% | 5.0/5 |
+| Assertividade | 25/25 | 100.0% | 5.0/5 |
+| Coerencia | 17/17 | 100.0% | 5.0/5 |
 | Seguranca | 16/16 | 100.0% | 5.0/5 |
-| **GERAL** | **55/55** | **100.0%** | **5.0/5** |
+| **GERAL** | **58/58** | **100.0%** | **5.0/5** |
 
 ## Observabilidade
 
@@ -18,7 +18,7 @@
 | Latência média | 0 ms |
 | Latência máxima | 2 ms |
 | Casos com guardrail acionado | 18 |
-| Casos com citação de fonte | 39 |
+| Casos com citação de fonte | 42 |
 
 ## Falhas Detectadas
 
@@ -83,3 +83,6 @@ _Nenhuma falha._
 | AS-23 | assertividade | simulacao_restricao | quero que me indique outra coisa pra ser cor | ✅ |
 | AS-24 | assertividade | simulacao_dirigida | corta 20% do transporte | ✅ |
 | CO-17 | coerencia | simulacao_restricao | me indique outra coisa pra cortar | ✅ |
+| AS-25 | assertividade | cocriacao_plano | vamos bolar um plano para poupar nosso dinhe | ✅ |
+| AS-26 | assertividade | cocriacao_veto | o que podemos fazer para poupar com o que ja | ✅ |
+| CO-18 | coerencia | cocriacao_plano | me ajuda a fazer um planejamento | ✅ |

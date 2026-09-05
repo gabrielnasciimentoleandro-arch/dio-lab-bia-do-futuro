@@ -704,7 +704,101 @@ def consultar_diario() -> dict:
     }
 
 
+def montar_plano(sem_cortes: bool = False) -> dict:
+    """
+    Monta um plano de ação em etapas para o cliente atingir a reserva.
+
+    sem_cortes=True: o cliente pediu para NÃO reduzir gastos. O plano então
+    trabalha apenas com o dinheiro que já sobra — direcionamento, automação
+    e rendimento — sem sugerir corte nenhum.
+
+    Existe porque "vamos montar um plano juntos" é cocriação, um dos pilares
+    do agente, e caía no fallback: ele sabia responder consultas isoladas mas
+    não sabia organizar um caminho.
+    """
+    resumo = resumo_financeiro()
+    metas = progresso_metas()["metas"]
+    meta = metas[0]
+    produtos = recomendar_produtos()
+    saldo = resumo["saldo"]
+    falta = meta["falta"]
+
+    etapas: list[dict] = []
+
+    # Etapa 1 — o dinheiro que já existe e não está trabalhando.
+    if saldo > 0:
+        etapas.append({
+            "titulo": "Automatizar o que já sobra",
+            "acao": (f"Você já fecha o mês com {brl(saldo)} — {resumo['taxa_poupanca_pct']}% "
+                     f"da renda. O problema não é o quanto sobra, é que sobra solto. "
+                     f"Programe uma transferência automática no dia do salário."),
+            "impacto": f"{brl(saldo)}/mês indo para a reserva sem depender de disciplina",
+        })
+
+    # Etapa 2 — onde guardar (sem prometer retorno).
+    if produtos["produtos_compativeis"]:
+        p = produtos["produtos_compativeis"][0]
+        liquidos = [x["nome"] for x in produtos["produtos_compativeis"][:2]]
+        etapas.append({
+            "titulo": "Colocar a reserva para render",
+            "acao": (f"Reserva de emergência precisa de liquidez diária, não de "
+                     f"rentabilidade alta. Compatíveis com seu perfil "
+                     f"{produtos['perfil_investidor']}: {' ou '.join(liquidos)}. "
+                     f"O {p['nome']} rende {p['rentabilidade']}, risco {p['risco']}."),
+            "impacto": "O mesmo dinheiro, rendendo em vez de parado na conta",
+        })
+
+    # Etapa 3 — o prazo, com o número real.
+    if falta > 0:
+        etapas.append({
+            "titulo": "Fechar a reserva",
+            "acao": (f"Faltam {brl(falta)}. Mantendo {brl(saldo)}/mês, "
+                     f"{prazo_texto(meta['meses_no_ritmo_atual'])}."
+                     + (f" O prazo de {meta['prazo']} já venceu — vale repactuar "
+                        f"para uma data realista." if meta["prazo_vencido"] else "")),
+            "impacto": f"Reserva de {meta['valor_necessario_formatado']} completa",
+        })
+
+    # Etapa 4 — só depois da reserva, a próxima meta.
+    if len(metas) > 1:
+        prox = metas[1]
+        etapas.append({
+            "titulo": f"Só então atacar: {prox['meta'].lower()}",
+            "acao": (f"Com a reserva pronta, o mesmo {brl(saldo)}/mês passa a "
+                     f"construir os {prox['valor_necessario_formatado']}. "
+                     f"Investir antes de ter reserva costuma terminar em resgate "
+                     f"no pior momento."),
+            "impacto": "Ordem correta: proteção primeiro, patrimônio depois",
+        })
+
+    # Alavanca extra — só se o cliente NÃO vetou cortes.
+    alavanca = None
+    if not sem_cortes:
+        sim = simular_economia(30)
+        if sim["economia_mensal"] > 0:
+            cats = ", ".join(c["categoria"] for c in sim["categorias_ajustadas"])
+            alavanca = {
+                "titulo": "Acelerar (opcional)",
+                "acao": (f"Se quiser antecipar, cortar 30% em {cats} liberaria "
+                         f"{sim['economia_mensal_formatado']}/mês a mais."),
+                "impacto": f"{sim['economia_anual_formatado']} em 12 meses",
+            }
+
+    return {
+        "sem_cortes": sem_cortes,
+        "saldo_disponivel_formatado": brl(saldo),
+        "taxa_poupanca_pct": resumo["taxa_poupanca_pct"],
+        "falta_reserva_formatado": brl(falta),
+        "etapas": etapas,
+        "total_etapas": len(etapas),
+        "alavanca_opcional": alavanca,
+        "_fonte": ("data/transacoes.csv + data/perfil_investidor.json "
+                   "+ data/produtos_financeiros.json"),
+    }
+
+
 FERRAMENTAS = {
+    "montar_plano": montar_plano,
     "somar_por_categoria": somar_por_categoria,
     "resumo_financeiro": resumo_financeiro,
     "consultar_perfil": consultar_perfil,

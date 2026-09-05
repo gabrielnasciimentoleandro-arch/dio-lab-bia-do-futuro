@@ -38,7 +38,7 @@ A escolha óbvia seria vetorizar os arquivos e fazer busca semântica. Foi desca
 
 ### A escolha: Function Calling sobre dados estruturados
 
-Os dados são carregados uma vez na memória e expostos ao LLM através de **15 ferramentas tipadas**. O modelo não recebe os dados — ele recebe a *capacidade de perguntar* aos dados.
+Os dados são carregados uma vez na memória e expostos ao LLM através de **16 ferramentas tipadas**. O modelo não recebe os dados — ele recebe a *capacidade de perguntar* aos dados.
 
 ```
 LLM  →  "preciso de somar_por_categoria('alimentacao')"
@@ -56,7 +56,7 @@ LLM  ←  {"total_formatado": "R$ 570,00", "_fonte": "data/transacoes.csv (2 reg
 
 ---
 
-## 2.3 As 15 ferramentas
+## 2.3 As 16 ferramentas
 
 | Ferramenta | Parâmetros | Retorna |
 |---|---|---|
@@ -65,6 +65,7 @@ LLM  ←  {"total_formatado": "R$ 570,00", "_fonte": "data/transacoes.csv (2 reg
 | `consultar_perfil` | — | Dados cadastrais e metas |
 | `progresso_metas` | — | % concluído, quanto falta, aporte necessário, se está no ritmo |
 | `recomendar_produtos` | — | Produtos compatíveis **e bloqueados**, com motivo |
+| `montar_plano` | `sem_cortes: bool` | Plano de ação em etapas; respeita veto a cortes |
 | `simular_economia` | `corte_pct, categorias, excluir` | Economia projetada e impacto no prazo da meta |
 | `historico_atendimento` | — | Atendimentos e temas recorrentes |
 | `analisar_resiliencia` | — | Meses de fôlego sem renda, no cenário normal e no enxuto |

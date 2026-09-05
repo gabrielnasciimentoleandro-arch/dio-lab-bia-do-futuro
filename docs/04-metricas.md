@@ -10,7 +10,7 @@ Aqui a avaliação é **código executável**:
 python eval/avaliar.py
 ```
 
-Um comando roda 55 casos, verifica asserções por máquina e gera `eval/resultado.md`. Isso transforma avaliação num **teste de regressão**: mudou o prompt, roda a suíte, vê o que quebrou.
+Um comando roda 58 casos, verifica asserções por máquina e gera `eval/resultado.md`. Isso transforma avaliação num **teste de regressão**: mudou o prompt, roda a suíte, vê o que quebrou.
 
 ### Como um caso é declarado
 
@@ -53,7 +53,7 @@ O `nao_deve_conter` é o mais valioso: é ele que pega o agente **oferecendo Fun
 
 ## 4.3 Resultado
 
-> Execução em 05/09/2026 · modo `demo` · 55 casos
+> Execução em 05/09/2026 · modo `demo` · 58 casos
 
 | Métrica | Aprovados | Taxa | Nota |
 |---|---|---|---|
@@ -337,20 +337,34 @@ Também foi preciso mover a rota de simulação para **antes** da rota de catego
 
 **Aprendizado:** cocriação exige que o cliente possa dizer "isso aí eu não posso mexer". Uma ferramenta sem parâmetro de restrição transforma a conversa em monólogo.
 
+### Falha 15 — Sabia consultar, não sabia planejar *(e ignorou um veto)*
+
+Duas falhas no mesmo diálogo.
+
+*"Vamos bolar um plano para poupar nosso dinheiro?"* caía no fallback. A agente respondia consultas isoladas muito bem, mas não sabia **organizar um caminho** — falha direta no pilar **cocriar**, um dos quatro exigidos pelo desafio.
+
+Na sequência, *"o que podemos fazer com o que já tenho **sem cortar gastos atuais**?"* devolvia uma simulação de corte de 30% em alimentação e lazer: exatamente o que o cliente acabara de vetar. A palavra "poupar" era capturada pela rota de simulação, que vinha antes.
+
+**Correção:** nova ferramenta `montar_plano(sem_cortes)`, com plano em 4 etapas construídas sobre os dados reais — automatizar o que já sobra, colocar para render, fechar a reserva, só então a próxima meta. Com `sem_cortes=True`, a alavanca opcional de corte **nem é gerada**. A rota foi posicionada antes da simulação.
+
+O insight que o plano entrega é o mais forte do projeto: **o João já poupa 50,2% da renda.** Ele não precisa cortar nada — precisa parar de deixar R$ 2.511,10 soltos na conta corrente.
+
+**Aprendizado:** cocriar não é responder bem a cada pergunta isolada, é sustentar uma direção. E respeitar restrição do cliente é parte da resposta correta: um plano que ignora "não posso cortar" está tecnicamente certo e praticamente inútil.
+
 ---
 
 ## 4.8 Teste exploratório humano
 
-As 14 falhas acima têm uma origem desproporcional:
+As 15 falhas acima têm uma origem desproporcional:
 
 | Origem | Falhas encontradas |
 |---|---|
-| Conversa livre com a agente | **9** |
+| Conversa livre com a agente | **10** |
 | Suíte automatizada (regressão) | 3 |
 | Troca deliberada dos dados de entrada | 1 |
 | Revisão de escopo | 1 |
 
-A suíte marcava **100%** no momento em que 9 dessas falhas existiam. Isso não é defeito da suíte — é a sua natureza. **Cobertura de teste herda o viés de quem escreve os testes**: eu só automatizo o que já imaginei que poderia dar errado.
+A suíte marcava **100%** no momento em que 10 dessas falhas existiam. Isso não é defeito da suíte — é a sua natureza. **Cobertura de teste herda o viés de quem escreve os testes**: eu só automatizo o que já imaginei que poderia dar errado.
 
 ### O método, na prática
 
@@ -363,7 +377,7 @@ A suíte marcava **100%** no momento em que 9 dessas falhas existiam. Isso não 
 
 O ciclo é: conversar → achar → corrigir → **automatizar** → rodar a suíte inteira. Os passos 4 e 5 são o que impede a mesma falha de voltar.
 
-> Este projeto passou de 24 para 55 casos automatizados. **A maior parte desse crescimento veio de falhas descobertas conversando**, não de casos planejados na mesa.
+> Este projeto passou de 24 para 58 casos automatizados. **A maior parte desse crescimento veio de falhas descobertas conversando**, não de casos planejados na mesa.
 
 ---
 
@@ -398,7 +412,7 @@ Complemento humano ao teste automatizado. **5 avaliadores**, contextualizados de
 
 Honestidade sobre o que estes números **não** provam:
 
-- Base de 55 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
+- Base de 58 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
 - As asserções são por palavra-chave, não semânticas. Uma resposta correta com fraseado inesperado pode falhar (falso negativo).
 - Os 5 avaliadores são amostra de conveniência, não representativa.
 - 100% em modo demo é esperado: as respostas são templates. **O número honesto** é o da execução com Gemini, onde há variabilidade real de geração.
