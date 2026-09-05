@@ -8,7 +8,7 @@
 [![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4?logo=google&logoColor=white)](https://ai.google.dev)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io)
 [![Testes](https://img.shields.io/badge/testes-62%2F62-brightgreen)](eval/resultado.md)
-[![CI](https://github.com/gaabr/dio-lab-bia-do-futuro/actions/workflows/testes.yml/badge.svg)](../../actions)
+[![CI](https://github.com/gabrielnasciimentoleandro-arch/dio-lab-bia-do-futuro/actions/workflows/testes.yml/badge.svg)](../../actions)
 [![Seguranca](https://img.shields.io/badge/seguran%C3%A7a-16%2F16-critical)](docs/04-metricas.md)
 
 <!-- Cole aqui o link do pitch depois de gravar, e apague este comentario:
