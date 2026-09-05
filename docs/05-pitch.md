@@ -2,142 +2,121 @@
 
 ## Roteiro para gravação
 
-> Tempo alvo: **2min55s**. Cronometre. Três minutos passam rápido.
+> Tempo alvo: **2min55s**. Tudo em `>` é para falar; o resto é indicação de
+> tela.
+>
+> **Medição:** 407 palavras de fala = **2min54s** a 140 palavras por minuto,
+> que é ritmo de apresentação calmo. A margem é curta de propósito — se você
+> fala rápido, sobra tempo para as pausas de demonstração; se fala devagar,
+> use a lista "Se o tempo apertar" mais abaixo.
+>
+> Todos os valores citados foram conferidos contra as ferramentas: alimentação
+> R$ 570,00 em 2 lançamentos, saldo R$ 2.511,10 (50,2% da renda), faltam
+> R$ 5.000,00 para a reserva, prazo de junho de 2026 vencido.
 
 ---
 
-### Abertura — O problema (0:00 – 0:35)
+### Problema (0:00 – 0:30)
 
-> "Esse é o João. 32 anos, analista de sistemas, ganha cinco mil reais por mês.
+> "Esse é o João. Ganha cinco mil por mês e poupa metade disso — cinquenta por
+> cento da renda.
 >
-> E o João faz tudo certo: ele poupa **50% da renda**. Cinquenta por cento.
->
-> Mesmo assim, a reserva de emergência dele está parada em dez mil, de uma meta de quinze mil. E o prazo que ele mesmo definiu — junho de 2026 — **já passou**.
+> Mesmo assim, a reserva dele está travada em dez mil, de uma meta de quinze. E
+> o prazo que ele mesmo marcou já venceu.
 >
 > O problema do João não é falta de dinheiro. É falta de direção.
 >
-> O aplicativo do banco mostra o extrato dele. Mas extrato é histórico. Ninguém diz pro João o que fazer **amanhã**."
+> O banco mostra o extrato. Extrato é passado — ninguém diz o que fazer amanhã."
 
-**Tela:** dashboard lateral do app — saldo R$ 2.511,10, barra de progresso em 66,7%.
-
----
-
-### A solução (0:35 – 1:05)
-
-> "Essa é a **Luma**, uma agente financeira consultiva.
->
-> Repare: eu ainda não perguntei nada. E ele já abre assim:
->
-> *'Olá, João. Dei uma olhada nos seus números antes de você perguntar: faltam cinco mil reais para a sua reserva. No seu ritmo, dá pra fechar em dois meses — mas o prazo de junho já passou.'*
->
-> Ele não esperou a pergunta. Ele **antecipou**."
-
-**Tela:** abrir o app, mostrar a saudação proativa.
+**Tela:** painel lateral — saldo R$ 2.511,10, reserva em 66,7%.
 
 ---
 
-### Demonstração (1:05 – 2:20)
+### Solução (0:30 – 0:55)
 
-**Demo 1 — precisão e fonte** *(15s)*
+> "Essa é a Luma.
+>
+> Repare que eu ainda não perguntei nada, e ela já abre assim: *faltam cinco
+> mil para a sua reserva; no seu ritmo dá para fechar em dois meses, mas o
+> prazo de junho já passou.*
+>
+> Ela não esperou a pergunta. Antecipou."
 
-> "Quanto gastei com alimentação?"
->
-> "R$ 570,00, em dois lançamentos. E aqui está o detalhe que muda tudo: **Fonte: transacoes.csv, dois registros**.
->
-> Todo número que a Luma fala vem com a origem. Você pode auditar."
-
-**Demo 2 — o diferencial técnico** *(25s)*
-
-> "E por que eu confio nesse número?
->
-> Porque **a Luma não faz essa conta**.
->
-> A inteligência artificial só interpreta a pergunta e escolhe qual ferramenta chamar. Quem soma é o Python. O modelo recebe o resultado pronto e escreve a frase.
->
-> Ou seja: meu agente é **matematicamente incapaz de errar um valor** — porque ele não é quem faz a conta.
->
-> Isso não é um prompt pedindo 'por favor não invente'. É arquitetura."
-
-**Tela:** diagrama do fluxo, destacando LLM -> ferramenta -> Python -> LLM.
-
-**Demo 3 — o escudo antifraude** *(25s)*
-
-> "Mas tem uma coisa que me incomodou enquanto eu construía isso.
->
-> De que adianta a Luma economizar cento e oitenta e sete reais por mês pro João, se **um único golpe de Pix leva oitocentos numa tarde**?
->
-> Então ela ganhou um segundo pilar. Olha só:
->
-> *'Me ligaram do banco pedindo pra transferir pra uma conta segura, é urgente.'*
->
-> **Risco ALTO. Isso tem cara de golpe. Não avance.**
->
-> Ela identificou o padrão — falso funcionário — listou os sinais, disse o que fazer, e fechou com: **'conta segura não existe, é sempre golpe'**.
->
-> E de novo: não é o modelo achando que é golpe. É o Python contando marcadores objetivos no relato."
-
-**Tela:** a resposta de risco ALTO com os sinais listados.
-
-**Demo 4 — o diário de aprendizado** *(20s)*
-
-> "E se a pessoa já caiu?
->
-> *'Caí no golpe do pix e perdi oitocentos reais.'*
->
-> Repare como ela começa:
->
-> **'Sinto muito. E quero dizer uma coisa antes de tudo: cair em golpe não é burrice.'**
->
-> Isso não é enfeite — está no meu caso de teste, com asserção obrigatória. Porque vergonha faz a vítima calar, e o silêncio é o que permite o **segundo** golpe.
->
-> Aí ela registra no diário, guarda a lição e orienta o boletim de ocorrência.
->
-> Essa é a única base do projeto **que cresce com o uso**. Cada golpe sofrido vira defesa futura."
-
-**Tela:** a resposta acolhedora + o card do diário na sidebar.
-
-**Demo 5 — compliance** *(20s)*
-
-> "Agora o teste difícil. Vou pedir uma coisa que o João não deveria fazer:
->
-> *'Me põe no Fundo de Ações, quero ganhar mais.'*
->
-> E a Luma **recusa**:
->
-> *'Entendo a vontade de acelerar os ganhos, mas o Fundo de Ações é de risco alto, e você declarou não aceitar risco. Além disso, sua reserva ainda não está completa — ela é o colchão que evita resgatar investimento na pior hora.'*
->
-> Um chatbot vendedor teria aceitado. A Luma protege o cliente **do próprio cliente**."
+**Tela:** abrir o app, saudação proativa.
 
 ---
 
-### Prova (2:20 – 2:40)
+### Demo 1 — Precisão e arquitetura (0:55 – 1:25)
 
-> "E eu não estou pedindo pra você acreditar. Um comando:
+> "*Quanto gastei com alimentação?*
 >
-> `python eval/avaliar.py`
+> Quinhentos e setenta reais, em dois lançamentos — e embaixo, a fonte:
+> transacoes.csv.
 >
-> Quarenta e sete casos automatizados. **Cem por cento de aprovação.**
+> Por que eu confio nesse número? Porque **a Luma não faz essa conta**. A IA só
+> interpreta a pergunta e escolhe qual ferramenta chamar. Quem soma é o Python.
 >
-> E dez desses casos são ataques: prompt injection, pedido de senha, produto que não existe, promessa de rentabilidade. A Luma bloqueou todos.
->
-> Inclusive: quando eu pergunto sobre um fundo inventado, ele responde **'não tenho esse dado e não vou arriscar um palpite'**.
->
-> Num banco, saber dizer 'não sei' vale mais do que parecer inteligente."
+> Minha agente é matematicamente incapaz de errar um valor, porque ela não é
+> quem calcula. Isso não é um prompt pedindo 'não invente'. É arquitetura."
 
-**Tela:** terminal rodando a suíte, linhas verdes, resultado 25/25.
+**Tela:** resposta com o rodapé de fonte; depois `assets/arquitetura.svg`.
 
 ---
 
-### Fechamento (2:40 – 2:55)
+### Demo 2 — Cocriação com restrição (1:25 – 2:00)
 
+> "Agora o teste que eu mais gosto. O João pede: *como poupar sem cortar meus
+> gastos atuais?*
 >
-> "A Luma mostra duas coisas.
+> Um assistente comum sugere cortar alimentação e lazer — ignora a única regra
+> que o cliente deu.
 >
-> Primeiro: um agente financeiro confiável não nasce de um prompt melhor. Nasce de **arquitetura** — separar quem calcula de quem conversa. A IA faz o que faz bem, entender gente. O código faz o que faz bem, não errar conta.
+> A Luma responde: **você não precisa cortar nada.** Já sobram dois mil e
+> quinhentos por mês. O problema não é quanto sobra, é que fica solto na conta.
 >
-> Segundo: assistente financeiro de verdade não serve só para otimizar rendimento. Serve para **proteger**. Porque o maior risco do brasileiro hoje não é escolher o CDB errado — é o telefone tocando com uma história urgente do outro lado.
+> E entrega um plano em quatro etapas que termina perguntando o que ajustar.
 >
-> E o João? Sai da conversa sabendo o próximo passo. E um pouco mais difícil de enganar.
+> Cocriar é obedecer à restrição do cliente."
+
+**Tela:** o plano com a abertura "você não precisa cortar nada".
+
+---
+
+### Demo 3 — Proteção (2:00 – 2:25)
+
+> "*Me ligaram do banco pedindo para transferir para uma conta segura.*
+>
+> Risco alto, cara de golpe, não avance. E de novo: é o Python contando
+> marcadores objetivos, não o modelo achando.
+>
+> E quando o João pede o Fundo de Ações, ela **recusa** — risco alto, e a
+> reserva dele ainda não está pronta.
+>
+> Um chatbot vendedor teria aceitado."
+
+**Tela:** alerta de risco ALTO; depois a recusa do fundo.
+
+---
+
+### Prova (2:25 – 2:45)
+
+> "Um comando: `python eval/avaliar.py`. Sessenta e dois casos, cem por cento.
+> Dezesseis são ataques — injection, pedido de senha, produto inexistente,
+> promessa de rentabilidade.
+>
+> Mas o número que eu levo é outro: **dezessete falhas documentadas, onze delas
+> achadas conversando com ela** enquanto a suíte marcava cem por cento."
+
+**Tela:** terminal com a suíte verde, 62/62.
+
+---
+
+### Fecho (2:45 – 2:55)
+
+> "Agente financeiro confiável não nasce de um prompt melhor. Nasce de
+> arquitetura: separar quem calcula de quem conversa.
+>
+> E num banco, saber dizer 'não sei' vale mais do que parecer inteligente.
 >
 > Obrigado."
 
@@ -147,38 +126,62 @@
 
 | Tempo | Bloco | Mensagem central |
 |---|---|---|
-| 0:00–0:35 | Problema | Poupa 50% e mesmo assim não bate a meta. Falta direção, não dinheiro. |
-| 0:35–1:05 | Solução | Agente proativo que fala antes de ser perguntado |
-| 1:05–2:20 | Demo | Precisão com fonte · LLM não calcula · **antifraude** · **diário** · compliance |
-| 2:20–2:40 | Prova | 62 casos, 100%, 12 ataques bloqueados |
-| 2:40–2:55 | Fecho | Arquitetura > prompt · proteger vale mais que otimizar |
+| 0:00–0:30 | Problema | Poupa 50% e não bate a meta. Falta direção, não dinheiro. |
+| 0:30–0:55 | Solução | Agente proativo: fala antes de ser perguntado |
+| 0:55–1:25 | Demo 1 | Número com fonte · o LLM não calcula |
+| 1:25–2:00 | Demo 2 | Cocriação que obedece ao veto do cliente |
+| 2:00–2:25 | Demo 3 | Antifraude e recusa de produto incompatível |
+| 2:25–2:45 | Prova | 62 casos, 100% · 17 falhas documentadas |
+| 2:45–2:55 | Fecho | Arquitetura > prompt · saber dizer "não sei" |
+
+---
+
+## Se o tempo apertar
+
+Corte nesta ordem, sem dó:
+
+1. **Demo 3 inteira** (25s) — o antifraude é ótimo, mas é o pilar mais
+   periférico ao enunciado.
+2. A segunda metade da **Prova** (10s), ficando só "62 casos, 100%".
+3. A frase do extrato na abertura (7s).
+
+**Nunca corte:** a Demo 1 (é a tese técnica) e a Demo 2 (é o pilar cocriar, e
+é a parte mais difícil de replicar).
 
 ---
 
 ## Frases-âncora
 
-Se esquecer o roteiro, essas três sustentam o pitch:
+Se travar, qualquer uma destas sustenta o pitch sozinha:
 
 1. **"O problema do João não é falta de dinheiro. É falta de direção."**
-2. **"Meu agente é matematicamente incapaz de errar um valor, porque ele não é quem faz a conta."**
+2. **"Minha agente é matematicamente incapaz de errar um valor, porque ela não é quem faz a conta."**
 3. **"Num banco, saber dizer 'não sei' vale mais do que parecer inteligente."**
-4. **"De que adianta economizar R$ 187 por mês se um golpe de Pix leva R$ 800 numa tarde?"**
-5. **"Cair em golpe não é burrice — e isso está no meu caso de teste."**
-6. **"Cortei uma funcionalidade que já estava pronta e testada, porque ela falava fora da base. Escopo também é segurança."**
-7. **"Minha suíte marcava 100% enquanto nove bugs estavam vivos. Cobertura de teste herda o viés de quem escreve os testes."**
-8. **"Ele pediu um plano para poupar sem cortar nada, e ela respondeu sugerindo cortes. Cocriar é obedecer à restrição do cliente."**
+4. **"Ele pediu um plano para poupar sem cortar nada, e ela respondeu sugerindo cortes. Cocriar é obedecer à restrição do cliente."**
+5. **"Minha suíte marcava 100% enquanto onze bugs estavam vivos. Cobertura de teste herda o viés de quem escreve os testes."**
+6. **"Cortei uma funcionalidade pronta e testada porque ela falava fora da base. Escopo também é segurança."**
+7. **"Zero significava 'inalcançável' e a tela mostrava como boa notícia."**
+8. **"De que adianta economizar R$ 187 por mês se um golpe de Pix leva R$ 800 numa tarde?"**
 9. **"Eu sei exatamente o que falta neste projeto, e está escrito no README. Protótipo que não declara seus limites está escondendo alguma coisa."**
 
 ---
 
 ## Checklist de gravação
 
-- [ ] App aberto e testado **antes** de gravar
-- [ ] Terminal com a suíte já pronta para rodar (não digitar ao vivo)
-- [ ] Zoom da fonte aumentado — vídeo comprime
-- [ ] Cronometrar: cortar a demo antes do fechamento, nunca o contrário
+> Passo a passo do que clicar, com as mensagens prontas para colar, em
+> [`05b-roteiro-gravacao.md`](05b-roteiro-gravacao.md).
+
+- [ ] App **já aberto e testado** antes de apertar o rec — nada de digitar comando ao vivo
+- [ ] Modo escuro ligado (fica melhor em vídeo comprimido)
+- [ ] Conversa reiniciada, para a saudação proativa aparecer
+- [ ] Terminal com a suíte pronta em outra aba
+- [ ] Zoom da fonte aumentado — vídeo comprime e some texto pequeno
+- [ ] Cronômetro visível
 - [ ] Falar mais devagar do que parece natural
 - [ ] Áudio limpo importa mais que imagem bonita
+- [ ] Gravar duas vezes e ficar com a segunda
+
+---
 
 ## Perguntas prováveis da banca
 
@@ -187,11 +190,11 @@ Se esquecer o roteiro, essas três sustentam o pitch:
 | "Por que não usou RAG?" | 20 registros cabem no contexto. E RAG não resolve aritmética — recuperar o CSV certo não impede o modelo de somar errado. |
 | "Escala para milhares de transações?" | As ferramentas sim (é filtro e soma). Acima de ~10 mil registros, migraria para SQL e usaria RAG só para busca textual. |
 | "E se o modelo ignorar o system prompt?" | Os guardrails críticos estão em código, fora do modelo. Produto incompatível é filtrado na origem — o LLM nunca o vê como opção. |
-| "Por que o modo demo?" | Para o avaliador conseguir rodar sem chave de API. Um projeto que não roda não é avaliado. |
+| "Por que o modo determinístico?" | Para o avaliador conseguir rodar sem chave de API. Um projeto que não roda não é avaliado. |
 | "A detecção de golpe usa IA?" | Não. É contagem determinística de marcadores objetivos no relato. O LLM redige, mas não decide o nível de risco. |
 | "E se der falso positivo?" | Testei frases inofensivas com vocabulário próximo: retorna INDETERMINADO. Um detector que grita sempre é ignorado quando importa. |
 | "Quem alimenta a base de golpes?" | Hoje é curada, com referência em Febraban, Banco Central e CERT.br. Em produção, entraria um feed oficial. |
-| "Como você testou além da suíte?" | Conversa exploratória sem roteiro. Das 17 falhas documentadas, 11 vieram daí — a suíte marcava 100% enquanto elas existiam. O método está em `docs/04-metricas.md` §4.8, e todo achado virou caso de teste: o projeto foi de 24 para 62 casos. |
+| "Como você testou além da suíte?" | Conversa exploratória sem roteiro. Das 17 falhas documentadas, 11 vieram daí — a suíte marcava 100% enquanto elas existiam. O método está em `docs/04-metricas.md`, secao 4.8, e todo achado virou caso de teste: o projeto foi de 24 para 62 casos. |
 | "Sua suíte tem 100%. Isso não é suspeito?" | É, e por isso mantenho duas. A de 62 casos testa o agente contra a base real; `eval/testar_calculos.py` testa as ferramentas com dados sintéticos, incluindo mês no vermelho. Foi essa segunda que pegou a agente dizendo "dá para fechar em 0 mês(es)" com saldo negativo. |
-| "O que falta para isso ir para produção?" | Persistência e multi-cliente, memória entre sessões, e um juiz-modelo na avaliação — hoje os testes checam substring, o que já me deu falso negativo. Está tudo listado em "Limites conhecidos" no README, com a razão de cada corte. |
+| "O que falta para ir para produção?" | Persistência e multi-cliente, memória entre sessões, e um juiz-modelo na avaliação — hoje os testes checam substring, o que já me deu falso negativo. Está listado em "Limites conhecidos" no README, com a razão de cada corte. |
 | "Por que a Luma não ajuda com celular infectado?" | Porque a base dela não tem nada sobre hardware. Um agente financeiro opinando sobre aparelho está alucinando com boa intenção. Ela recusa e reconduz — e isso é um caso de teste. |

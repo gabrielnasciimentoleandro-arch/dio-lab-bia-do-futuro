@@ -42,7 +42,9 @@ com `git status` antes do push.
 
 ## 3. Gravar o pitch (3 minutos)
 
-O roteiro cronometrado está em [`docs/05-pitch.md`](docs/05-pitch.md), dividido
+O roteiro cronometrado está em [`docs/05-pitch.md`](docs/05-pitch.md) — 407
+palavras, medidas em 2min54s — e o passo a passo de tela em
+[`docs/05b-roteiro-gravacao.md`](docs/05b-roteiro-gravacao.md). Dividido
 em problema -> como funciona -> por que é inovador, com as frases-âncora
 destacadas e uma tabela de perguntas prováveis da banca.
 

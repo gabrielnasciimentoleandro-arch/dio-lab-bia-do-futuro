@@ -263,7 +263,8 @@ assistente-financeiro/
 │   ├── 02-base-conhecimento.md      # Estratégia de dados e as 16 ferramentas
 │   ├── 03-prompts.md                # System prompt, few-shot, edge cases, iterações
 │   ├── 04-metricas.md               # Avaliação, red team, falhas corrigidas
-│   └── 05-pitch.md                  # Roteiro cronometrado de 3 minutos
+│   ├── 05-pitch.md                  # Roteiro cronometrado de 3 minutos
+│   └── 05b-roteiro-gravacao.md      # O que clicar na tela, passo a passo
 │
 ├── src/
 │   ├── ferramentas.py               # 16 funções determinísticas — quem calcula
@@ -327,7 +328,7 @@ Toda ferramenta devolve `_fonte` para citação e `_formatado` em padrão brasil
 | 3 | Prompts | [`docs/03-prompts.md`](docs/03-prompts.md) · [`src/prompts.py`](src/prompts.py) |
 | 4 | Aplicação funcional | [`src/app.py`](src/app.py) · [`src/cli.py`](src/cli.py) · [`examples/conversas.md`](examples/conversas.md) |
 | 5 | Avaliação e métricas | [`docs/04-metricas.md`](docs/04-metricas.md) · [`eval/`](eval) |
-| 6 | Pitch | [`docs/05-pitch.md`](docs/05-pitch.md) |
+| 6 | Pitch | [`docs/05-pitch.md`](docs/05-pitch.md) · [`docs/05b-roteiro-gravacao.md`](docs/05b-roteiro-gravacao.md) |
 
 ---
 
