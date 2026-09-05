@@ -11,9 +11,7 @@
 [![CI](https://github.com/gabrielnasciimentoleandro-arch/dio-lab-bia-do-futuro/actions/workflows/testes.yml/badge.svg)](../../actions)
 [![Seguranca](https://img.shields.io/badge/seguran%C3%A7a-16%2F16-critical)](docs/04-metricas.md)
 
-<!-- Cole aqui o link do pitch depois de gravar, e apague este comentario:
-**[Assista ao pitch de 3 minutos](https://youtu.be/SEU-VIDEO)**
--->
+**[Assista ao pitch de 3 minutos](https://youtu.be/rtfWI89_8ak)**
 
 *Projeto do Lab **Construa Seu Assistente Virtual Com Inteligência Artificial** — DIO / Bootcamp Bradesco GenAI & Dados*
 
