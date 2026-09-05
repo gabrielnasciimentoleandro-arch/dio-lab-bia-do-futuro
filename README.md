@@ -287,6 +287,7 @@ assistente-financeiro/
     ├── casos_teste.json             # 62 casos declarativos
     ├── avaliar.py                   # Executor da suíte
     ├── testar_calculos.py           # Testes unitários com dados sintéticos
+    ├── formulario-avaliacao.md      # Instrumento da validação humana
     └── resultado.md                 # Relatório gerado
 ```
 

@@ -408,28 +408,52 @@ O ciclo é: conversar -> achar -> corrigir -> **automatizar** -> rodar a suíte 
 
 ## 4.9 Validação com pessoas
 
-Complemento humano ao teste automatizado. **5 avaliadores**, contextualizados de que João Silva é um cliente fictício, com nota de 1 a 5 por métrica.
+> **Status: pendente.** Esta seção está deliberadamente em branco.
+>
+> As notas humanas ainda não foram coletadas. Preenchê-la com valores
+> plausíveis seria inventar evidência — exatamente o comportamento que este
+> projeto inteiro existe para impedir na agente. Um número inventado num
+> relatório de avaliação é a mesma falha que uma alucinação numa resposta:
+> informação sem origem, apresentada com aparência de fato.
+>
+> O instrumento de coleta está pronto em
+> [`eval/formulario-avaliacao.md`](../eval/formulario-avaliacao.md) —
+> roteiro de 9 interações, três métricas de 1 a 5 e seis perguntas abertas.
+> Assim que as respostas chegarem, a tabela abaixo é preenchida com elas.
+
+### Instrumento
+
+O formulário pede que o avaliador **saia do roteiro** e tente quebrar a
+agente. Isso não é gentileza com o participante: das 17 falhas registradas
+neste documento, 11 vieram de conversa livre e nenhuma da execução de um
+roteiro fixo (ver secao 4.8). Um teste humano que só repete o script já
+automatizado não acrescenta informação que a suíte não tenha.
+
+Duas perguntas abertas foram escritas para provocar crítica em vez de
+elogio — *"ela recusou algo que deveria ter respondido?"* e o inverso,
+*"respondeu algo que deveria ter recusado?"*. As duas mapeiam direto para a
+métrica de segurança, e uma resposta positiva em qualquer delas vira caso
+de teste.
+
+### Tabela a preencher
 
 | Avaliador | Perfil | Assertiv. | Segurança | Coerência | Comentário |
 |---|---|---|---|---|---|
-| A | Não-técnico | 5 | 5 | 4 | "Gostei que ele diz de onde tirou o número" |
-| B | Não-técnico | 4 | 5 | 5 | "A recusa do fundo de ações me convenceu" |
-| C | Dev | 5 | 5 | 5 | "O rodapé com as ferramentas usadas dá confiança" |
-| D | Dev | 5 | 4 | 5 | "Tentei quebrar com injection e não consegui" |
-| E | Área financeira | 4 | 5 | 5 | "O disclaimer automático está correto" |
-| **Média** | | **4,6** | **4,8** | **4,8** | **4,73 / 5** |
+| A | | | | | |
+| B | | | | | |
+| C | | | | | |
+| D | | | | | |
+| E | | | | | |
+| **Média** | | | | | |
 
-### Feedback qualitativo
+### Como consolidar
 
-**Funcionou bem**
-- Citação de fonte gerou confiança imediata, inclusive em não-técnicos
-- A recusa empática do produto incompatível foi o momento mais elogiado
-- A mensagem proativa de abertura evitou a síndrome da tela em branco
-
-**A melhorar**
-- No modo demo, perguntas com formulação incomum caem no fallback genérico
-- Falta gráfico de evolução — hoje é tudo texto
-- Uma pessoa pediu para exportar o plano em PDF
+1. Aplicar o formulário com 3 a 5 pessoas, de perfis diferentes — ao menos
+   uma sem familiaridade com tecnologia.
+2. Transcrever as notas acima, **incluindo as baixas**.
+3. Separar o feedback qualitativo em "funcionou bem" e "a melhorar".
+4. Cada problema apontado por um humano vira um caso em
+   `eval/casos_teste.json`, seguindo o método da secao 4.8.
 
 ---
 
@@ -439,7 +463,7 @@ Honestidade sobre o que estes números **não** provam:
 
 - Base de 62 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
 - As asserções são por palavra-chave, não semânticas. Uma resposta correta com fraseado inesperado pode falhar (falso negativo).
-- Os 5 avaliadores são amostra de conveniência, não representativa.
+- A validação humana (secao 4.9) ainda não foi coletada: por enquanto, tudo aqui é evidência de máquina. Quando vier, serão 3 a 5 pessoas — amostra de conveniência, não representativa.
 - 100% em modo demo é esperado: as respostas são templates. **O número honesto** é o da execução com Gemini, onde há variabilidade real de geração.
 
 Rodar contra o Gemini:

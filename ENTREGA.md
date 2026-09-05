@@ -62,11 +62,13 @@ Sugestão de gravação:
 |---|---|
 | Trocar `SEU-USUARIO/SEU-REPO` no badge | `README.md`, linha 11 |
 | Testar com chave Gemini real | Cole no campo da sidebar ou use `.env` |
-| Preencher a avaliação humana (3-5 pessoas) | `docs/04-metricas.md`, seção 4.9 |
+| Preencher a avaliação humana (3-5 pessoas) | Aplique `eval/formulario-avaliacao.md` e transcreva em `docs/04-metricas.md`, seção 4.9 |
 | Gravar e linkar o pitch | `docs/05-pitch.md` |
 
 A avaliação humana é a única seção com espaços em branco propositais: o
 desafio pede pessoas reais avaliando de 1 a 5, e isso não dá para simular.
+O formulário pronto está em `eval/formulario-avaliacao.md` — mande para 3 a 5
+pessoas, de perfis diferentes, e transcreva as notas na seção 4.9.
 
 ---
 
