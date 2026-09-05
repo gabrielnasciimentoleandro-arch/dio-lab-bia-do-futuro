@@ -61,6 +61,21 @@ def brl(valor: float) -> str:
     return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
+def prazo_texto(meses: int | None) -> str:
+    """
+    Traduz 'meses_no_ritmo_atual' em linguagem honesta.
+
+    None significa saldo zero ou negativo: a meta NÃO é alcançável no ritmo
+    atual. Sem isto a interface dizia "dá para fechar em 0 mês(es)", que soa
+    como boa notícia quando na verdade é o pior cenário possível.
+    """
+    if meses is None:
+        return "no ritmo atual você não chega lá — o mês está fechando no vermelho"
+    if meses == 0:
+        return "meta já concluída"
+    return f"dá para fechar em {meses} mês(es)"
+
+
 # ------------------------------------------------------------------ FERRAMENTAS
 def somar_por_categoria(categoria: str) -> dict:
     """Soma as SAÍDAS de uma categoria. Ex.: 'alimentacao' -> 570.00"""
@@ -148,7 +163,15 @@ def progresso_metas() -> dict:
         falta = max(necessario - acumulado, 0.0)
         pct = round(acumulado / necessario * 100, 1) if necessario else 0.0
 
-        meses_nec = int(-(-falta // saldo_mensal)) if saldo_mensal > 0 and falta > 0 else 0
+        # ATENCAO: 0 é ambíguo — pode significar "meta concluída" ou "saldo
+        # negativo, nunca alcança". None marca o caso inalcançável, para a UI
+        # e o agente não dizerem "dá para fechar em 0 mês(es)".
+        if falta <= 0:
+            meses_nec = 0
+        elif saldo_mensal > 0:
+            meses_nec = int(-(-falta // saldo_mensal))
+        else:
+            meses_nec = None  # saldo zero ou negativo: inalcançável no ritmo atual
 
         ano, mes = map(int, m["prazo"].split("-"))
         meses_ate_prazo = (ano - hoje.year) * 12 + (mes - hoje.month)
@@ -367,7 +390,7 @@ def diagnostico_geral() -> dict:
 
     prioridade = (
         f"Completar a reserva de emergência: faltam {m['falta_formatado']}, "
-        f"o que no seu ritmo leva cerca de {m['meses_no_ritmo_atual']} mês(es)."
+        f"e {prazo_texto(m['meses_no_ritmo_atual'])}."
         if not m["concluida"] else
         "Reserva completa. O próximo passo é direcionar o saldo para a meta seguinte."
     )

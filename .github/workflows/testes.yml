@@ -19,6 +19,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Testes unitários das ferramentas
+        run: python eval/testar_calculos.py
+
       - name: Rodar a suíte de avaliação
         run: python eval/avaliar.py
 

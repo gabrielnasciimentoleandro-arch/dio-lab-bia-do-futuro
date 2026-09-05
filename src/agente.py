@@ -445,8 +445,7 @@ class AgenteLuma:
                 f"- Você sobra **{res['saldo_formatado']}** por mês. Esse é o seu "
                 f"motor real de crescimento — bem mais previsível que rendimento.\n"
                 f"- Faltam **{met['falta_formatado']}** para fechar sua reserva de "
-                f"emergência, e nesse ritmo isso leva cerca de "
-                f"**{met['meses_no_ritmo_atual']} mês(es)**.\n"
+                f"emergência: {tools.prazo_texto(met['meses_no_ritmo_atual'])}.\n"
             )
             if top:
                 corpo += (f"- Compatível com seu perfil **{pr['perfil_investidor']}**: "
@@ -792,8 +791,8 @@ class AgenteLuma:
                         f"**{m['meta']}** — {m['progresso_pct']}% concluído\n"
                         f"O prazo ({m['prazo']}) já venceu e ainda faltam "
                         f"{m['falta_formatado']}.\n"
-                        f"No seu ritmo atual, dá para fechar em "
-                        f"{m['meses_no_ritmo_atual']} mês(es). Vale repactuar a data."
+                        f"{tools.prazo_texto(m['meses_no_ritmo_atual']).capitalize()}. "
+                        f"Vale repactuar a data."
                     )
                 else:
                     status = "no ritmo" if m["no_ritmo"] else "precisa acelerar"
@@ -929,7 +928,7 @@ class AgenteLuma:
         nome = tools.PERFIL["nome"].split()[0]
 
         if m["prazo_vencido"]:
-            status = (f"o que dá para fechar em **{m['meses_no_ritmo_atual']} mês(es)** — "
+            status = (f"e {tools.prazo_texto(m['meses_no_ritmo_atual'])} — "
                       f"mas atenção: o prazo de {m['prazo']} já passou")
         elif m["no_ritmo"]:
             status = "e nesse ritmo você chega antes do prazo"

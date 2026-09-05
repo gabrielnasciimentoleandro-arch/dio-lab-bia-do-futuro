@@ -139,8 +139,13 @@ st.markdown(f"""
 
   .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"],
   [data-testid="stBottom"], [data-testid="stBottomBlockContainer"],
-  [data-testid="stBottom"] > div, .stAppViewBlockContainer {{
+  [data-testid="stBottom"] > div, [data-testid="stMainBlockContainer"],
+  [data-testid="stAppScrollToBottomContainer"], .stAppViewBlockContainer {{
       background: var(--bg) !important;
+  }}
+  /* o stBottom tem um pseudo-elemento de gradiente branco por cima */
+  [data-testid="stBottom"]::before, [data-testid="stBottom"]::after {{
+      background: var(--bg) !important; content:none !important;
   }}
   html, body, [class*="css"], .stMarkdown, .stChatMessage, input, textarea, button {{
       font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -341,12 +346,48 @@ st.markdown(f"""
   }}
 
   /* ---------- controles ---------- */
-  .stTextInput input {{
-      background:var(--card) !important; color:var(--txt) !important;
-      border:1px solid var(--borda) !important; border-radius:10px !important;
-      font-size:.85rem !important;
+  /* O BaseWeb desenha um WRAPPER em volta do <input>. Estilizar so o input
+     deixava essa moldura branca por cima no tema escuro. Os nomes corretos
+     sao stTextInputRootElement (moldura), stTextInputField (campo) e
+     stTextInputIcon (o olho de revelar senha). */
+  [data-testid="stTextInputRootElement"] {{
+      background:var(--card) !important;
+      border:1px solid var(--borda) !important;
+      border-radius:10px !important;
   }}
-  .stTextInput input::placeholder {{ color:var(--txt3) !important; }}
+  [data-testid="stTextInputRootElement"]:focus-within {{
+      border-color:var(--marca) !important;
+  }}
+  [data-testid="stTextInputField"], .stTextInput input {{
+      background:transparent !important; color:var(--txt) !important;
+      border:none !important; font-size:.85rem !important;
+      caret-color:var(--marca);
+  }}
+  [data-testid="stTextInputField"]::placeholder,
+  .stTextInput input::placeholder {{
+      color:var(--txt3) !important; opacity:1 !important;
+  }}
+  /* o olho de mostrar/ocultar senha vinha branco sobre branco */
+  [data-testid="stTextInputIcon"],
+  [data-testid="stTextInputClearButton"],
+  [data-testid="stTextInputRootElement"] button {{
+      background:transparent !important; color:var(--txt3) !important;
+      border:none !important;
+  }}
+  [data-testid="stTextInputIcon"] svg,
+  [data-testid="stTextInputRootElement"] button svg {{
+      fill:var(--txt3) !important; color:var(--txt3) !important;
+  }}
+  [data-testid="stTextInputIcon"]:hover svg,
+  [data-testid="stTextInputRootElement"] button:hover svg {{
+      fill:var(--marca) !important; color:var(--marca) !important;
+  }}
+  /* autofill do navegador tambem pinta de branco */
+  [data-testid="stTextInputField"]:-webkit-autofill {{
+      -webkit-text-fill-color:var(--txt) !important;
+      -webkit-box-shadow:0 0 0 60px var(--card) inset !important;
+  }}
+
   .stButton button {{
       background:var(--card); border:1px solid var(--borda); border-radius:10px;
       color:var(--txt2); font-weight:550; font-size:.83rem; transition:all .15s;
@@ -355,25 +396,37 @@ st.markdown(f"""
       border-color:var(--marca); color:var(--marca);
       background:{'#0C1A2E' if ESCURO else '#F0F9FF'};
   }}
-  /* Campo de mensagem: o wrapper, o textarea e o botao de enviar. */
-  [data-testid="stChatInput"], .stChatInput {{
+
+  /* ---------- campo de mensagem ---------- */
+  /* Mesma armadilha: o container externo (stBottom) e o wrapper do textarea
+     ficavam brancos e tampavam o texto digitado. */
+  [data-testid="stChatInput"], .stChatInput,
+  [data-testid="stChatInput"] > div,
+  [data-testid="stChatInput"] div[data-baseweb="textarea"],
+  [data-testid="stChatInput"] div[data-baseweb="base-input"] {{
       background:var(--card) !important;
-      border:1px solid var(--borda) !important;
+      border-color:var(--borda) !important;
       border-radius:12px !important;
+  }}
+  [data-testid="stChatInput"] {{
+      border:1px solid var(--borda) !important;
       box-shadow:{C['sombra']} !important;
   }}
+  [data-testid="stChatInputTextArea"],
   [data-testid="stChatInput"] textarea, .stChatInput textarea {{
       background:transparent !important; color:var(--txt) !important;
       font-size:.92rem !important; caret-color:var(--marca);
+      -webkit-text-fill-color:var(--txt) !important;
   }}
-  /* placeholder tinha ficado com fundo proprio (bloco solido azul) */
+  [data-testid="stChatInputTextArea"]::placeholder,
   [data-testid="stChatInput"] textarea::placeholder {{
       color:var(--txt3) !important; background:transparent !important;
-      opacity:1 !important;
+      -webkit-text-fill-color:var(--txt3) !important; opacity:1 !important;
   }}
   [data-testid="stChatInputSubmitButton"] {{
       background:transparent !important; color:var(--txt3) !important;
   }}
+  [data-testid="stChatInputSubmitButton"] svg {{ fill:currentColor !important; }}
   [data-testid="stChatInputSubmitButton"]:hover {{ color:var(--marca) !important; }}
   [data-testid="stChatInputSubmitButton"]:disabled {{ opacity:.45; }}
 
