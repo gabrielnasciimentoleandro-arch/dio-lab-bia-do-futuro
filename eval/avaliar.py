@@ -33,6 +33,16 @@ def normalizar(t: str) -> str:
 
 
 def avaliar_caso(agente: AgenteLuma, caso: dict) -> dict:
+    # Casos multi-turno declaram "contexto": as perguntas que vêm ANTES.
+    # Necessário para testar diálogo — ex.: a agente oferece "quer ver suas
+    # metas?" e o usuário responde só "sim". Um caso de turno único nunca
+    # pegaria essa falha.
+    contexto = caso.get("contexto") or []
+    if contexto:
+        agente = AgenteLuma()          # sessão limpa, sem herdar estado
+        for anterior in contexto:
+            agente.responder(anterior)
+
     r = agente.responder(caso["pergunta"])
     texto_n = normalizar(r.texto)
     falhas: list[str] = []

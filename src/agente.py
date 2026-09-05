@@ -86,6 +86,43 @@ class Resposta:
     latencia_ms: int = 0
     guardrails_acionados: list[str] = field(default_factory=list)
     modo: str = "demo"
+    # Se a resposta termina oferecendo um proximo passo ("Quer que eu simule?"),
+    # este campo guarda o que um "sim" deve executar.
+    oferta: str | None = None
+
+
+# Cada oferta vira uma chave aqui; o valor e a pergunta que o roteamento ja
+# sabe responder. O "sim" reaproveita as rotas existentes.
+OFERTAS = {
+    "metas": "quanto falta para minhas metas",
+    "simular": "simular corte de 30% nos gastos",
+    "categorias": "quanto gastei por categoria",
+    "resumo": "qual meu resumo do mes",
+    "diagnostico": "faz um diagnostico geral das minhas financas",
+    "golpes": "quais sao os golpes mais comuns",
+    "diario": "me mostra meu diario de aprendizado",
+    "produtos": "quais produtos combinam com meu perfil",
+    "resiliencia": "quanto tempo eu aguento se perder o emprego",
+    "maior_gasto": "quanto gastei com moradia",
+}
+
+CONFIRMACAO = re.compile(
+    r"^\s*(sim|s|claro|quero|qero|quero sim|sim quero|pode|pode ser|pode sim|"
+    r"manda|mandar|bora|vamos|isso|isso ai|isso mesmo|por favor|pf|blz|beleza|"
+    r"ok|okay|ta bom|t\u00e1 bom|ta|aceito|topo|show|legal|certo|com certeza|"
+    r"seria bom|gostaria|quero ver|ver|mostra|mostrar|me mostra|simula|"
+    r"detalha|detalhar|abre|abrir|continua|continuar|segue|uhum|aham|"
+    r"afirmativo|positivo|yes|y|sim por favor|quero saber|manda ver)"
+    r"[\s!.,?]*$",
+    re.I,
+)
+
+NEGACAO = re.compile(
+    r"^\s*(nao|n\u00e3o|n|nop|agora nao|agora n\u00e3o|depois|deixa|deixa pra la|"
+    r"melhor nao|melhor n\u00e3o|nao quero|n\u00e3o quero|nao obrigado|"
+    r"talvez depois|nem|no)[\s!.,?]*$",
+    re.I,
+)
 
 
 def _validar_entrada(pergunta: str) -> tuple[str, str] | None:
@@ -248,6 +285,7 @@ class AgenteLuma:
         self.modo = "demo"
         self.client = None
         self._fallbacks = 0
+        self._oferta_pendente: str | None = None
 
         if self.api_key:
             try:
@@ -278,6 +316,35 @@ class AgenteLuma:
                 modo=self.modo,
             )
 
+        # --- resolucao de oferta pendente -------------------------------
+        # A agente termina quase toda resposta oferecendo um proximo passo.
+        # Sem memoria dessa oferta, um "sim quero" caia no fallback: ela
+        # perguntava e nao entendia a resposta.
+        pendente = self._oferta_pendente
+        if pendente and CONFIRMACAO.match(pergunta.strip()):
+            self._oferta_pendente = None
+            self._fallbacks = 0
+            r = self._responder_demo(OFERTAS[pendente])
+            r.guardrails_acionados.append(f"oferta_aceita:{pendente}")
+            r.texto, extras = _validar_saida(
+                r.texto, "recomendar_produtos" in r.ferramentas_usadas)
+            r.guardrails_acionados += extras
+            r.latencia_ms = int((time.perf_counter() - inicio) * 1000)
+            r.modo = self.modo
+            self._oferta_pendente = r.oferta
+            return r
+
+        if pendente and NEGACAO.match(pergunta.strip()):
+            self._oferta_pendente = None
+            primeiro = tools.PERFIL["nome"].split()[0]
+            return Resposta(
+                texto=f"Tranquilo, {primeiro}. Fico por aqui então — quando quiser "
+                      f"revisar seus gastos, suas metas ou tirar dúvida sobre "
+                      f"alguma abordagem suspeita, é só chamar.",
+                latencia_ms=int((time.perf_counter() - inicio) * 1000),
+                modo=self.modo,
+            )
+
         if self.modo == "gemini":
             r = self._responder_gemini(pergunta)
         else:
@@ -287,6 +354,7 @@ class AgenteLuma:
         r.guardrails_acionados += extras
         r.latencia_ms = int((time.perf_counter() - inicio) * 1000)
         r.modo = self.modo
+        self._oferta_pendente = r.oferta
         return r
 
     # ------------------------------------------------------------- gemini
@@ -357,7 +425,8 @@ class AgenteLuma:
             return Resposta(
                 texto=f"Por nada, {nome}. Sempre que quiser revisar seus números "
                       f"ou simular um cenário, é só chamar.\n\n"
-                      f"Quer que eu já deixe uma sugestão de próximo passo para a sua reserva?"
+                      f"Quer que eu já deixe uma sugestão de próximo passo para a sua reserva?",
+                oferta="metas",
             )
 
         # ------------------------------------------------------- fora de escopo
@@ -377,7 +446,8 @@ class AgenteLuma:
                 texto=f"Essa eu não sei mesmo, {nome} — desculpa. Cuido só das suas "
                       f"finanças, e fora desse assunto eu não seria de muita ajuda.\n\n"
                       f"Mas se quiser, posso te mostrar como está a sua reserva de "
-                      f"emergência. Topa?"
+                      f"emergência. Topa?",
+                oferta="metas",
             )
 
         # --- suporte técnico: FORA DO ESCOPO
@@ -466,6 +536,7 @@ class AgenteLuma:
                 ferramentas_usadas=["recomendar_produtos", "resumo_financeiro",
                                     "progresso_metas"],
                 fontes=[pr["_fonte"], res["_fonte"]],
+                oferta="simular",
             )
 
         # ======================================================== ANTIFRAUDE
@@ -503,6 +574,7 @@ class AgenteLuma:
                       f"aparecer. Quer ver seu diário completo?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["analisar_suspeita", "registrar_incidente"],
                 fontes=[r["_fonte"]],
+                oferta="diario",
             )
 
         # --- diário de aprendizado
@@ -586,6 +658,7 @@ class AgenteLuma:
                       f"suspeito, me descreva a situação que eu analiso.\n\n"
                       f"[fonte] {r['_fonte']}",
                 ferramentas_usadas=["listar_golpes"], fontes=[r["_fonte"]],
+                oferta="golpes",
             )
 
         # ==================================================== VIDA FINANCEIRA
@@ -608,6 +681,7 @@ class AgenteLuma:
                       f"**{r['meses_cobertos_pela_meta']} meses**.\n\n"
                       f"Quer ver como acelerar até lá?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["analisar_resiliencia"], fontes=[r["_fonte"]],
+                oferta="simular",
             )
 
         # --- avaliação de compra
@@ -643,6 +717,7 @@ class AgenteLuma:
                 return Resposta(
                     texto=f"{corpo}\n\n[fonte] {r['_fonte']}",
                     ferramentas_usadas=["avaliar_compra"], fontes=[r["_fonte"]],
+                    oferta="simular",
                 )
 
         # --- dívida
@@ -666,6 +741,7 @@ class AgenteLuma:
                       f"Quer que eu simule quanto você liberaria por mês cortando gastos?\n\n"
                       f"[fonte] {r['_fonte']}",
                 ferramentas_usadas=["resumo_financeiro"], fontes=[r["_fonte"]],
+                oferta="simular",
             )
 
         # --- diagnóstico / conselho aberto
@@ -685,6 +761,7 @@ class AgenteLuma:
                       f"**Prioridade agora:** {r['prioridade']}\n\n"
                       f"Quer que eu detalhe algum desses pontos?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["diagnostico_geral"], fontes=[r["_fonte"]],
+                oferta="diagnostico",
             )
 
         # --- quem é você / ajuda
@@ -724,6 +801,7 @@ class AgenteLuma:
                           f"Quer que eu simule quanto sobraria cortando 30% dessa "
                           f"categoria?\n\n[fonte] {r['_fonte']}",
                     ferramentas_usadas=["somar_por_categoria"], fontes=[r["_fonte"]],
+                    oferta="simular",
                 )
 
         # --- produtos / investimento
@@ -747,6 +825,7 @@ class AgenteLuma:
                       f"desconfie de pressa. Quer que eu te mostre o que **é** "
                       f"compatível com o seu perfil?\n\n[fonte] {a['_fonte']}",
                 ferramentas_usadas=["analisar_suspeita"], fontes=[a["_fonte"]],
+                oferta="produtos",
             )
 
         if any(t in p for t in ("invest", "produto", "aplicar", "cdb", "tesouro",
@@ -810,6 +889,7 @@ class AgenteLuma:
                         f"Quer simular um corte de gastos para antecipar?\n\n"
                         f"[fonte] {r['_fonte']}",
                 ferramentas_usadas=["progresso_metas"], fontes=[r["_fonte"]],
+                oferta="simular",
             )
 
         # --- simulação
@@ -828,6 +908,7 @@ class AgenteLuma:
                       f"em vez de {r['meses_para_meta_antes']}\n\n"
                       f"Quer que eu detalhe onde está esse gasto?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["simular_economia"], fontes=[r["_fonte"]],
+                oferta="maior_gasto",
             )
 
         # --- perfil
@@ -842,6 +923,7 @@ class AgenteLuma:
                       f"- Objetivo principal: {r['objetivo_principal']}\n\n"
                       f"Quer ver como estão suas metas?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["consultar_perfil"], fontes=[r["_fonte"]],
+                oferta="metas",
             )
 
         # --- atendimentos
@@ -877,6 +959,7 @@ class AgenteLuma:
                       f"Gastos por categoria:\n{top}\n\n"
                       f"Quer ver o impacto disso nas suas metas?\n\n[fonte] {r['_fonte']}",
                 ferramentas_usadas=["resumo_financeiro"], fontes=[r["_fonte"]],
+                oferta="metas",
             )
 
         # --- fallback progressivo
@@ -917,6 +1000,7 @@ class AgenteLuma:
                   f"prefere saber o quanto ela está atrasando a sua reserva?\n\n"
                   f"[fonte] {r['_fonte']}",
             ferramentas_usadas=["resumo_financeiro"], fontes=[r["_fonte"]],
+            oferta="maior_gasto",
         )
 
     # ------------------------------------------------------- proatividade

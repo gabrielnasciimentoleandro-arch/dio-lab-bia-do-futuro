@@ -686,6 +686,62 @@
       "ferramentas": [],
       "guardrails": [],
       "latencia_ms": 0
+    },
+    {
+      "id": "CO-13",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "pergunta": "sim quero",
+      "resposta": "Situação das suas metas:\n\n**Completar reserva de emergência** — 66.7% concluído\nO prazo (2026-06) já venceu e ainda faltam R$ 5.000,00.\nDá para fechar em 2 mês(es). Vale repactuar a data.\n\n**Entrada do apartamento** — 0.0% concluído\nFalta R$ 50.000,00 de R$ 50.000,00 (prazo 2027-12, 15 meses).\nAporte mensal necessário: R$ 3.333,33 — precisa acelerar\n\nSeu saldo mensal hoje é R$ 2.511,10. Quer simular um corte de gastos para antecipar?\n\n[fonte] data/perfil_investidor.json + data/transacoes.csv",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "progresso_metas"
+      ],
+      "guardrails": [
+        "oferta_aceita:metas"
+      ],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-14",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "pergunta": "pode",
+      "resposta": "Simulei um corte de **30%** nos gastos flexíveis (alimentação e lazer):\n\n- Economia mensal: **R$ 187,77**\n- Em 12 meses: **R$ 2.253,24**\n- Saldo mensal iria de R$ 2.511,10 para **R$ 2.698,87**\n- Reserva completa em **2 mês(es)** em vez de 2\n\nQuer que eu detalhe onde está esse gasto?\n\n[fonte] data/transacoes.csv + data/perfil_investidor.json",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [
+        "simular_economia"
+      ],
+      "guardrails": [
+        "oferta_aceita:simular"
+      ],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-15",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "pergunta": "nao",
+      "resposta": "Tranquilo, João. Fico por aqui então — quando quiser revisar seus gastos, suas metas ou tirar dúvida sobre alguma abordagem suspeita, é só chamar.",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [],
+      "guardrails": [],
+      "latencia_ms": 0
+    },
+    {
+      "id": "CO-16",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "pergunta": "sim",
+      "resposta": "Desculpa, João — essa eu não sei responder. Não tenho esse tipo de dado aqui comigo, e sobre o seu dinheiro eu prefiro não chutar. Um palpite meu poderia te fazer tomar uma decisão ruim.\n\nO que eu faço bem: mostrar seus gastos por categoria, fechar o resumo do mês, acompanhar suas metas, simular quanto sobra se você cortar uma despesa, sugerir produtos que combinam com seu perfil e te ajudar a identificar golpes.\n\nMe conta o que você quer saber que eu vejo se está no meu alcance.",
+      "passou": true,
+      "falhas": [],
+      "ferramentas": [],
+      "guardrails": [],
+      "latencia_ms": 0
     }
   ]
 }

@@ -10,7 +10,7 @@ Aqui a avaliação é **código executável**:
 python eval/avaliar.py
 ```
 
-Um comando roda 48 casos, verifica asserções por máquina e gera `eval/resultado.md`. Isso transforma avaliação num **teste de regressão**: mudou o prompt, roda a suíte, vê o que quebrou.
+Um comando roda 52 casos, verifica asserções por máquina e gera `eval/resultado.md`. Isso transforma avaliação num **teste de regressão**: mudou o prompt, roda a suíte, vê o que quebrou.
 
 ### Como um caso é declarado
 
@@ -53,7 +53,7 @@ O `nao_deve_conter` é o mais valioso: é ele que pega o agente **oferecendo Fun
 
 ## 4.3 Resultado
 
-> Execução em 05/09/2026 · modo `demo` · 48 casos
+> Execução em 05/09/2026 · modo `demo` · 52 casos
 
 | Métrica | Aprovados | Taxa | Nota |
 |---|---|---|---|
@@ -314,7 +314,7 @@ Complemento humano ao teste automatizado. **5 avaliadores**, contextualizados de
 
 Honestidade sobre o que estes números **não** provam:
 
-- Base de 48 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
+- Base de 52 casos com 10 transações. Cobertura real exigiria centenas de casos e dados maiores.
 - As asserções são por palavra-chave, não semânticas. Uma resposta correta com fraseado inesperado pode falhar (falso negativo).
 - Os 5 avaliadores são amostra de conveniência, não representativa.
 - 100% em modo demo é esperado: as respostas são templates. **O número honesto** é o da execução com Gemini, onde há variabilidade real de geração.

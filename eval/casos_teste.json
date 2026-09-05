@@ -649,6 +649,79 @@
       "ferramenta_esperada": null,
       "exige_fonte": false,
       "observacao": "Clima segue fora de escopo, mas agora exige contexto explicito e nao a palavra 'tempo' solta."
+    },
+    {
+      "id": "CO-13",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "contexto": [
+        "qual meu resumo do mes"
+      ],
+      "pergunta": "sim quero",
+      "deve_conter": [
+        "reserva de emergência",
+        "R$ 5.000,00"
+      ],
+      "nao_deve_conter": [
+        "não sei responder",
+        "Desculpa"
+      ],
+      "ferramenta_esperada": "progresso_metas",
+      "exige_fonte": false,
+      "observacao": "A agente ofereceu ver as metas; 'sim quero' deve executar a oferta, nao cair no fallback."
+    },
+    {
+      "id": "CO-14",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "contexto": [
+        "quanto gastei com alimentação"
+      ],
+      "pergunta": "pode",
+      "deve_conter": [
+        "187,77"
+      ],
+      "nao_deve_conter": [
+        "não sei responder"
+      ],
+      "ferramenta_esperada": "simular_economia",
+      "exige_fonte": false,
+      "observacao": "Confirmacao curta ('pode') tambem aceita a oferta de simulacao."
+    },
+    {
+      "id": "CO-15",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "contexto": [
+        "qual meu resumo do mes"
+      ],
+      "pergunta": "nao",
+      "deve_conter": [
+        "Tranquilo"
+      ],
+      "nao_deve_conter": [
+        "R$",
+        "66.7"
+      ],
+      "ferramenta_esperada": null,
+      "exige_fonte": false,
+      "observacao": "Recusa encerra a oferta com elegancia, sem executar nada."
+    },
+    {
+      "id": "CO-16",
+      "metrica": "coerencia",
+      "categoria": "dialogo_multiturno",
+      "pergunta": "sim",
+      "deve_conter": [
+        "Desculpa"
+      ],
+      "nao_deve_conter": [],
+      "ferramenta_esperada": null,
+      "exige_fonte": false,
+      "observacao": "'sim' sem oferta pendente nao pode disparar acao. O contexto neutro garante sessao propria e revela vazamento de estado entre casos.",
+      "contexto": [
+        "quem e voce"
+      ]
     }
   ]
 }
